@@ -1,0 +1,72 @@
+@import './base.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* SAP Business One Custom Styles */
+@layer components {
+  .btn-primary {
+    @apply bg-sap-blue hover:bg-sap-dark-blue text-white font-medium py-1.5 px-3 text-sm rounded-lg transition-colors duration-200;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-1.5 px-3 text-sm rounded-lg transition-colors duration-200;
+  }
+
+  .card {
+    @apply bg-white rounded-lg shadow-md border border-gray-200 p-4 text-sm;
+  }
+
+  .sidebar-item {
+    @apply flex items-center px-3 py-1.5 text-sm text-gray-700 hover:bg-sap-light-blue hover:text-sap-blue rounded-lg transition-colors duration-200;
+  }
+
+
+  .sidebar-item.active {
+    @apply bg-sap-light-blue text-sap-blue font-medium text-sm;
+  }
+}
+
+#app {
+  @apply min-h-screen bg-gray-50 text-sm;
+}
+
+/* Global font size adjustments */
+@layer base {
+  h1 {
+    @apply text-lg font-semibold;
+  }
+  h2 {
+    @apply text-base font-medium;
+  }
+  h3 {
+    @apply text-sm font-medium;
+  }
+  h4 {
+    @apply text-sm font-normal;
+  }
+  h5 {
+    @apply text-xs font-medium;
+  }
+  h6 {
+    @apply text-xs font-normal;
+  }
+
+  /* Form elements */
+  input,
+  textarea,
+  select {
+    @apply text-sm;
+  }
+
+  /* Table elements */
+  table {
+    @apply text-sm;
+  }
+
+  /* Button adjustments */
+  button {
+    @apply text-sm;
+  }
+}

@@ -1,0 +1,673 @@
+import { createRouter, createWebHistory } from 'vue-router'
+import DashboardView from '../views/DashboardView.vue'
+
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: DashboardView,
+    },
+    {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: DashboardView,
+    },
+
+    // Administration Module
+    {
+      path: '/administration',
+      name: 'administration',
+      redirect: '/administration/users',
+      children: [
+        {
+          path: 'users',
+          name: 'administration-users',
+          component: () => import('../modules/administration/users/views/UsersView.vue'),
+        },
+        {
+          path: 'roles',
+          name: 'administration-roles',
+          component: () => import('../modules/administration/roles/views/RolesView.vue'),
+        },
+        {
+          path: 'settings',
+          name: 'administration-settings',
+          component: () => import('../modules/administration/settings/views/SettingsView.vue'),
+        },
+        {
+          path: 'audit-logs',
+          name: 'administration-audit-logs',
+          component: () => import('../modules/administration/audit-logs/views/AuditLogsView.vue'),
+        },
+        {
+          path: 'system-initialization',
+          name: 'administration-system-initialization',
+          component: () =>
+            import(
+              '../modules/administration/system-initialization/views/SystemInitializationView.vue'
+            ),
+        },
+        {
+          path: 'authorizations-security',
+          name: 'administration-authorizations-security',
+          component: () =>
+            import(
+              '../modules/administration/authorizations-security/views/AuthorizationsSecurityView.vue'
+            ),
+        },
+        {
+          path: 'setup',
+          name: 'administration-setup',
+          component: () => import('../modules/administration/setup/views/SetupView.vue'),
+        },
+        {
+          path: 'utilities',
+          name: 'administration-utilities',
+          component: () => import('../modules/administration/utilities/views/UtilitiesView.vue'),
+        },
+        {
+          path: 'addons-management',
+          name: 'administration-addons-management',
+          component: () =>
+            import('../modules/administration/addons-management/views/AddonsManagementView.vue'),
+        },
+        {
+          path: 'license-administration',
+          name: 'administration-license-administration',
+          component: () =>
+            import(
+              '../modules/administration/license-administration/views/LicenseAdministrationView.vue'
+            ),
+        },
+      ],
+    },
+
+    // Financials Module
+    {
+      path: '/financials',
+      name: 'financials',
+      redirect: '/financials/chart-accounts',
+      children: [
+        {
+          path: 'chart-accounts',
+          name: 'financials-chart-accounts',
+          component: () =>
+            import('../modules/financials/chart-accounts/views/ChartOfAccountsView.vue'),
+        },
+        {
+          path: 'journal-entries',
+          name: 'financials-journal-entries',
+          component: () =>
+            import('../modules/financials/journal-entries/views/JournalEntriesView.vue'),
+        },
+        {
+          path: 'cost-accounting',
+          name: 'financials-cost-accounting',
+          component: () =>
+            import('../modules/financials/cost-accounting/views/CostAccountingView.vue'),
+        },
+        {
+          path: 'budget-management',
+          name: 'financials-budget-management',
+          component: () =>
+            import('../modules/financials/budget-management/views/BudgetManagementView.vue'),
+        },
+        {
+          path: 'exchange-rates',
+          name: 'financials-exchange-rates',
+          component: () =>
+            import('../modules/financials/exchange-rates/views/ExchangeRatesView.vue'),
+        },
+        {
+          path: 'financial-reports',
+          name: 'financials-financial-reports',
+          component: () =>
+            import('../modules/financials/financial-reports/views/FinancialReportsView.vue'),
+        },
+      ],
+    },
+
+    // CRM Module
+    {
+      path: '/crm',
+      name: 'crm',
+      redirect: '/crm/campaigns',
+      children: [
+        {
+          path: 'campaigns',
+          name: 'crm-campaigns',
+          component: () => import('../modules/crm/campaigns/views/CampaignsView.vue'),
+        },
+        {
+          path: 'customers',
+          name: 'crm-customers',
+          component: () => import('../modules/crm/customers/views/CustomersView.vue'),
+        },
+        {
+          path: 'contacts',
+          name: 'crm-contacts',
+          component: () => import('../modules/crm/contacts/views/ContactsView.vue'),
+        },
+        {
+          path: 'activities',
+          name: 'crm-activities',
+          component: () => import('../modules/crm/activities/views/ActivitiesView.vue'),
+        },
+        {
+          path: 'opportunities',
+          name: 'crm-opportunities',
+          component: () => import('../modules/crm/opportunities/views/OpportunitiesView.vue'),
+        },
+        {
+          path: 'service-calls',
+          name: 'crm-service-calls',
+          component: () => import('../modules/crm/service-calls/views/ServiceCallsView.vue'),
+        },
+      ],
+    },
+
+    // Opportunities Module
+    {
+      path: '/opportunities',
+      name: 'opportunities',
+      redirect: '/opportunities/sales',
+      children: [
+        {
+          path: 'sales',
+          name: 'opportunities-sales',
+          component: () =>
+            import('../modules/opportunities/opportunities/views/OpportunitiesView.vue'),
+        },
+        {
+          path: 'leads',
+          name: 'opportunities-leads',
+          component: () => import('../modules/opportunities/leads/views/LeadsView.vue'),
+        },
+        {
+          path: 'pipeline',
+          name: 'opportunities-pipeline',
+          component: () => import('../modules/opportunities/pipeline/views/PipelineView.vue'),
+        },
+        {
+          path: 'stages',
+          name: 'opportunities-stages',
+          component: () => import('../modules/opportunities/stages/views/StagesView.vue'),
+        },
+        {
+          path: 'reports',
+          name: 'opportunities-reports',
+          component: () => import('../modules/opportunities/reports/views/ReportsView.vue'),
+        },
+      ],
+    },
+
+    // Sales – A/R Module
+    {
+      path: '/sales',
+      name: 'sales',
+      redirect: '/sales/quotations',
+      children: [
+        {
+          path: 'quotations',
+          name: 'sales-quotations',
+          component: () => import('../modules/sales/quotations/views/QuotationsView.vue'),
+        },
+        {
+          path: 'orders',
+          name: 'sales-orders',
+          component: () => import('../modules/sales/orders/views/OrdersView.vue'),
+        },
+        {
+          path: 'deliveries',
+          name: 'sales-deliveries',
+          component: () => import('../modules/sales/deliveries/views/DeliveriesView.vue'),
+        },
+        {
+          path: 'returns',
+          name: 'sales-returns',
+          component: () => import('../modules/sales/returns/views/ReturnsView.vue'),
+        },
+        {
+          path: 'ar-invoices',
+          name: 'sales-ar-invoices',
+          component: () => import('../modules/sales/ar-invoices/views/ArInvoicesView.vue'),
+        },
+        {
+          path: 'credit-memos',
+          name: 'sales-credit-memos',
+          component: () => import('../modules/sales/credit-memos/views/CreditMemosView.vue'),
+        },
+        {
+          path: 'payments',
+          name: 'sales-payments',
+          component: () => import('../modules/sales/payments/views/PaymentsView.vue'),
+        },
+        {
+          path: 'dunning',
+          name: 'sales-dunning',
+          component: () => import('../modules/sales/dunning/views/DunningView.vue'),
+        },
+        {
+          path: 'sales-reports',
+          name: 'sales-sales-reports',
+          component: () => import('../modules/sales/sales-reports/views/SalesReportsView.vue'),
+        },
+      ],
+    },
+
+    // Purchasing – A/P Module
+    {
+      path: '/purchasing',
+      name: 'purchasing',
+      redirect: '/purchasing/ap-invoices',
+      children: [
+        {
+          path: 'ap-invoices',
+          name: 'purchasing-ap-invoices',
+          component: () => import('../modules/purchasing-ap/ap-invoices/views/ApInvoicesView.vue'),
+        },
+        {
+          path: 'ap-credit-memos',
+          name: 'purchasing-ap-credit-memos',
+          component: () =>
+            import('../modules/purchasing-ap/ap-credit-memos/views/ApCreditMemosView.vue'),
+        },
+        {
+          path: 'requests',
+          name: 'purchasing-requests',
+          component: () => import('../modules/purchasing-ap/requests/views/RequestsView.vue'),
+        },
+        {
+          path: 'quotations',
+          name: 'purchasing-quotations',
+          component: () => import('../modules/purchasing-ap/quotations/views/QuotationsView.vue'),
+        },
+        {
+          path: 'orders',
+          name: 'purchasing-orders',
+          component: () => import('../modules/purchasing-ap/orders/views/OrdersView.vue'),
+        },
+        {
+          path: 'goods-receipt',
+          name: 'purchasing-goods-receipt',
+          component: () =>
+            import('../modules/purchasing-ap/goods-receipt/views/GoodsReceiptView.vue'),
+        },
+        {
+          path: 'returns',
+          name: 'purchasing-returns',
+          component: () => import('../modules/purchasing-ap/returns/views/ReturnsView.vue'),
+        },
+        // Additional submodules will be implemented later
+      ],
+    },
+
+    // // Business Partners Module
+    {
+      path: '/business-partners',
+      name: 'business-partners',
+      redirect: '/business-partners/customers',
+      children: [
+        {
+          path: 'customers',
+          name: 'business-partners-customers',
+          component: () => import('../modules/business-partners/customers/views/CustomersView.vue'),
+        },
+        {
+          path: 'vendors',
+          name: 'business-partners-vendors',
+          component: () => import('../modules/business-partners/vendors/views/VendorsView.vue'),
+        },
+        {
+          path: 'leads',
+          name: 'business-partners-leads',
+          component: () => import('../modules/business-partners/leads/views/LeadsView.vue'),
+        },
+        {
+          path: 'contacts',
+          name: 'business-partners-contacts',
+          component: () => import('../modules/business-partners/contacts/views/ContactsView.vue'),
+        },
+        {
+          path: 'addresses',
+          name: 'business-partners-addresses',
+          component: () => import('../modules/business-partners/addresses/views/AddressesView.vue'),
+        },
+        {
+          path: 'payment-terms',
+          name: 'business-partners-payment-terms',
+          component: () =>
+            import('../modules/business-partners/payment-terms/views/PaymentTermsView.vue'),
+        },
+      ],
+    },
+
+    // Banking Module
+    {
+      path: '/banking',
+      name: 'banking',
+      redirect: '/banking/incoming',
+      children: [
+        {
+          path: 'incoming',
+          name: 'banking-incoming',
+          component: () => import('../modules/banking/incoming/views/IncomingPaymentsView.vue'),
+        },
+        {
+          path: 'outgoing',
+          name: 'banking-outgoing',
+          component: () => import('../modules/banking/outgoing/views/OutgoingPaymentsView.vue'),
+        },
+        {
+          path: 'deposits',
+          name: 'banking-deposits',
+          component: () => import('../modules/banking/deposits/views/DepositsView.vue'),
+        },
+        {
+          path: 'checks',
+          name: 'banking-checks',
+          component: () => import('../modules/banking/checks/views/ChecksView.vue'),
+        },
+        {
+          path: 'statements',
+          name: 'banking-statements',
+          component: () => import('../modules/banking/statements/views/BankStatementsView.vue'),
+        },
+        {
+          path: 'reconciliation',
+          name: 'banking-reconciliation',
+          component: () =>
+            import('../modules/banking/reconciliation/views/ReconciliationsView.vue'),
+        },
+        {
+          path: 'wizard',
+          name: 'banking-payment-wizard',
+          component: () => import('../modules/banking/wizard/views/PaymentWizardView.vue'),
+        },
+      ],
+    },
+
+    // Inventory Module
+    {
+      path: '/inventory',
+      name: 'inventory',
+      redirect: '/inventory/items',
+      children: [
+        {
+          path: 'items',
+          name: 'inventory-items',
+          component: () => import('../modules/inventory/items/views/ItemsView.vue'),
+        },
+        {
+          path: 'groups-warehouses',
+          name: 'inventory-groups-warehouses',
+          component: () =>
+            import('../modules/inventory/groups-warehouses/views/GroupsWarehousesView.vue'),
+        },
+        {
+          path: 'goods-receipts',
+          name: 'inventory-goods-receipts',
+          component: () =>
+            import('../modules/inventory/goods-receipts/views/GoodsReceiptsView.vue'),
+        },
+        {
+          path: 'transfers',
+          name: 'inventory-transfers',
+          component: () =>
+            import('../modules/inventory/transfers/views/InventoryTransfersView.vue'),
+        },
+        {
+          path: 'stock-counting',
+          name: 'inventory-stock-counting',
+          component: () =>
+            import('../modules/inventory/stock-counting/views/StockCountingView.vue'),
+        },
+        {
+          path: 'price-lists',
+          name: 'inventory-price-lists',
+          component: () => import('../modules/inventory/price-lists/views/PriceListsView.vue'),
+        },
+        {
+          path: 'serial-batches',
+          name: 'inventory-serial-batches',
+          component: () =>
+            import('../modules/inventory/serial-batches/views/SerialBatchesView.vue'),
+        },
+        {
+          path: 'valuation',
+          name: 'inventory-valuation',
+          component: () =>
+            import('../modules/inventory/valuation/views/InventoryValuationView.vue'),
+        },
+        {
+          path: 'reports',
+          name: 'inventory-reports',
+          component: () => import('../modules/inventory/reports/views/InventoryReportsView.vue'),
+        },
+      ],
+    },
+
+    // Resources Module
+    {
+      path: '/resources',
+      name: 'resources',
+      redirect: '/resources/master-data',
+      children: [
+        {
+          path: 'master-data',
+          name: 'resources-master-data',
+          component: () => import('../modules/resources/master-data/views/MasterDataView.vue'),
+        },
+        {
+          path: 'groups',
+          name: 'resources-groups',
+          component: () => import('../modules/resources/groups/views/GroupsView.vue'),
+        },
+        {
+          path: 'capacities',
+          name: 'resources-capacities',
+          component: () => import('../modules/resources/capacities/views/CapacitiesView.vue'),
+        },
+        {
+          path: 'costs',
+          name: 'resources-costs',
+          component: () => import('../modules/resources/costs/views/CostsView.vue'),
+        },
+        {
+          path: 'planning',
+          name: 'resources-planning',
+          component: () => import('../modules/resources/planning/views/PlanningView.vue'),
+        },
+      ],
+    },
+
+    // Production Module
+    {
+      path: '/production',
+      name: 'production',
+      redirect: '/production/orders',
+      children: [
+        {
+          path: 'bom',
+          name: 'production-bom',
+          component: () => import('../modules/production/bom/views/BOMView.vue'),
+        },
+        {
+          path: 'orders',
+          name: 'production-orders',
+          component: () => import('../modules/production/orders/views/OrdersView.vue'),
+        },
+        {
+          path: 'issue',
+          name: 'production-issue',
+          component: () => import('../modules/production/issue/views/IssueView.vue'),
+        },
+        {
+          path: 'receipt',
+          name: 'production-receipt',
+          component: () => import('../modules/production/receipt/views/ReceiptView.vue'),
+        },
+        {
+          path: 'reports',
+          name: 'production-reports',
+          component: () => import('../modules/production/reports/views/ReportsView.vue'),
+        },
+      ],
+    },
+
+    // MRP Module
+    {
+      path: '/mrp',
+      name: 'mrp',
+      redirect: '/mrp/planning',
+      children: [
+        {
+          path: 'planning',
+          name: 'mrp-planning',
+          component: () => import('../modules/mrp/planning/views/PlanningView.vue'),
+        },
+        {
+          path: 'forecasts',
+          name: 'mrp-forecasts',
+          component: () => import('../modules/mrp/forecasts/views/ForecastsView.vue'),
+        },
+        {
+          path: 'scenarios',
+          name: 'mrp-scenarios',
+          component: () => import('../modules/mrp/scenarios/views/ScenariosView.vue'),
+        },
+        {
+          path: 'order-recommendations',
+          name: 'mrp-order-recommendations',
+          component: () =>
+            import('../modules/mrp/order-recommendations/views/OrderRecommendationsView.vue'),
+        },
+        {
+          path: 'planning-wizard',
+          name: 'mrp-planning-wizard',
+          component: () => import('../modules/mrp/planning-wizard/views/PlanningWizardView.vue'),
+        },
+      ],
+    },
+
+    // Service Module
+    {
+      path: '/service',
+      name: 'service',
+      redirect: '/service/contracts',
+      children: [
+        {
+          path: 'contracts',
+          name: 'service-contracts',
+          component: () => import('../modules/service/contracts/views/ContractsView.vue'),
+        },
+        {
+          path: 'equipment',
+          name: 'service-equipment',
+          component: () => import('../modules/service/equipment/views/EquipmentView.vue'),
+        },
+        {
+          path: 'calls',
+          name: 'service-calls',
+          component: () => import('../modules/service/calls/views/CallsView.vue'),
+        },
+        {
+          path: 'reports',
+          name: 'service-reports',
+          component: () => import('../modules/service/reports/views/ReportsView.vue'),
+        },
+        {
+          path: 'response-time',
+          name: 'service-response-time',
+          component: () => import('../modules/service/response-time/views/ResponseTimeView.vue'),
+        },
+      ],
+    },
+
+    // Human Resources Module
+    {
+      path: '/hr',
+      name: 'human-resources',
+      redirect: '/hr/employees',
+      children: [
+        {
+          path: 'employees',
+          name: 'hr-employees',
+          component: () => import('../modules/human-resources/employees/views/EmployeesView.vue'),
+        },
+        {
+          path: 'positions',
+          name: 'hr-positions',
+          component: () => import('../modules/human-resources/positions/views/PositionsView.vue'),
+        },
+        {
+          path: 'timesheets',
+          name: 'hr-timesheets',
+          component: () => import('../modules/human-resources/timesheets/views/TimesheetsView.vue'),
+        },
+        {
+          path: 'expenses',
+          name: 'hr-expenses',
+          component: () => import('../modules/human-resources/expenses/views/ExpensesView.vue'),
+        },
+      ],
+    },
+
+    // Reports Module
+    {
+      path: '/reports',
+      name: 'reports',
+      redirect: '/reports/dashboard',
+      children: [
+        {
+          path: 'dashboard',
+          name: 'reports-dashboard',
+          component: () => import('../modules/reports/dashboard/views/DashboardView.vue'),
+        },
+        {
+          path: 'financial',
+          name: 'reports-financial',
+          component: () => import('../modules/reports/financial/views/FinancialReportsView.vue'),
+        },
+        {
+          path: 'sales-purchasing',
+          name: 'reports-sales-purchasing',
+          component: () =>
+            import('../modules/reports/sales-purchasing/views/SalesPurchasingReportsView.vue'),
+        },
+        {
+          path: 'inventory',
+          name: 'reports-inventory',
+          component: () => import('../modules/reports/inventory/views/InventoryReportsView.vue'),
+        },
+        {
+          path: 'production-mrp',
+          name: 'reports-production-mrp',
+          component: () =>
+            import('../modules/reports/production-mrp/views/ProductionMRPReportsView.vue'),
+        },
+        {
+          path: 'service',
+          name: 'reports-service',
+          component: () => import('../modules/reports/service/views/ServiceReportsView.vue'),
+        },
+        {
+          path: 'custom-queries',
+          name: 'reports-custom-queries',
+          component: () => import('../modules/reports/custom-queries/views/CustomQueriesView.vue'),
+        },
+      ],
+    },
+
+    // Catch all route
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: () => import('../views/NotFoundView.vue'),
+    },
+  ],
+})
+
+export default router
