@@ -1,6 +1,23 @@
-# sap-business-one
+# SAP Business One
 
-This template should help get you started developing with Vue 3 in Vite.
+A comprehensive SAP Business One management system built with Vue 3, TypeScript, and Tailwind CSS.
+
+## Features
+
+- **Sales Management**: Quotations, Orders, Deliveries, Returns, AR Invoices, Credit Memos
+- **Purchasing Management**: Requests, Quotations, Orders, Goods Receipt, Returns, AP Invoices, AP Credit Memos
+- **Inventory Management**: Items, Warehouses, Transfers, Stock Counting, Price Lists
+- **Approval Workflows**: Multi-level approval system for business processes
+- **Financial Management**: Chart of Accounts, Journal Entries, Banking, Reports
+- **CRM**: Campaigns, Customers, Contacts, Activities, Opportunities
+- **Production & MRP**: Bills of Materials, Production Orders, Planning
+- **Service Management**: Contracts, Equipment, Service Calls
+- **Human Resources**: Employees, Positions, Timesheets, Expenses
+- **Comprehensive Reporting**: Financial, Sales, Inventory, Production reports
+
+## Live Demo
+
+🌐 **[View Live Application](https://jay-ulomi.github.io/SAP-F/)**
 
 ## Recommended IDE Setup
 
