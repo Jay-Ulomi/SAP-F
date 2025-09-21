@@ -908,7 +908,7 @@ const removeServiceItem = (index: number) => {
   if (formData.value.serviceItems.length > 5) {
     formData.value.serviceItems.splice(index, 1)
     // Recalculate serial numbers
-    formData.value.serviceItems.forEach((item, idx) => {
+    formData.value.serviceItems.forEach((item: any, idx: number) => {
       item.sno = idx + 1
     })
   }
@@ -987,7 +987,7 @@ const selectCustomer = (customer: Customer) => {
 }
 
 const handleInvoiceSearch = async () => {
-  if (formData.value.relatedInvoiceId.length >= 2) {
+  if (formData.value.relatedInvoiceId && formData.value.relatedInvoiceId.length >= 2) {
     const invoices = await store.fetchInvoices(formData.value.relatedInvoiceId)
     filteredInvoices.value = invoices
   } else {
@@ -1001,7 +1001,7 @@ const selectInvoice = (invoice: { id: string; docNum: string; customerName: stri
 }
 
 const handleOrderSearch = async () => {
-  if (formData.value.relatedOrderId.length >= 2) {
+  if (formData.value.relatedOrderId && formData.value.relatedOrderId.length >= 2) {
     const orders = await store.fetchSalesOrders(formData.value.relatedOrderId)
     filteredOrders.value = orders
   } else {
@@ -1045,7 +1045,7 @@ const handleSubmit = async () => {
       result = await store.createReturn(formData.value)
     }
 
-    if (result.success) {
+    if (result.success && result.data) {
       emit('saved', result.data)
     }
   } catch (error) {
