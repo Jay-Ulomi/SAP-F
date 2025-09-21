@@ -87,20 +87,64 @@
             v-if="module.submodules && expandedModules.includes(module.id)"
             class="mt-1 space-y-1"
           >
-            <router-link
-              v-for="submodule in module.submodules"
-              :key="submodule.id"
-              :to="submodule.route"
-              @click="$emit('navigate')"
-              :class="[
-                'flex items-center pl-11 pr-3 py-2 text-sm rounded-lg transition-all duration-200',
-                $route.path === submodule.route
-                  ? 'bg-sap-light-blue text-sap-blue font-medium'
-                  : 'text-gray-600 hover:bg-gray-100 hover:text-sap-blue'
-              ]"
-            >
-              {{ submodule.name }}
-            </router-link>
+            <div v-for="submodule in module.submodules" :key="submodule.id">
+              <!-- Submodule with route (leaf node) -->
+              <router-link
+                v-if="submodule.route && !submodule.submodules"
+                :to="submodule.route"
+                @click="$emit('navigate')"
+                :class="[
+                  'flex items-center pl-11 pr-3 py-2 text-sm rounded-lg transition-all duration-200',
+                  $route.path === submodule.route
+                    ? 'bg-sap-light-blue text-sap-blue font-medium'
+                    : 'text-gray-600 hover:bg-gray-100 hover:text-sap-blue'
+                ]"
+              >
+                {{ submodule.name }}
+              </router-link>
+
+              <!-- Submodule with nested submodules (expandable) -->
+              <div v-else>
+                <button
+                  @click="toggleModule(submodule.id)"
+                  :class="[
+                    'w-full flex items-center justify-between pl-11 pr-3 py-2 text-left text-sm rounded-lg transition-all duration-200',
+                    isSubmoduleActive(submodule)
+                      ? 'bg-sap-light-blue text-sap-blue font-medium'
+                      : 'text-gray-600 hover:bg-gray-100 hover:text-sap-blue'
+                  ]"
+                >
+                  <span>{{ submodule.name }}</span>
+                  <ChevronDownIcon
+                    :class="[
+                      'w-3 h-3 transition-transform duration-200',
+                      expandedModules.includes(submodule.id) ? 'rotate-180' : ''
+                    ]"
+                  />
+                </button>
+
+                <!-- Nested submodules (third level) -->
+                <div
+                  v-if="submodule.submodules && expandedModules.includes(submodule.id)"
+                  class="mt-1 space-y-1"
+                >
+                  <router-link
+                    v-for="nestedSub in submodule.submodules"
+                    :key="nestedSub.id"
+                    :to="nestedSub.route"
+                    @click="$emit('navigate')"
+                    :class="[
+                      'flex items-center pl-16 pr-3 py-2 text-sm rounded-lg transition-all duration-200',
+                      $route.path === nestedSub.route
+                        ? 'bg-sap-light-blue text-sap-blue font-medium'
+                        : 'text-gray-500 hover:bg-gray-100 hover:text-sap-blue'
+                    ]"
+                  >
+                    {{ nestedSub.name }}
+                  </router-link>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </nav>
@@ -109,7 +153,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { XMarkIcon, ChevronDownIcon } from '@heroicons/vue/24/outline'
 
@@ -140,8 +184,63 @@ const isModuleActive = (module: any) => {
     return true
   }
   if (module.submodules) {
-    return module.submodules.some((sub: any) => route.path === sub.route)
+    return module.submodules.some((sub: any) => {
+      if (sub.route && route.path === sub.route) {
+        return true
+      }
+      if (sub.submodules) {
+        return sub.submodules.some((nestedSub: any) => route.path === nestedSub.route)
+      }
+      return false
+    })
   }
   return false
 }
+
+const isSubmoduleActive = (submodule: any) => {
+  if (submodule.route && route.path === submodule.route) {
+    return true
+  }
+  if (submodule.submodules) {
+    return submodule.submodules.some((nestedSub: any) => route.path === nestedSub.route)
+  }
+  return false
+}
+
+const autoExpandForCurrentRoute = () => {
+  const currentPath = route.path
+
+  props.modules.forEach(module => {
+    if (module.submodules) {
+      module.submodules.forEach((submodule: any) => {
+        if (submodule.submodules) {
+          const hasActiveNestedRoute = submodule.submodules.some((nestedSub: any) =>
+            nestedSub.route === currentPath
+          )
+          if (hasActiveNestedRoute) {
+            if (!expandedModules.value.includes(module.id)) {
+              expandedModules.value.push(module.id)
+            }
+            if (!expandedModules.value.includes(submodule.id)) {
+              expandedModules.value.push(submodule.id)
+            }
+          }
+        }
+        if (submodule.route === currentPath) {
+          if (!expandedModules.value.includes(module.id)) {
+            expandedModules.value.push(module.id)
+          }
+        }
+      })
+    }
+  })
+}
+
+onMounted(() => {
+  autoExpandForCurrentRoute()
+})
+
+watch(() => route.path, () => {
+  autoExpandForCurrentRoute()
+})
 </script>

@@ -47,24 +47,52 @@ const breadcrumbs = computed(() => {
       return crumbs
     }
 
-    // Check for modules with submodules
-    const module = props.modules.find((m) =>
-      m.submodules && m.submodules.some((s: any) => s.route.startsWith(`/${pathSegments[0]}`))
-    )
+    // Find the main module
+    const module = props.modules.find((m) => {
+      if (m.route && m.route.startsWith(`/${pathSegments[0]}`)) {
+        return true
+      }
+      if (m.submodules) {
+        return m.submodules.some((s: any) => {
+          if (s.route && s.route.startsWith(`/${pathSegments[0]}`)) {
+            return true
+          }
+          if (s.submodules) {
+            return s.submodules.some((nested: any) => nested.route && nested.route.startsWith(`/${pathSegments[0]}`))
+          }
+          return false
+        })
+      }
+      return false
+    })
 
     if (module) {
       crumbs.push({ name: module.name, route: `/${pathSegments[0]}` })
 
-      // Find matching submodule
-      const submodule = module.submodules.find((s: any) => s.route === route.path)
-      if (submodule) {
-        crumbs.push({ name: submodule.name })
-      }
-    } else {
-      // Single module without submodules
-      const singleModule = props.modules.find((m) => m.route === route.path)
-      if (singleModule) {
-        crumbs.push({ name: singleModule.name })
+      // Check for 2nd level submodule
+      if (module.submodules) {
+        const submodule = module.submodules.find((s: any) => {
+          if (s.route === route.path) {
+            return true
+          }
+          if (s.submodules) {
+            return s.submodules.some((nested: any) => nested.route === route.path)
+          }
+          return false
+        })
+
+        if (submodule) {
+          // If the submodule has nested submodules, find the specific nested one
+          if (submodule.submodules) {
+            const nestedSubmodule = submodule.submodules.find((nested: any) => nested.route === route.path)
+            if (nestedSubmodule) {
+              crumbs.push({ name: submodule.name })
+              crumbs.push({ name: nestedSubmodule.name })
+            }
+          } else {
+            crumbs.push({ name: submodule.name })
+          }
+        }
       }
     }
   }

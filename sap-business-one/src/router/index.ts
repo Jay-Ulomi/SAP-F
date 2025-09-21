@@ -240,16 +240,6 @@ const router = createRouter({
           component: () => import('../modules/sales/credit-memos/views/CreditMemosView.vue'),
         },
         {
-          path: 'payments',
-          name: 'sales-payments',
-          component: () => import('../modules/sales/payments/views/PaymentsView.vue'),
-        },
-        {
-          path: 'dunning',
-          name: 'sales-dunning',
-          component: () => import('../modules/sales/dunning/views/DunningView.vue'),
-        },
-        {
           path: 'sales-reports',
           name: 'sales-sales-reports',
           component: () => import('../modules/sales/sales-reports/views/SalesReportsView.vue'),
@@ -445,6 +435,21 @@ const router = createRouter({
           path: 'reports',
           name: 'inventory-reports',
           component: () => import('../modules/inventory/reports/views/InventoryReportsView.vue'),
+        },
+        {
+          path: 'transactions/transfer',
+          name: 'inventory-transactions-transfer',
+          component: () => import('../modules/inventory/transactions/transfer/views/InventoryTransferView.vue'),
+        },
+        {
+          path: 'transactions/goods-receipt',
+          name: 'inventory-transactions-goods-receipt',
+          component: () => import('../modules/inventory/transactions/goods-receipt/views/GoodsReceiptView.vue'),
+        },
+        {
+          path: 'transactions/goods-issue',
+          name: 'inventory-transactions-goods-issue',
+          component: () => import('../modules/inventory/transactions/goods-issue/views/GoodsIssueView.vue'),
         },
       ],
     },
@@ -657,6 +662,45 @@ const router = createRouter({
           path: 'custom-queries',
           name: 'reports-custom-queries',
           component: () => import('../modules/reports/custom-queries/views/CustomQueriesView.vue'),
+        },
+      ],
+    },
+
+    // Approvals Module
+    {
+      path: '/approvals',
+      name: 'approvals',
+      redirect: '/approvals/rules',
+      children: [
+        {
+          path: 'rules',
+          name: 'approvals-rules',
+          component: () => import('../modules/approvals/views/ApprovalsView.vue'),
+        },
+        {
+          path: 'instances',
+          name: 'approvals-instances',
+          component: () => import('../modules/approvals/views/PendingApprovalsView.vue'),
+        },
+        {
+          path: 'my-approvals',
+          name: 'approvals-my-approvals',
+          component: () => import('../modules/approvals/views/MyApprovalsView.vue'),
+        },
+        {
+          path: 'history',
+          name: 'approvals-history',
+          component: () => import('../modules/approvals/views/ApprovalHistoryView.vue'),
+        },
+        {
+          path: 'statistics',
+          name: 'approvals-statistics',
+          component: () => import('../modules/approvals/views/ApprovalStatisticsView.vue'),
+        },
+        {
+          path: 'settings',
+          name: 'approvals-settings',
+          component: () => import('../modules/approvals/views/ApprovalSettingsView.vue'),
         },
       ],
     },
