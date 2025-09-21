@@ -680,8 +680,6 @@ const formData = ref<GoodsReceiptFormData>({
   remarks: '',
   receiptNumber: '',
   receiptDate: '',
-  documentDate: '',
-  type: ReceiptType.FULL,
   purchaseOrderId: '',
   warehouseCode: '',
   department: '',

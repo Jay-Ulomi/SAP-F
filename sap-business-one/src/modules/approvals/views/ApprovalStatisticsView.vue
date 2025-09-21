@@ -233,7 +233,7 @@
           <div class="p-5">
             <div class="flex items-center">
               <div class="flex-shrink-0">
-                <TrendingUpIcon class="h-6 w-6 text-indigo-400" />
+                <ArrowTrendingUpIcon class="h-6 w-6 text-indigo-400" />
               </div>
               <div class="ml-5 w-0 flex-1">
                 <dl>
@@ -361,7 +361,7 @@
             </div>
             <div class="text-right">
               <p class="text-sm text-green-600">+12% vs previous period</p>
-              <TrendingUpIcon class="h-5 w-5 text-green-500 inline" />
+              <ArrowTrendingUpIcon class="h-5 w-5 text-green-500 inline" />
             </div>
           </div>
 
@@ -372,7 +372,7 @@
             </div>
             <div class="text-right">
               <p class="text-sm text-red-600">+5% vs previous period</p>
-              <TrendingDownIcon class="h-5 w-5 text-red-500 inline" />
+              <ArrowTrendingDownIcon class="h-5 w-5 text-red-500 inline" />
             </div>
           </div>
         </div>
@@ -393,8 +393,8 @@ import {
   ChartBarIcon,
   CalendarDaysIcon,
   XCircleIcon,
-  TrendingUpIcon,
-  TrendingDownIcon,
+  ArrowTrendingUpIcon,
+  ArrowTrendingDownIcon,
   ExclamationTriangleIcon,
   LightBulbIcon
 } from '@heroicons/vue/24/outline'
