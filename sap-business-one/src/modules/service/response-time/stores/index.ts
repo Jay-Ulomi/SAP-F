@@ -7,9 +7,8 @@ import type {
   ResponseTimeSearchParams,
   ResponseTimeStats,
   ResponseTimeFilters,
-  ServiceCallPriority,
-  ServiceCallType,
 } from '../types'
+import { MetricType, TimeUnit, ResponseTimeStatus } from '../types'
 
 export const useResponseTimeStore = defineStore('responseTime', () => {
   // State
@@ -82,11 +81,21 @@ export const useResponseTimeStore = defineStore('responseTime', () => {
     const slaCompliantMetrics = metricsList.filter((metric) => metric.slaCompliance).length
     const slaComplianceRate = totalMetrics > 0 ? (slaCompliantMetrics / totalMetrics) * 100 : 0
 
-    const excellentMetrics = metricsList.filter((metric) => metric.status === 'excellent').length
-    const goodMetrics = metricsList.filter((metric) => metric.status === 'good').length
-    const fairMetrics = metricsList.filter((metric) => metric.status === 'fair').length
-    const poorMetrics = metricsList.filter((metric) => metric.status === 'poor').length
-    const criticalMetrics = metricsList.filter((metric) => metric.status === 'critical').length
+    const excellentMetrics = metricsList.filter(
+      (metric) => metric.status === ResponseTimeStatus.EXCELLENT,
+    ).length
+    const goodMetrics = metricsList.filter(
+      (metric) => metric.status === ResponseTimeStatus.GOOD,
+    ).length
+    const fairMetrics = metricsList.filter(
+      (metric) => metric.status === ResponseTimeStatus.FAIR,
+    ).length
+    const poorMetrics = metricsList.filter(
+      (metric) => metric.status === ResponseTimeStatus.POOR,
+    ).length
+    const criticalMetrics = metricsList.filter(
+      (metric) => metric.status === ResponseTimeStatus.CRITICAL,
+    ).length
 
     const metricsByStatus = {
       excellent: excellentMetrics,
@@ -97,12 +106,14 @@ export const useResponseTimeStore = defineStore('responseTime', () => {
     }
 
     const metricsByType = {
-      response_time: metricsList.filter((m) => m.metricType === 'response_time').length,
-      resolution_time: metricsList.filter((m) => m.metricType === 'resolution_time').length,
-      first_response: metricsList.filter((m) => m.metricType === 'first_response').length,
-      customer_satisfaction: metricsList.filter((m) => m.metricType === 'customer_satisfaction')
+      response_time: metricsList.filter((m) => m.metricType === MetricType.RESPONSE_TIME).length,
+      resolution_time: metricsList.filter((m) => m.metricType === MetricType.RESOLUTION_TIME)
         .length,
-      sla_compliance: metricsList.filter((m) => m.metricType === 'sla_compliance').length,
+      first_response: metricsList.filter((m) => m.metricType === MetricType.FIRST_RESPONSE).length,
+      customer_satisfaction: metricsList.filter(
+        (m) => m.metricType === MetricType.CUSTOMER_SATISFACTION,
+      ).length,
+      sla_compliance: metricsList.filter((m) => m.metricType === MetricType.SLA_COMPLIANCE).length,
     }
 
     // Mock top performers
@@ -235,10 +246,10 @@ export const useResponseTimeStore = defineStore('responseTime', () => {
           customerName: 'ABC Company',
           technicianId: 'tech-001',
           technicianName: 'John Smith',
-          metricType: 'response_time',
+          metricType: MetricType.RESPONSE_TIME,
           value: 45,
-          unit: 'minutes',
-          status: 'excellent',
+          unit: TimeUnit.MINUTES,
+          status: ResponseTimeStatus.EXCELLENT,
           targetValue: 60,
           actualValue: 45,
           variance: -15,

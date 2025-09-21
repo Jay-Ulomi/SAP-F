@@ -1,3 +1,8 @@
+enum FormType {
+  ITEM = 'Item',
+  SERVICE = 'Service',
+}
+
 enum QuotationStatus {
   DRAFT = 'DRAFT',
   SENT = 'SENT',
@@ -50,7 +55,7 @@ interface CustomerAddress {
   country: string
 }
 
-interface QuotationLineItem {
+interface BaseLineItem {
   id: string
   itemCode: string
   description: string
@@ -63,6 +68,23 @@ interface QuotationLineItem {
   lineTotal: number
   remarks?: string
 }
+
+interface ItemLineItem extends BaseLineItem {
+  itemType: 'INVENTORY'
+  warehouseCode: string
+  batchNumber?: string
+  serialNumber?: string
+  binLocation?: string
+}
+
+interface ServiceLineItem extends BaseLineItem {
+  itemType: 'SERVICE'
+  serviceCategory?: string
+  serviceDescription?: string
+  billingMethod?: 'HOURLY' | 'FIXED' | 'MILESTONE'
+}
+
+type QuotationLineItem = ItemLineItem | ServiceLineItem
 
 interface TaxSummary {
   taxCode: string
@@ -82,6 +104,7 @@ interface Quotation {
   postingDate: string
   type: QuotationType
   status: QuotationStatus
+  formType: FormType
 
   // Customer Information
   customerCode: string
@@ -99,6 +122,8 @@ interface Quotation {
 
   // Line Items
   lineItems: QuotationLineItem[]
+  itemLineItems: ItemLineItem[]
+  serviceLineItems: ServiceLineItem[]
 
   // Tax Information
   taxSummary: TaxSummary[]
@@ -179,6 +204,7 @@ interface QuotationStatsResponse {
 interface QuotationFilters {
   status?: QuotationStatus[]
   type?: QuotationType[]
+  formType?: FormType[]
   customerCode?: string
   salesPerson?: string
   dateFrom?: string
@@ -192,11 +218,14 @@ interface QuotationValidationResult {
   warnings: string[]
 }
 
-export { QuotationStatus, QuotationType, Currency, TaxType }
+export { FormType, QuotationStatus, QuotationType, Currency, TaxType }
 
 export type {
   Customer,
   CustomerAddress,
+  BaseLineItem,
+  ItemLineItem,
+  ServiceLineItem,
   QuotationLineItem,
   TaxSummary,
   Quotation,

@@ -1,10 +1,10 @@
 <template>
-  <div class="p-6 bg-gray-50 min-h-screen">
-    <div class="flex justify-between items-center mb-6">
-      <h1 class="text-3xl font-bold text-gray-900">System Initialization</h1>
+  <div class="p-4 lg:p-6 bg-gray-50 min-h-screen max-w-full overflow-hidden">
+    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
+      <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">System Initialization</h1>
       <button
         @click="openCreateModal"
-        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-sap-blue hover:bg-sap-blue-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue"
+        class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-sap-blue hover:bg-sap-blue-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue w-full sm:w-auto"
       >
         <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
@@ -19,49 +19,49 @@
     </div>
 
     <!-- Statistics Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-      <div class="bg-white shadow rounded-lg p-5 flex items-center justify-between">
-        <div>
-          <p class="text-sm font-medium text-gray-500">System Status</p>
-          <p class="text-2xl font-semibold text-gray-900">{{ stats?.systemStatus || 'Ready' }}</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 lg:gap-4 mb-6">
+      <div class="bg-white shadow rounded-lg p-4 sm:p-5 flex items-center justify-between">
+        <div class="flex-1 min-w-0">
+          <p class="text-xs sm:text-sm font-medium text-gray-500">System Status</p>
+          <p class="text-xl sm:text-2xl font-semibold text-gray-900 truncate">{{ stats?.systemStatus || 'Ready' }}</p>
         </div>
-        <div class="w-8 h-8 bg-green-100 rounded-md flex items-center justify-center">
+        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-green-100 rounded-md flex items-center justify-center flex-shrink-0 ml-3">
           <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         </div>
       </div>
 
-      <div class="bg-white shadow rounded-lg p-5 flex items-center justify-between">
-        <div>
-          <p class="text-sm font-medium text-gray-500">Database Status</p>
-          <p class="text-2xl font-semibold text-gray-900">{{ stats?.databaseStatus || 'Connected' }}</p>
+      <div class="bg-white shadow rounded-lg p-4 sm:p-5 flex items-center justify-between">
+        <div class="flex-1 min-w-0">
+          <p class="text-xs sm:text-sm font-medium text-gray-500">Database Status</p>
+          <p class="text-xl sm:text-2xl font-semibold text-gray-900 truncate">{{ stats?.databaseStatus || 'Connected' }}</p>
         </div>
-        <div class="w-8 h-8 bg-blue-100 rounded-md flex items-center justify-center">
+        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-blue-100 rounded-md flex items-center justify-center flex-shrink-0 ml-3">
           <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
           </svg>
         </div>
       </div>
 
-      <div class="bg-white shadow rounded-lg p-5 flex items-center justify-between">
-        <div>
-          <p class="text-sm font-medium text-gray-500">Initialized Components</p>
-          <p class="text-2xl font-semibold text-gray-900">{{ stats?.initializedComponents || 0 }}</p>
+      <div class="bg-white shadow rounded-lg p-4 sm:p-5 flex items-center justify-between">
+        <div class="flex-1 min-w-0">
+          <p class="text-xs sm:text-sm font-medium text-gray-500">Initialized Components</p>
+          <p class="text-xl sm:text-2xl font-semibold text-gray-900">{{ stats?.initializedComponents || 0 }}</p>
         </div>
-        <div class="w-8 h-8 bg-purple-100 rounded-md flex items-center justify-center">
+        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-purple-100 rounded-md flex items-center justify-center flex-shrink-0 ml-3">
           <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 7.172V5L8 4z" />
           </svg>
         </div>
       </div>
 
-      <div class="bg-white shadow rounded-lg p-5 flex items-center justify-between">
-        <div>
-          <p class="text-sm font-medium text-gray-500">Pending Setup</p>
-          <p class="text-2xl font-semibold text-gray-900">{{ stats?.pendingSetup || 0 }}</p>
+      <div class="bg-white shadow rounded-lg p-4 sm:p-5 flex items-center justify-between">
+        <div class="flex-1 min-w-0">
+          <p class="text-xs sm:text-sm font-medium text-gray-500">Pending Setup</p>
+          <p class="text-xl sm:text-2xl font-semibold text-gray-900">{{ stats?.pendingSetup || 0 }}</p>
         </div>
-        <div class="w-8 h-8 bg-yellow-100 rounded-md flex items-center justify-center">
+        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-yellow-100 rounded-md flex items-center justify-center flex-shrink-0 ml-3">
           <svg class="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
@@ -70,33 +70,33 @@
     </div>
 
     <!-- Filters Section -->
-    <div class="bg-white shadow rounded-lg p-6 mb-6">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-medium text-gray-900">Initialization Filters</h3>
+    <div class="bg-white shadow rounded-lg p-4 lg:p-6 mb-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+        <h3 class="text-base sm:text-lg font-medium text-gray-900">Initialization Filters</h3>
         <button
           @click="clearFilters"
-          class="text-sm text-sap-blue hover:text-sap-dark-blue"
+          class="text-xs sm:text-sm text-sap-blue hover:text-sap-dark-blue self-start sm:self-auto"
         >
           Clear All Filters
         </button>
       </div>
       
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Search Components</label>
+      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 lg:gap-4">
+        <div class="sm:col-span-2 xl:col-span-1">
+          <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Search Components</label>
           <input
             v-model="searchQuery"
             type="text"
             placeholder="Search components..."
-            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
           />
         </div>
         
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Component Type</label>
+          <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Component Type</label>
           <select
             v-model="selectedType"
-            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
           >
             <option value="">All Types</option>
             <option value="DATABASE">Database</option>
@@ -109,10 +109,10 @@
         </div>
         
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+          <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Status</label>
           <select
             v-model="selectedStatus"
-            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
           >
             <option value="">All Statuses</option>
             <option value="INITIALIZED">Initialized</option>
@@ -123,10 +123,10 @@
         </div>
         
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Priority</label>
+          <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Priority</label>
           <select
             v-model="selectedPriority"
-            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
           >
             <option value="">All Priorities</option>
             <option value="CRITICAL">Critical</option>
@@ -139,7 +139,7 @@
     </div>
 
     <!-- System Components Table -->
-    <div class="bg-white shadow rounded-lg overflow-hidden">
+    <div class="bg-white shadow rounded-lg overflow-hidden max-w-full">
       <div class="px-6 py-4 border-b border-gray-200">
         <h2 class="text-lg font-medium text-gray-900">System Components</h2>
       </div>
@@ -176,40 +176,40 @@
         <button @click="openCreateModal" class="btn-primary">Initialize Component</button>
       </div>
 
-      <div v-else class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200">
+      <div v-else class="w-full overflow-x-auto">
+        <table class="w-full divide-y divide-gray-200">
           <thead class="bg-gray-50">
             <tr>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
                 Component
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase hidden sm:table-cell">
                 Type
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Status
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Priority
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Last Initialized
+              <th class="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase hidden lg:table-cell">
+                Last Init
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase hidden md:table-cell">
                 Version
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Actions
               </th>
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
             <tr v-for="component in filteredComponents" :key="component.id" class="hover:bg-gray-50">
-              <td class="px-6 py-4 whitespace-nowrap">
+              <td class="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap">
                 <div class="flex items-center">
-                  <div class="flex-shrink-0 h-10 w-10">
+                  <div class="flex-shrink-0 h-8 w-8 sm:h-10 sm:w-10">
                     <div
-                      class="h-10 w-10 rounded-full flex items-center justify-center"
+                      class="h-8 w-8 sm:h-10 sm:w-10 rounded-full flex items-center justify-center"
                       :class="{
                         'bg-green-100': component.status === 'INITIALIZED',
                         'bg-yellow-100': component.status === 'PENDING',
@@ -231,18 +231,18 @@
                       </svg>
                     </div>
                   </div>
-                  <div class="ml-4">
-                    <div class="text-sm font-medium text-gray-900">{{ component.name }}</div>
-                    <div class="text-sm text-gray-500">{{ component.description || 'No description' }}</div>
+                  <div class="ml-3">
+                    <div class="text-xs sm:text-sm font-medium text-gray-900">{{ component.name }}</div>
+                    <div class="text-xs text-gray-500 hidden lg:block">{{ component.description || 'No description' }}</div>
                   </div>
                 </div>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap">
+              <td class="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap hidden sm:table-cell">
                 <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
                   {{ formatType(component.type) }}
                 </span>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap">
+              <td class="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap">
                 <span
                   class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
                   :class="{
@@ -255,7 +255,7 @@
                   {{ formatStatus(component.status) }}
                 </span>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap">
+              <td class="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap">
                 <span
                   class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
                   :class="{
@@ -268,35 +268,35 @@
                   {{ formatPriority(component.priority) }}
                 </span>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              <td class="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap text-xs sm:text-sm text-gray-900 hidden lg:table-cell">
                 {{ component.lastInitialized ? formatDate(component.lastInitialized) : 'Never' }}
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              <td class="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap text-xs sm:text-sm text-gray-900 hidden md:table-cell">
                 {{ component.version || 'N/A' }}
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                <div class="flex space-x-2">
-                  <button @click="viewComponent(component)" class="text-sap-blue hover:text-sap-dark-blue">
+              <td class="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap text-sm font-medium">
+                <div class="flex flex-wrap gap-1">
+                  <button @click="viewComponent(component)" class="text-sap-blue hover:text-sap-dark-blue text-xs px-1">
                     View
                   </button>
-                  <button @click="editComponent(component)" class="text-indigo-600 hover:text-indigo-900">
+                  <button @click="editComponent(component)" class="text-indigo-600 hover:text-indigo-900 text-xs px-1">
                     Edit
                   </button>
                   <button 
                     v-if="component.status !== 'INITIALIZED'"
                     @click="initializeComponent(component.id)" 
-                    class="text-green-600 hover:text-green-900"
+                    class="text-green-600 hover:text-green-900 text-xs px-1"
                   >
                     Initialize
                   </button>
                   <button 
                     v-if="component.status === 'INITIALIZED'"
                     @click="reinitializeComponent(component.id)" 
-                    class="text-yellow-600 hover:text-yellow-900"
+                    class="text-yellow-600 hover:text-yellow-900 text-xs px-1"
                   >
                     Reinitialize
                   </button>
-                  <button @click="deleteComponent(component.id)" class="text-red-600 hover:text-red-900">
+                  <button @click="deleteComponent(component.id)" class="text-red-600 hover:text-red-900 text-xs px-1">
                     Delete
                   </button>
                 </div>
@@ -366,10 +366,10 @@
 
     <!-- Create/Edit Component Modal -->
     <div v-if="isCreateModalOpen" class="fixed inset-0 z-50 overflow-y-auto">
-      <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <div class="flex items-end justify-center min-h-screen pt-4 px-2 pb-20 text-center sm:block sm:p-0">
         <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
         <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-        <div class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full sm:p-6">
+        <div class="inline-block align-bottom bg-white rounded-lg px-3 pt-4 pb-3 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full sm:p-6 w-full max-w-full">
           <div class="flex items-center justify-between mb-4">
             <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
               {{ componentToEdit ? 'Edit Component' : 'Create New Component' }}
@@ -382,27 +382,27 @@
             </button>
           </div>
           
-          <form @submit.prevent="handleSubmitComponent" class="space-y-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <form @submit.prevent="handleSubmitComponent" class="space-y-4 sm:space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               <div>
-                <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Component Name</label>
+                <label for="name" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Component Name</label>
                 <input
                   id="name"
                   v-model="formData.name"
                   type="text"
                   required
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                   placeholder="Enter component name"
                 />
               </div>
               
               <div>
-                <label for="type" class="block text-sm font-medium text-gray-700 mb-2">Component Type</label>
+                <label for="type" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Component Type</label>
                 <select
                   id="type"
                   v-model="formData.type"
                   required
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                 >
                   <option value="">Select Type</option>
                   <option value="DATABASE">Database</option>
@@ -415,12 +415,12 @@
               </div>
               
               <div>
-                <label for="priority" class="block text-sm font-medium text-gray-700 mb-2">Priority</label>
+                <label for="priority" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Priority</label>
                 <select
                   id="priority"
                   v-model="formData.priority"
                   required
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                 >
                   <option value="">Select Priority</option>
                   <option value="CRITICAL">Critical</option>
@@ -431,29 +431,29 @@
               </div>
               
               <div>
-                <label for="version" class="block text-sm font-medium text-gray-700 mb-2">Version</label>
+                <label for="version" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Version</label>
                 <input
                   id="version"
                   v-model="formData.version"
                   type="text"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                   placeholder="Enter version"
                 />
               </div>
               
               <div class="md:col-span-2">
-                <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                <label for="description" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Description</label>
                 <textarea
                   id="description"
                   v-model="formData.description"
                   rows="3"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                   placeholder="Enter component description"
                 ></textarea>
               </div>
               
               <div class="md:col-span-2">
-                <label for="configuration" class="block text-sm font-medium text-gray-700 mb-2">Configuration (JSON)</label>
+                <label for="configuration" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Configuration (JSON)</label>
                 <textarea
                   id="configuration"
                   v-model="formData.configuration"
@@ -464,18 +464,18 @@
               </div>
             </div>
             
-            <div class="flex justify-end space-x-3 pt-6 border-t border-gray-200">
+            <div class="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 sm:gap-0 sm:space-x-3 pt-4 sm:pt-6 border-t border-gray-200">
               <button
                 type="button"
                 @click="closeCreateModal"
-                class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue"
+                class="w-full sm:w-auto px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 :disabled="formLoading"
-                class="inline-flex justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-sap-blue hover:bg-sap-blue-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue disabled:opacity-50 disabled:cursor-not-allowed"
+                class="w-full sm:w-auto inline-flex justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-sap-blue hover:bg-sap-blue-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <svg v-if="formLoading" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -491,10 +491,10 @@
 
     <!-- View Component Modal -->
     <div v-if="isViewModalOpen" class="fixed inset-0 z-50 overflow-y-auto">
-      <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <div class="flex items-end justify-center min-h-screen pt-4 px-2 pb-20 text-center sm:block sm:p-0">
         <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
         <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-        <div class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-6xl sm:w-full sm:p-6">
+        <div class="inline-block align-bottom bg-white rounded-lg px-3 pt-4 pb-3 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-6xl sm:w-full sm:p-6 w-full max-w-full">
           <div class="flex items-center justify-between mb-6">
             <h3 class="text-lg leading-6 font-medium text-gray-900">Component Details</h3>
             <button @click="closeViewModal" type="button" class="bg-white rounded-md text-gray-400 hover:text-gray-600 focus:outline-none">
@@ -506,13 +506,13 @@
           </div>
           
           <div v-if="selectedComponent" class="bg-white">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-              <div class="bg-gray-50 p-4 rounded-lg">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 mb-4 sm:mb-6">
+              <div class="bg-gray-50 p-3 sm:p-4 rounded-lg">
                 <dt class="text-sm font-medium text-gray-500 mb-1">Component Name</dt>
                 <dd class="text-sm font-semibold text-gray-900">{{ selectedComponent.name }}</dd>
               </div>
               
-              <div class="bg-gray-50 p-4 rounded-lg">
+              <div class="bg-gray-50 p-3 sm:p-4 rounded-lg">
                 <dt class="text-sm font-medium text-gray-500 mb-1">Type</dt>
                 <dd class="text-sm text-gray-900">
                   <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
@@ -521,7 +521,7 @@
                 </dd>
               </div>
               
-              <div class="bg-gray-50 p-4 rounded-lg">
+              <div class="bg-gray-50 p-3 sm:p-4 rounded-lg">
                 <dt class="text-sm font-medium text-gray-500 mb-1">Status</dt>
                 <dd class="text-sm text-gray-900">
                   <span
@@ -538,7 +538,7 @@
                 </dd>
               </div>
               
-              <div class="bg-gray-50 p-4 rounded-lg">
+              <div class="bg-gray-50 p-3 sm:p-4 rounded-lg">
                 <dt class="text-sm font-medium text-gray-500 mb-1">Priority</dt>
                 <dd class="text-sm text-gray-900">
                   <span
@@ -555,12 +555,12 @@
                 </dd>
               </div>
               
-              <div class="bg-gray-50 p-4 rounded-lg">
+              <div class="bg-gray-50 p-3 sm:p-4 rounded-lg">
                 <dt class="text-sm font-medium text-gray-500 mb-1">Version</dt>
                 <dd class="text-sm text-gray-900">{{ selectedComponent.version || 'N/A' }}</dd>
               </div>
               
-              <div class="bg-gray-50 p-4 rounded-lg">
+              <div class="bg-gray-50 p-3 sm:p-4 rounded-lg">
                 <dt class="text-sm font-medium text-gray-500 mb-1">Last Initialized</dt>
                 <dd class="text-sm text-gray-900">{{ selectedComponent.lastInitialized ? formatDate(selectedComponent.lastInitialized) : 'Never' }}</dd>
               </div>
@@ -576,16 +576,16 @@
               <pre class="bg-gray-100 p-4 rounded-lg text-sm overflow-x-auto"><code>{{ JSON.stringify(JSON.parse(selectedComponent.configuration || '{}'), null, 2) }}</code></pre>
             </div>
             
-            <div class="flex justify-end space-x-3 mt-6 pt-6 border-t border-gray-200">
+            <div class="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 sm:gap-0 sm:space-x-3 mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-gray-200">
               <button
                 @click="editComponent(selectedComponent)"
-                class="inline-flex justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-sap-blue hover:bg-sap-blue-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue"
+                class="w-full sm:w-auto inline-flex justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-sap-blue hover:bg-sap-blue-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue"
               >
                 Edit Component
               </button>
               <button
                 @click="closeViewModal"
-                class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue"
+                class="w-full sm:w-auto px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue"
               >
                 Close
               </button>

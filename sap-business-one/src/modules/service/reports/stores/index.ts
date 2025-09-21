@@ -10,6 +10,7 @@ import type {
   ServiceStats,
   ResponseTimeMetric,
 } from '../types'
+import { ReportType, ReportCategory, ReportStatus, ReportFormat, ReportFrequency } from '../types'
 
 export const useServiceReportsStore = defineStore('serviceReports', () => {
   // State
@@ -195,11 +196,11 @@ export const useServiceReportsStore = defineStore('serviceReports', () => {
           id: '1',
           name: 'Monthly Service Calls Report',
           description: 'Comprehensive report of all service calls for the month',
-          type: 'service_calls',
-          category: 'operational',
-          status: 'completed',
-          format: 'pdf',
-          frequency: 'monthly',
+          type: ReportType.SERVICE_CALLS,
+          category: ReportCategory.OPERATIONAL,
+          status: ReportStatus.COMPLETED,
+          format: ReportFormat.PDF,
+          frequency: ReportFrequency.MONTHLY,
           parameters: {
             dateRange: {
               startDate: '2024-01-01',
@@ -207,7 +208,7 @@ export const useServiceReportsStore = defineStore('serviceReports', () => {
             },
           },
           schedule: {
-            frequency: 'monthly',
+            frequency: ReportFrequency.MONTHLY,
             dayOfMonth: 1,
             time: '09:00',
             timezone: 'UTC',

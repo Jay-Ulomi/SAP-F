@@ -16,8 +16,9 @@ import type {
   Customer,
   DeliveryStatus,
   DeliveryType,
+  FormType,
 } from '../types'
-import { DeliveryStatus, DeliveryType } from '../types'
+import { DeliveryStatus, DeliveryType, FormType } from '../types'
 
 export const useDeliveriesStore = defineStore('deliveries', () => {
   // State
@@ -45,6 +46,7 @@ export const useDeliveriesStore = defineStore('deliveries', () => {
     dateFrom: '',
     dateTo: '',
     search: '',
+    formType: [],
   })
 
   // Computed Properties
@@ -75,6 +77,28 @@ export const useDeliveriesStore = defineStore('deliveries', () => {
 
     return grouped
   })
+
+  const deliveriesByFormType = computed(() => {
+    const grouped = deliveries.value.reduce(
+      (acc, delivery) => {
+        const formType = delivery.formType
+        if (!acc[formType]) acc[formType] = []
+        acc[formType].push(delivery)
+        return acc
+      },
+      {} as Record<FormType, Delivery[]>,
+    )
+
+    return grouped
+  })
+
+  const itemDeliveries = computed(() =>
+    deliveries.value.filter((d) => d.formType === FormType.ITEM),
+  )
+
+  const serviceDeliveries = computed(() =>
+    deliveries.value.filter((d) => d.formType === FormType.SERVICE),
+  )
 
   const draftDeliveries = computed(() =>
     deliveries.value.filter((d) => d.status === DeliveryStatus.DRAFT),
@@ -465,6 +489,7 @@ export const useDeliveriesStore = defineStore('deliveries', () => {
       dateFrom: '',
       dateTo: '',
       search: '',
+      formType: [],
     }
     pagination.value.page = 1
   }
@@ -492,6 +517,9 @@ export const useDeliveriesStore = defineStore('deliveries', () => {
     // Computed
     deliveriesByStatus,
     deliveriesByType,
+    deliveriesByFormType,
+    itemDeliveries,
+    serviceDeliveries,
     draftDeliveries,
     openDeliveries,
     releasedDeliveries,

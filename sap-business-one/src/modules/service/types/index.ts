@@ -6,7 +6,7 @@ export enum ServiceContractStatus {
   EXPIRED = 'expired',
   CANCELLED = 'cancelled',
   SUSPENDED = 'suspended',
-  RENEWED = 'renewed'
+  RENEWED = 'renewed',
 }
 
 export enum ServiceCallStatus {
@@ -16,14 +16,14 @@ export enum ServiceCallStatus {
   ON_HOLD = 'on_hold',
   RESOLVED = 'resolved',
   CLOSED = 'closed',
-  CANCELLED = 'cancelled'
+  CANCELLED = 'cancelled',
 }
 
 export enum ServiceCallPriority {
   LOW = 'low',
   MEDIUM = 'medium',
   HIGH = 'high',
-  CRITICAL = 'critical'
+  CRITICAL = 'critical',
 }
 
 export enum ServiceCallType {
@@ -33,31 +33,81 @@ export enum ServiceCallType {
   INSPECTION = 'inspection',
   CONSULTATION = 'consultation',
   WARRANTY = 'warranty',
-  OTHER = 'other'
+  OTHER = 'other',
 }
 
 export enum EquipmentStatus {
   ACTIVE = 'active',
   IN_SERVICE = 'in_service',
   OUT_OF_SERVICE = 'out_of_service',
-  UNDER_REPAIR = 'under_repair',
-  DECOMMISSIONED = 'decommissioned',
-  LOST = 'lost'
+  MAINTENANCE = 'maintenance',
+  RETIRED = 'retired',
+  DISPOSED = 'disposed',
 }
 
 export enum ContractType {
+  PREVENTIVE_MAINTENANCE = 'preventive_maintenance',
+  BREAK_FIX = 'break_fix',
+  FULL_SERVICE = 'full_service',
   WARRANTY = 'warranty',
-  SERVICE_AGREEMENT = 'service_agreement',
-  MAINTENANCE = 'maintenance',
   SUPPORT = 'support',
-  SUBSCRIPTION = 'subscription'
+  CONSULTING = 'consulting',
 }
 
 export enum ResponseTimeUnit {
   MINUTES = 'minutes',
   HOURS = 'hours',
   DAYS = 'days',
-  WEEKS = 'weeks'
+  WEEKS = 'weeks',
+}
+
+export enum SLAStatus {
+  WITHIN_SLA = 'within_sla',
+  SLA_WARNING = 'sla_warning',
+  SLA_BREACH = 'sla_breach',
+}
+
+export enum EquipmentType {
+  SERVER = 'server',
+  NETWORK = 'network',
+  STORAGE = 'storage',
+  SECURITY = 'security',
+  PERIPHERAL = 'peripheral',
+  MOBILE = 'mobile',
+  SOFTWARE = 'software',
+  OTHER = 'other',
+}
+
+export enum MaintenanceStatus {
+  UP_TO_DATE = 'up_to_date',
+  DUE_SOON = 'due_soon',
+  OVERDUE = 'overdue',
+  IN_PROGRESS = 'in_progress',
+  NOT_REQUIRED = 'not_required',
+}
+
+export enum WarrantyStatus {
+  UNDER_WARRANTY = 'under_warranty',
+  EXPIRED = 'expired',
+  NO_WARRANTY = 'no_warranty',
+  EXTENDED = 'extended',
+}
+
+export enum BillingFrequency {
+  MONTHLY = 'monthly',
+  QUARTERLY = 'quarterly',
+  SEMI_ANNUAL = 'semi_annual',
+  ANNUAL = 'annual',
+  ONE_TIME = 'one_time',
+}
+
+export enum PaymentTerms {
+  NET_15 = 'net_15',
+  NET_30 = 'net_30',
+  NET_45 = 'net_45',
+  NET_60 = 'net_60',
+  DUE_ON_RECEIPT = 'due_on_receipt',
+  PREPAID = 'prepaid',
 }
 
 // Service Contract
@@ -68,26 +118,31 @@ export interface ServiceContract {
   customerName: string
   type: ContractType
   status: ServiceContractStatus
+  title: string
+  description: string
   startDate: string
   endDate: string
   renewalDate?: string
-  value: number
+  totalValue: number
   currency: string
-  description?: string
-  coverageDetails: CoverageDetails
-  equipment: string[]
-  serviceLevels: ServiceLevel[]
-  billingSchedule: BillingSchedule
-  contactPerson: string
-  contactEmail: string
-  contactPhone: string
+  billingFrequency: BillingFrequency
+  paymentTerms: PaymentTerms
+  serviceLevel: string
+  responseTime: number
+  resolutionTime: number
+  coverage: string[]
+  exclusions: string[]
+  terms: string
   notes?: string
   attachments: Attachment[]
+  contacts: ContractContact[]
+  equipment: ContractEquipment[]
+  billingAddress: Address
+  serviceAddress: Address
   createdAt: string
   updatedAt: string
   createdBy: string
-  lastServiceDate?: string
-  nextServiceDate?: string
+  lastModifiedBy?: string
 }
 
 export interface CoverageDetails {
@@ -124,29 +179,41 @@ export interface BillingSchedule {
 // Equipment
 export interface Equipment {
   id: string
-  serialNumber: string
+  equipmentNumber: string
   name: string
-  model: string
-  manufacturer: string
-  category: string
+  description: string
+  type: EquipmentType
   status: EquipmentStatus
+  manufacturer: string
+  model: string
+  serialNumber: string
+  assetTag?: string
+  location: string
   customerId: string
   customerName: string
-  location: string
-  installationDate: string
-  warrantyExpiration?: string
   contractId?: string
   contractNumber?: string
-  lastServiceDate?: string
-  nextServiceDate?: string
-  specifications: Record<string, any>
+  purchaseDate: string
+  warrantyExpiry?: string
+  warrantyStatus: WarrantyStatus
+  lastMaintenanceDate?: string
+  nextMaintenanceDate?: string
+  maintenanceStatus: MaintenanceStatus
+  maintenanceInterval: number
+  cost: number
+  currency: string
+  supplier: string
+  specifications: EquipmentSpecification[]
   maintenanceHistory: MaintenanceRecord[]
   attachments: Attachment[]
+  serviceCalls: ServiceCallReference[]
   notes?: string
   value: number
   depreciatedValue: number
   createdAt: string
   updatedAt: string
+  createdBy: string
+  lastModifiedBy?: string
 }
 
 export interface MaintenanceRecord {
@@ -168,6 +235,49 @@ export interface Part {
   quantity: number
   unitCost: number
   totalCost: number
+}
+
+export interface EquipmentSpecification {
+  name: string
+  value: string
+  unit?: string
+}
+
+export interface ServiceCallReference {
+  id: string
+  callNumber: string
+  date: string
+  status: string
+  description: string
+}
+
+export interface ContractContact {
+  id: string
+  name: string
+  title: string
+  email: string
+  phone: string
+  isPrimary: boolean
+  department?: string
+}
+
+export interface ContractEquipment {
+  id: string
+  equipmentId: string
+  equipmentName: string
+  serialNumber: string
+  model: string
+  location: string
+  covered: boolean
+  maintenanceSchedule?: string
+}
+
+export interface Address {
+  street: string
+  city: string
+  state: string
+  postalCode: string
+  country: string
 }
 
 // Service Call
@@ -199,7 +309,7 @@ export interface ServiceCall {
   actualEndTime?: string
   responseTime?: number
   resolutionTime?: number
-  slaStatus: 'within_sla' | 'sla_warning' | 'sla_breach'
+  slaStatus: SLAStatus
   laborHours?: number
   travelTime?: number
   partsUsed: Part[]
@@ -302,35 +412,44 @@ export interface Technician {
 export interface ServiceContractFormData {
   customerId: string
   type: ContractType
-  status: ServiceContractStatus
+  title: string
+  description: string
   startDate: string
   endDate: string
-  value: number
+  totalValue: number
   currency: string
-  description?: string
-  coverageDetails: CoverageDetails
-  equipment: string[]
-  contactPerson: string
-  contactEmail: string
-  contactPhone: string
+  billingFrequency: BillingFrequency
+  paymentTerms: PaymentTerms
+  serviceLevel: string
+  responseTime: number
+  resolutionTime: number
+  coverage: string[]
+  exclusions: string[]
+  terms: string
   notes?: string
+  billingAddress: Address
+  serviceAddress: Address
 }
 
 export interface EquipmentFormData {
-  serialNumber: string
   name: string
-  model: string
+  description: string
+  type: EquipmentType
   manufacturer: string
-  category: string
-  status: EquipmentStatus
-  customerId: string
+  model: string
+  serialNumber: string
+  assetTag?: string
   location: string
-  installationDate: string
-  warrantyExpiration?: string
+  customerId: string
   contractId?: string
-  specifications: Record<string, any>
+  purchaseDate: string
+  warrantyExpiry?: string
+  maintenanceInterval: number
+  cost: number
+  currency: string
+  supplier: string
+  specifications: EquipmentSpecification[]
   notes?: string
-  value: number
 }
 
 export interface ServiceCallFormData {

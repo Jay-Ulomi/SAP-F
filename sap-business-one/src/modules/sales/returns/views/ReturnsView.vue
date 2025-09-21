@@ -168,8 +168,8 @@
               class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
             >
               <option value="">All Types</option>
-              <option v-for="type in returnTypes" :key="type" :value="type">
-                {{ formatReturnType(type) }}
+              <option v-for="type in formTypes" :key="type" :value="type">
+                {{ type }}
               </option>
             </select>
           </div>
@@ -310,24 +310,24 @@
               <span class="text-sm font-medium text-gray-700">Active Filters:</span>
               <div class="flex flex-wrap gap-2">
                 <span
-                  v-if="selectedStatuses"
+                  v-if="selectedStatuses.length > 0"
                   class="inline-flex items-center px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full"
                 >
-                  Status: {{ formatReturnStatus(selectedStatuses) }}
+                  Status: {{ selectedStatuses.map((s) => formatReturnStatus(s)).join(', ') }}
                   <button
-                    @click="((selectedStatuses = ''), applyFilters())"
+                    @click="((selectedStatuses = []), applyFilters())"
                     class="ml-1 text-blue-600 hover:text-blue-800"
                   >
                     ×
                   </button>
                 </span>
                 <span
-                  v-if="selectedTypes"
+                  v-if="selectedTypes.length > 0"
                   class="inline-flex items-center px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full"
                 >
-                  Type: {{ formatReturnType(selectedTypes) }}
+                  Type: {{ selectedTypes.map((t) => formatReturnType(t)).join(', ') }}
                   <button
-                    @click="((selectedTypes = ''), applyFilters())"
+                    @click="((selectedTypes = []), applyFilters())"
                     class="ml-1 text-green-600 hover:text-green-800"
                   >
                     ×
@@ -440,6 +440,30 @@
                 Customer
               </th>
               <th
+                v-if="!selectedType || selectedType === 'Item'"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Items
+              </th>
+              <th
+                v-if="!selectedType || selectedType === 'Item'"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Warehouse
+              </th>
+              <th
+                v-if="!selectedType || selectedType === 'Service'"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Services
+              </th>
+              <th
+                v-if="!selectedType || selectedType === 'Service'"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Description
+              </th>
+              <th
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
                 Type
@@ -480,11 +504,44 @@
                   <div class="text-sm text-gray-500">{{ returnItem.customerCode }}</div>
                 </div>
               </td>
+              <td
+                v-if="!selectedType || selectedType === 'Item'"
+                class="px-6 py-4 whitespace-nowrap"
+              >
+                <div class="text-sm text-gray-900">{{ getItemsSummary(returnItem) }}</div>
+                <div class="text-xs text-gray-500">{{ getItemCount(returnItem) }} item(s)</div>
+              </td>
+              <td
+                v-if="!selectedType || selectedType === 'Item'"
+                class="px-6 py-4 whitespace-nowrap"
+              >
+                <div class="text-sm text-gray-900">{{ getPrimaryWarehouse(returnItem) }}</div>
+              </td>
+              <td
+                v-if="!selectedType || selectedType === 'Service'"
+                class="px-6 py-4 whitespace-nowrap"
+              >
+                <div class="text-sm text-gray-900">{{ getServicesSummary(returnItem) }}</div>
+                <div class="text-xs text-gray-500">
+                  {{ getServiceCount(returnItem) }} service(s)
+                </div>
+              </td>
+              <td
+                v-if="!selectedType || selectedType === 'Service'"
+                class="px-6 py-4 whitespace-nowrap"
+              >
+                <div class="text-sm text-gray-900">{{ getServiceDescription(returnItem) }}</div>
+              </td>
               <td class="px-6 py-4 whitespace-nowrap">
                 <span
-                  class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800"
+                  class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
+                  :class="
+                    returnItem.formType === 'Item'
+                      ? 'bg-blue-100 text-blue-800'
+                      : 'bg-green-100 text-green-800'
+                  "
                 >
-                  {{ formatReturnType(returnItem.type) }}
+                  {{ returnItem.type || 'Item' }}
                 </span>
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
@@ -815,6 +872,8 @@ const hasActiveFilters = computed(() => {
 
 const returnStatuses = Object.values(ReturnStatus)
 const returnTypes = Object.values(ReturnType)
+const formTypes = computed(() => ['Item', 'Service'])
+const selectedType = ref('')
 
 // Methods
 const fetchData = async () => {
@@ -917,7 +976,7 @@ const deleteReturn = async (returnItem: Return) => {
 }
 
 const exportData = () => {
-  store.export(filters.value)
+  store.exportReturns(filters.value)
 }
 
 const formatCurrency = (amount: number) => {
@@ -962,6 +1021,54 @@ const getStatusBadgeClass = (status: ReturnStatus) => {
     default:
       return 'bg-gray-100 text-gray-800'
   }
+}
+
+// Helper functions for Item/Service display
+const getItemsSummary = (record: Return) => {
+  if (!record.lineItems || record.lineItems.length === 0) return 'No items'
+  const firstItem = record.lineItems[0]
+  if (record.lineItems.length === 1) {
+    return firstItem.itemCode || firstItem.description || 'Item'
+  }
+  return `${firstItem.itemCode || firstItem.description || 'Item'} +${record.lineItems.length - 1} more`
+}
+
+const getItemCount = (record: Return) => {
+  return record.lineItems?.length || 0
+}
+
+const getPrimaryWarehouse = (record: Return) => {
+  if (!record.lineItems || record.lineItems.length === 0) return '-'
+  const warehouses = [
+    ...new Set(record.lineItems.map((item) => item.warehouseCode).filter(Boolean)),
+  ]
+  if (warehouses.length === 0) return '-'
+  if (warehouses.length === 1) return warehouses[0]
+  return `${warehouses[0]} +${warehouses.length - 1} more`
+}
+
+const getServicesSummary = (record: Return) => {
+  if (!record.serviceItems || record.serviceItems.length === 0) return 'No services'
+  const firstService = record.serviceItems[0]
+  if (record.serviceItems.length === 1) {
+    return firstService.description || 'Service'
+  }
+  return `${firstService.description || 'Service'} +${record.serviceItems.length - 1} more`
+}
+
+const getServiceCount = (record: Return) => {
+  return record.serviceItems?.length || 0
+}
+
+const getServiceDescription = (record: Return) => {
+  if (!record.serviceItems || record.serviceItems.length === 0) return '-'
+  const descriptions = record.serviceItems
+    .map((service) => service.description)
+    .filter(Boolean)
+    .slice(0, 2)
+  if (descriptions.length === 0) return '-'
+  if (descriptions.length === 1) return descriptions[0]
+  return descriptions.join(', ') + (record.serviceItems.length > 2 ? '...' : '')
 }
 
 // Watch for filter changes

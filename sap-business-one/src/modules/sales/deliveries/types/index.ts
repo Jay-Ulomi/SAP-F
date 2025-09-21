@@ -1,3 +1,8 @@
+enum FormType {
+  ITEM = 'Item',
+  SERVICE = 'Service',
+}
+
 enum DeliveryStatus {
   DRAFT = 'DRAFT',
   OPEN = 'OPEN',
@@ -50,7 +55,7 @@ interface CustomerAddress {
   country: string
 }
 
-interface DeliveryLineItem {
+interface BaseLineItem {
   id: string
   itemCode: string
   description: string
@@ -63,11 +68,25 @@ interface DeliveryLineItem {
   taxCode: string
   taxRate: number
   lineTotal: number
-  warehouseCode?: string
-  batchNumber?: string
-  serialNumber?: string
   remarks?: string
 }
+
+interface ItemLineItem extends BaseLineItem {
+  itemType: 'INVENTORY'
+  warehouseCode: string
+  batchNumber?: string
+  serialNumber?: string
+  binLocation?: string
+}
+
+interface ServiceLineItem extends BaseLineItem {
+  itemType: 'SERVICE'
+  serviceCategory?: string
+  serviceDescription?: string
+  billingMethod?: 'HOURLY' | 'FIXED' | 'MILESTONE'
+}
+
+type DeliveryLineItem = ItemLineItem | ServiceLineItem
 
 interface TaxSummary {
   taxCode: string
@@ -86,6 +105,7 @@ interface Delivery {
   postingDate: string
   type: DeliveryType
   status: DeliveryStatus
+  formType: FormType
 
   // Customer Information
   customerCode: string
@@ -103,6 +123,8 @@ interface Delivery {
 
   // Line Items
   lineItems: DeliveryLineItem[]
+  itemLineItems: ItemLineItem[]
+  serviceLineItems: ServiceLineItem[]
 
   // Tax Information
   taxSummary: TaxSummary[]
@@ -200,6 +222,7 @@ interface DeliveryStatsResponse {
 interface DeliveryFilters {
   status?: DeliveryStatus[]
   type?: DeliveryType[]
+  formType?: FormType[]
   customerCode?: string
   salesPerson?: string
   dateFrom?: string
@@ -213,11 +236,14 @@ interface DeliveryValidationResult {
   warnings: string[]
 }
 
-export { DeliveryStatus, DeliveryType, Currency, TaxType }
+export { FormType, DeliveryStatus, DeliveryType, Currency, TaxType }
 
 export type {
   Customer,
   CustomerAddress,
+  BaseLineItem,
+  ItemLineItem,
+  ServiceLineItem,
   DeliveryLineItem,
   TaxSummary,
   Delivery,

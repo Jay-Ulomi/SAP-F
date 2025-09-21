@@ -1,3 +1,8 @@
+enum FormType {
+  ITEM = 'Item',
+  SERVICE = 'Service',
+}
+
 enum ReturnStatus {
   DRAFT = 'DRAFT',
   OPEN = 'OPEN',
@@ -66,7 +71,7 @@ interface CustomerAddress {
   country: string
 }
 
-interface ReturnLineItem {
+interface BaseLineItem {
   id: string
   itemCode: string
   description: string
@@ -82,11 +87,25 @@ interface ReturnLineItem {
   returnNotes?: string
   originalInvoiceId?: string
   originalLineItemId?: string
-  warehouseCode?: string
-  batchNumber?: string
-  serialNumber?: string
   remarks?: string
 }
+
+interface ItemLineItem extends BaseLineItem {
+  itemType: 'INVENTORY'
+  warehouseCode: string
+  batchNumber?: string
+  serialNumber?: string
+  binLocation?: string
+}
+
+interface ServiceLineItem extends BaseLineItem {
+  itemType: 'SERVICE'
+  serviceCategory?: string
+  serviceDescription?: string
+  billingMethod?: 'HOURLY' | 'FIXED' | 'MILESTONE'
+}
+
+type ReturnLineItem = ItemLineItem | ServiceLineItem
 
 interface TaxSummary {
   taxCode: string
@@ -105,6 +124,7 @@ interface Return {
   postingDate: string
   type: ReturnType
   status: ReturnStatus
+  formType: FormType
 
   // Customer Information
   customerCode: string
@@ -122,6 +142,8 @@ interface Return {
 
   // Line Items
   lineItems: ReturnLineItem[]
+  itemLineItems: ItemLineItem[]
+  serviceLineItems: ServiceLineItem[]
 
   // Tax Information
   taxSummary: TaxSummary[]
@@ -178,6 +200,21 @@ interface ReturnFormData {
   carrier?: string
   estimatedReturnDate?: string
   lineItems: Omit<ReturnLineItem, 'id' | 'lineTotal' | 'returnedQuantity'>[]
+  serviceItems: Array<{
+    sno: string
+    description: string
+    discount: number
+    total: number
+    taxCode: string
+    taxAmount: number
+    dimension1: string
+    dimension2: string
+    dimension3: string
+    dimension4: string
+    warehouse: string
+    project: string
+    returnReason: string
+  }>
 }
 
 interface ReturnResponse {
@@ -216,6 +253,7 @@ interface ReturnStatsResponse {
 interface ReturnFilters {
   status?: ReturnStatus[]
   type?: ReturnType[]
+  formType?: FormType[]
   customerCode?: string
   salesPerson?: string
   dateFrom?: string
@@ -229,11 +267,14 @@ interface ReturnValidationResult {
   warnings: string[]
 }
 
-export { ReturnStatus, ReturnType, ReturnReason, Currency, TaxType }
+export { FormType, ReturnStatus, ReturnType, ReturnReason, Currency, TaxType }
 
 export type {
   Customer,
   CustomerAddress,
+  BaseLineItem,
+  ItemLineItem,
+  ServiceLineItem,
   ReturnLineItem,
   TaxSummary,
   Return,

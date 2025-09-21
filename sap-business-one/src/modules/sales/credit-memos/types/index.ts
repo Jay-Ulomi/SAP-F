@@ -1,6 +1,11 @@
 // Credit Memos Types and Interfaces
 
 // Enums
+export enum FormType {
+  ITEM = 'Item',
+  SERVICE = 'Service',
+}
+
 export enum CreditMemoStatus {
   DRAFT = 'DRAFT',
   OPEN = 'OPEN',
@@ -60,7 +65,7 @@ export interface CustomerAddress {
   country: string
 }
 
-export interface CreditMemoLineItem {
+export interface BaseLineItem {
   id: string
   itemCode: string
   description: string
@@ -74,10 +79,24 @@ export interface CreditMemoLineItem {
   originalInvoiceId?: string
   originalInvoiceLineId?: string
   returnReason?: CreditMemoReason
-  warehouseCode?: string
+}
+
+export interface ItemLineItem extends BaseLineItem {
+  itemType: 'INVENTORY'
+  warehouseCode: string
   serialNumbers?: string[]
   batchNumbers?: string[]
+  binLocation?: string
 }
+
+export interface ServiceLineItem extends BaseLineItem {
+  itemType: 'SERVICE'
+  serviceCategory?: string
+  serviceDescription?: string
+  billingMethod?: 'HOURLY' | 'FIXED' | 'MILESTONE'
+}
+
+export type CreditMemoLineItem = ItemLineItem | ServiceLineItem
 
 export interface TaxSummary {
   taxCode: string
@@ -106,11 +125,14 @@ export interface CreditMemo {
   postingDate: string
   status: CreditMemoStatus
   type: CreditMemoType
+  formType: FormType
   currency: Currency
   exchangeRate: number
 
   // Line Items
   lineItems: CreditMemoLineItem[]
+  itemLineItems: ItemLineItem[]
+  serviceLineItems: ServiceLineItem[]
 
   // Totals
   subtotal: number
@@ -206,6 +228,7 @@ export interface CreditMemoStatsResponse {
 export interface CreditMemoFilters {
   status?: CreditMemoStatus[]
   type?: CreditMemoType[]
+  formType?: FormType[]
   customerCode?: string
   salesPerson?: string
   dateFrom?: string
@@ -228,6 +251,9 @@ export type {
   CreditMemoFormData,
   CreditMemoFilters,
   Customer,
+  BaseLineItem,
+  ItemLineItem,
+  ServiceLineItem,
   CreditMemoLineItem,
   TaxSummary,
   ApplicationInfo,

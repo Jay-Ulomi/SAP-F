@@ -9,8 +9,9 @@ import type {
   Customer,
   CreditMemoStatus,
   CreditMemoType,
+  FormType,
 } from '../types'
-import { CreditMemoStatus, CreditMemoType } from '../types'
+import { CreditMemoStatus, CreditMemoType, FormType } from '../types'
 
 export const useCreditMemosStore = defineStore('creditMemos', () => {
   // State
@@ -42,6 +43,7 @@ export const useCreditMemosStore = defineStore('creditMemos', () => {
     amountTo: undefined,
     currency: undefined,
     unapplied: false,
+    formType: [],
   })
 
   // Computed Properties
@@ -64,6 +66,28 @@ export const useCreditMemosStore = defineStore('creditMemos', () => {
       {} as Record<CreditMemoType, number>,
     )
   })
+
+  const creditMemosByFormType = computed(() => {
+    const grouped = creditMemos.value.reduce(
+      (acc, memo) => {
+        const formType = memo.formType
+        if (!acc[formType]) acc[formType] = []
+        acc[formType].push(memo)
+        return acc
+      },
+      {} as Record<FormType, CreditMemo[]>,
+    )
+
+    return grouped
+  })
+
+  const itemCreditMemos = computed(() =>
+    creditMemos.value.filter((m) => m.formType === FormType.ITEM),
+  )
+
+  const serviceCreditMemos = computed(() =>
+    creditMemos.value.filter((m) => m.formType === FormType.SERVICE),
+  )
 
   const draftCreditMemos = computed(() =>
     creditMemos.value.filter((memo) => memo.status === CreditMemoStatus.DRAFT),
@@ -417,6 +441,7 @@ export const useCreditMemosStore = defineStore('creditMemos', () => {
       amountTo: undefined,
       currency: undefined,
       unapplied: false,
+      formType: [],
     }
   }
 
@@ -435,6 +460,9 @@ export const useCreditMemosStore = defineStore('creditMemos', () => {
     // Computed
     creditMemosByStatus,
     creditMemosByType,
+    creditMemosByFormType,
+    itemCreditMemos,
+    serviceCreditMemos,
     draftCreditMemos,
     openCreditMemos,
     appliedCreditMemos,

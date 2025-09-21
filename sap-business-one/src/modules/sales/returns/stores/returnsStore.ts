@@ -9,7 +9,7 @@ import {
   salesOrdersApi,
 } from '../api/returnsApi'
 import type { Return, ReturnFormData, ReturnFilters, ReturnStatsResponse, Customer } from '../types'
-import { ReturnStatus, ReturnType } from '../types'
+import { ReturnStatus, ReturnType, FormType } from '../types'
 
 export const useReturnsStore = defineStore('returns', () => {
   // State
@@ -37,6 +37,7 @@ export const useReturnsStore = defineStore('returns', () => {
     dateFrom: '',
     dateTo: '',
     search: '',
+    formType: [],
   })
 
   // Computed Properties
@@ -67,6 +68,26 @@ export const useReturnsStore = defineStore('returns', () => {
 
     return grouped
   })
+
+  const returnsByFormType = computed(() => {
+    const grouped = returns.value.reduce(
+      (acc, ret) => {
+        const formType = ret.formType
+        if (!acc[formType]) acc[formType] = []
+        acc[formType].push(ret)
+        return acc
+      },
+      {} as Record<FormType, Return[]>,
+    )
+
+    return grouped
+  })
+
+  const itemReturns = computed(() => returns.value.filter((r) => r.formType === FormType.ITEM))
+
+  const serviceReturns = computed(() =>
+    returns.value.filter((r) => r.formType === FormType.SERVICE),
+  )
 
   const draftReturns = computed(() => returns.value.filter((r) => r.status === ReturnStatus.DRAFT))
 
@@ -517,6 +538,7 @@ export const useReturnsStore = defineStore('returns', () => {
       dateFrom: '',
       dateTo: '',
       search: '',
+      formType: [],
     }
     pagination.value.page = 1
   }
@@ -527,6 +549,27 @@ export const useReturnsStore = defineStore('returns', () => {
 
   const clearCurrentReturn = () => {
     currentReturn.value = null
+  }
+
+  const exportReturns = async (filters: ReturnFilters) => {
+    try {
+      loading.value = true
+      error.value = null
+
+      const response = await returnsApi.export(filters)
+
+      if (response.success) {
+        return { success: true, data: response.data }
+      } else {
+        error.value = response.message || 'Failed to export returns'
+        return { success: false, message: response.message }
+      }
+    } catch (err) {
+      error.value = err instanceof Error ? err.message : 'An error occurred'
+      return { success: false, message: error.value }
+    } finally {
+      loading.value = false
+    }
   }
 
   return {
@@ -544,6 +587,9 @@ export const useReturnsStore = defineStore('returns', () => {
     // Computed
     returnsByStatus,
     returnsByType,
+    returnsByFormType,
+    itemReturns,
+    serviceReturns,
     draftReturns,
     openReturns,
     approvedReturns,
@@ -578,5 +624,6 @@ export const useReturnsStore = defineStore('returns', () => {
     clearFilters,
     clearError,
     clearCurrentReturn,
+    exportReturns,
   }
 })

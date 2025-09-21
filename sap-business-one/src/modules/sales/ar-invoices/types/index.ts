@@ -1,6 +1,11 @@
 // A/R Invoices Types and Interfaces
 
 // Enums
+export enum FormType {
+  ITEM = 'Item',
+  SERVICE = 'Service',
+}
+
 export enum InvoiceStatus {
   DRAFT = 'DRAFT',
   OPEN = 'OPEN',
@@ -66,7 +71,7 @@ export interface CustomerAddress {
   country: string
 }
 
-export interface InvoiceLineItem {
+export interface BaseLineItem {
   id: string
   itemCode: string
   description: string
@@ -77,10 +82,24 @@ export interface InvoiceLineItem {
   taxCode: string
   taxRate: number
   lineTotal: number
-  warehouseCode?: string
+}
+
+export interface ItemLineItem extends BaseLineItem {
+  itemType: 'INVENTORY'
+  warehouseCode: string
   serialNumbers?: string[]
   batchNumbers?: string[]
+  binLocation?: string
 }
+
+export interface ServiceLineItem extends BaseLineItem {
+  itemType: 'SERVICE'
+  serviceCategory?: string
+  serviceDescription?: string
+  billingMethod?: 'HOURLY' | 'FIXED' | 'MILESTONE'
+}
+
+export type InvoiceLineItem = ItemLineItem | ServiceLineItem
 
 export interface TaxSummary {
   taxCode: string
@@ -110,11 +129,14 @@ export interface ArInvoice {
   postingDate: string
   status: InvoiceStatus
   type: InvoiceType
+  formType: FormType
   currency: Currency
   exchangeRate: number
 
   // Line Items
   lineItems: InvoiceLineItem[]
+  itemLineItems: ItemLineItem[]
+  serviceLineItems: ServiceLineItem[]
 
   // Totals
   subtotal: number
@@ -212,6 +234,7 @@ export interface ArInvoiceStatsResponse {
 export interface ArInvoiceFilters {
   status?: InvoiceStatus[]
   type?: InvoiceType[]
+  formType?: FormType[]
   customerCode?: string
   salesPerson?: string
   dateFrom?: string
@@ -234,6 +257,9 @@ export type {
   ArInvoiceFormData,
   ArInvoiceFilters,
   Customer,
+  BaseLineItem,
+  ItemLineItem,
+  ServiceLineItem,
   InvoiceLineItem,
   TaxSummary,
   PaymentInfo,

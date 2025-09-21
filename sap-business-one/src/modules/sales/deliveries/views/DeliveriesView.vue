@@ -170,8 +170,8 @@
               class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
             >
               <option value="">All Types</option>
-              <option v-for="type in Object.values(DeliveryType)" :key="type" :value="type">
-                {{ formatDeliveryType(type) }}
+              <option v-for="type in formTypes" :key="type" :value="type">
+                {{ type }}
               </option>
             </select>
           </div>
@@ -417,6 +417,30 @@
                 Date
               </th>
               <th
+                v-if="!selectedType || selectedType === 'Item'"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Items
+              </th>
+              <th
+                v-if="!selectedType || selectedType === 'Item'"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Warehouse
+              </th>
+              <th
+                v-if="!selectedType || selectedType === 'Service'"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Services
+              </th>
+              <th
+                v-if="!selectedType || selectedType === 'Service'"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Description
+              </th>
+              <th
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
                 Status
@@ -456,6 +480,32 @@
                 <div class="text-sm text-gray-900">{{ formatDate(delivery.deliveryDate) }}</div>
                 <div class="text-sm text-gray-500">{{ formatDate(delivery.postingDate) }}</div>
               </td>
+              <td
+                v-if="!selectedType || selectedType === 'Item'"
+                class="px-6 py-4 whitespace-nowrap"
+              >
+                <div class="text-sm text-gray-900">{{ getItemsSummary(delivery) }}</div>
+                <div class="text-xs text-gray-500">{{ getItemCount(delivery) }} item(s)</div>
+              </td>
+              <td
+                v-if="!selectedType || selectedType === 'Item'"
+                class="px-6 py-4 whitespace-nowrap"
+              >
+                <div class="text-sm text-gray-900">{{ getPrimaryWarehouse(delivery) }}</div>
+              </td>
+              <td
+                v-if="!selectedType || selectedType === 'Service'"
+                class="px-6 py-4 whitespace-nowrap"
+              >
+                <div class="text-sm text-gray-900">{{ getServicesSummary(delivery) }}</div>
+                <div class="text-xs text-gray-500">{{ getServiceCount(delivery) }} service(s)</div>
+              </td>
+              <td
+                v-if="!selectedType || selectedType === 'Service'"
+                class="px-6 py-4 whitespace-nowrap"
+              >
+                <div class="text-sm text-gray-900">{{ getServiceDescription(delivery) }}</div>
+              </td>
               <td class="px-6 py-4 whitespace-nowrap">
                 <span
                   class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
@@ -465,7 +515,12 @@
                 </span>
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
-                <span class="text-sm text-gray-900">{{ formatDeliveryType(delivery.type) }}</span>
+                <span
+                  class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
+                  :class="delivery.type === 'Item' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'"
+                >
+                  {{ delivery.type || 'Item' }}
+                </span>
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="text-sm font-medium text-gray-900">
@@ -605,9 +660,12 @@ const filters = ref({
   search: '',
 })
 
+const selectedType = ref('')
+
 // Computed properties
 const stats = computed(() => store.stats)
 const pagination = computed(() => store.pagination)
+const formTypes = computed(() => ['Item', 'Service'])
 
 const hasActiveFilters = computed(() => {
   return (
@@ -830,6 +888,52 @@ const getStatusBadgeClass = (status: string) => {
     default:
       return 'bg-gray-100 text-gray-800'
   }
+}
+
+// Helper functions for Item/Service display
+const getItemsSummary = (record) => {
+  if (!record.lineItems || record.lineItems.length === 0) return 'No items'
+  const firstItem = record.lineItems[0]
+  if (record.lineItems.length === 1) {
+    return firstItem.itemCode || firstItem.description || 'Item'
+  }
+  return `${firstItem.itemCode || firstItem.description || 'Item'} +${record.lineItems.length - 1} more`
+}
+
+const getItemCount = (record) => {
+  return record.lineItems?.length || 0
+}
+
+const getPrimaryWarehouse = (record) => {
+  if (!record.lineItems || record.lineItems.length === 0) return '-'
+  const warehouses = [...new Set(record.lineItems.map(item => item.warehouseCode).filter(Boolean))]
+  if (warehouses.length === 0) return '-'
+  if (warehouses.length === 1) return warehouses[0]
+  return `${warehouses[0]} +${warehouses.length - 1} more`
+}
+
+const getServicesSummary = (record) => {
+  if (!record.serviceItems || record.serviceItems.length === 0) return 'No services'
+  const firstService = record.serviceItems[0]
+  if (record.serviceItems.length === 1) {
+    return firstService.description || 'Service'
+  }
+  return `${firstService.description || 'Service'} +${record.serviceItems.length - 1} more`
+}
+
+const getServiceCount = (record) => {
+  return record.serviceItems?.length || 0
+}
+
+const getServiceDescription = (record) => {
+  if (!record.serviceItems || record.serviceItems.length === 0) return '-'
+  const descriptions = record.serviceItems
+    .map(service => service.description)
+    .filter(Boolean)
+    .slice(0, 2)
+  if (descriptions.length === 0) return '-'
+  if (descriptions.length === 1) return descriptions[0]
+  return descriptions.join(', ') + (record.serviceItems.length > 2 ? '...' : '')
 }
 
 // Lifecycle

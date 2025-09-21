@@ -1,10 +1,10 @@
 <template>
-  <div class="p-6 bg-gray-50 min-h-screen">
-    <div class="flex justify-between items-center mb-6">
-      <h1 class="text-3xl font-bold text-gray-900">System Utilities</h1>
+  <div class="p-4 lg:p-6 bg-gray-50 min-h-screen max-w-full overflow-hidden">
+    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
+      <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">System Utilities</h1>
       <button
         @click="openCreateModal"
-        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-sap-blue hover:bg-sap-blue-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue"
+        class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-sap-blue hover:bg-sap-blue-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue w-full sm:w-auto"
       >
         <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
@@ -19,49 +19,49 @@
     </div>
 
     <!-- Statistics Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-      <div class="bg-white shadow rounded-lg p-5 flex items-center justify-between">
-        <div>
-          <p class="text-sm font-medium text-gray-500">Active Tasks</p>
-          <p class="text-2xl font-semibold text-gray-900">{{ stats?.activeTasks || 0 }}</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 lg:gap-4 mb-6">
+      <div class="bg-white shadow rounded-lg p-4 sm:p-5 flex items-center justify-between">
+        <div class="flex-1 min-w-0">
+          <p class="text-xs sm:text-sm font-medium text-gray-500">Active Tasks</p>
+          <p class="text-xl sm:text-2xl font-semibold text-gray-900 truncate">{{ stats?.activeTasks || 0 }}</p>
         </div>
-        <div class="w-8 h-8 bg-green-100 rounded-md flex items-center justify-center">
+        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-green-100 rounded-md flex items-center justify-center flex-shrink-0 ml-3">
           <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         </div>
       </div>
 
-      <div class="bg-white shadow rounded-lg p-5 flex items-center justify-between">
-        <div>
-          <p class="text-sm font-medium text-gray-500">Scheduled Tasks</p>
-          <p class="text-2xl font-semibold text-gray-900">{{ stats?.scheduledTasks || 0 }}</p>
+      <div class="bg-white shadow rounded-lg p-4 sm:p-5 flex items-center justify-between">
+        <div class="flex-1 min-w-0">
+          <p class="text-xs sm:text-sm font-medium text-gray-500">Scheduled Tasks</p>
+          <p class="text-xl sm:text-2xl font-semibold text-gray-900 truncate">{{ stats?.scheduledTasks || 0 }}</p>
         </div>
-        <div class="w-8 h-8 bg-blue-100 rounded-md flex items-center justify-center">
+        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-blue-100 rounded-md flex items-center justify-center flex-shrink-0 ml-3">
           <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         </div>
       </div>
 
-      <div class="bg-white shadow rounded-lg p-5 flex items-center justify-between">
-        <div>
-          <p class="text-sm font-medium text-gray-500">Database Size</p>
-          <p class="text-2xl font-semibold text-gray-900">{{ formatFileSize(stats?.databaseSize || 0) }}</p>
+      <div class="bg-white shadow rounded-lg p-4 sm:p-5 flex items-center justify-between">
+        <div class="flex-1 min-w-0">
+          <p class="text-xs sm:text-sm font-medium text-gray-500">Database Size</p>
+          <p class="text-xl sm:text-2xl font-semibold text-gray-900 truncate">{{ formatFileSize(stats?.databaseSize || 0) }}</p>
         </div>
-        <div class="w-8 h-8 bg-purple-100 rounded-md flex items-center justify-center">
+        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-purple-100 rounded-md flex items-center justify-center flex-shrink-0 ml-3">
           <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
           </svg>
         </div>
       </div>
 
-      <div class="bg-white shadow rounded-lg p-5 flex items-center justify-between">
-        <div>
-          <p class="text-sm font-medium text-gray-500">Last Backup</p>
-          <p class="text-2xl font-semibold text-gray-900">{{ formatTimeAgo(stats?.lastBackup) || 'Never' }}</p>
+      <div class="bg-white shadow rounded-lg p-4 sm:p-5 flex items-center justify-between">
+        <div class="flex-1 min-w-0">
+          <p class="text-xs sm:text-sm font-medium text-gray-500">Last Backup</p>
+          <p class="text-xl sm:text-2xl font-semibold text-gray-900 truncate">{{ formatTimeAgo(stats?.lastBackup) || 'Never' }}</p>
         </div>
-        <div class="w-8 h-8 bg-yellow-100 rounded-md flex items-center justify-center">
+        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-yellow-100 rounded-md flex items-center justify-center flex-shrink-0 ml-3">
           <svg class="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
           </svg>
@@ -70,33 +70,33 @@
     </div>
 
     <!-- Filters Section -->
-    <div class="bg-white shadow rounded-lg p-6 mb-6">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-medium text-gray-900">Utility Filters</h3>
+    <div class="bg-white shadow rounded-lg p-4 lg:p-6 mb-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+        <h3 class="text-base sm:text-lg font-medium text-gray-900">Utility Filters</h3>
         <button
           @click="clearFilters"
-          class="text-sm text-sap-blue hover:text-sap-dark-blue"
+          class="text-xs sm:text-sm text-sap-blue hover:text-sap-dark-blue self-start sm:self-auto"
         >
           Clear All Filters
         </button>
       </div>
-      
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Search Tasks</label>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 lg:gap-4">
+        <div class="sm:col-span-2 xl:col-span-1">
+          <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Search Tasks</label>
           <input
             v-model="searchQuery"
             type="text"
             placeholder="Search utility tasks..."
-            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
           />
         </div>
-        
+
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Task Type</label>
+          <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Task Type</label>
           <select
             v-model="selectedType"
-            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
           >
             <option value="">All Types</option>
             <option value="BACKUP">Backup</option>
@@ -109,10 +109,10 @@
         </div>
         
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+          <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Status</label>
           <select
             v-model="selectedStatus"
-            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
           >
             <option value="">All Statuses</option>
             <option value="COMPLETED">Completed</option>
@@ -124,10 +124,10 @@
         </div>
         
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Priority</label>
+          <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Priority</label>
           <select
             v-model="selectedPriority"
-            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
           >
             <option value="">All Priorities</option>
             <option value="CRITICAL">Critical</option>
@@ -140,59 +140,59 @@
     </div>
 
     <!-- Quick Actions Section -->
-    <div class="bg-white shadow rounded-lg p-6 mb-6">
-      <h3 class="text-lg font-medium text-gray-900 mb-4">Quick Actions</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="bg-white shadow rounded-lg p-4 lg:p-6 mb-6">
+      <h3 class="text-base sm:text-lg font-medium text-gray-900 mb-4">Quick Actions</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 lg:gap-4">
         <button
           @click="executeQuickAction('backup')"
           :disabled="quickActionLoading"
-          class="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-sap-blue hover:bg-blue-50 transition-colors disabled:opacity-50"
+          class="p-3 sm:p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-sap-blue hover:bg-blue-50 transition-colors disabled:opacity-50"
         >
           <div class="flex flex-col items-center">
-            <svg class="w-8 h-8 text-blue-600 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-6 h-6 sm:w-8 sm:h-8 text-blue-600 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
             </svg>
-            <span class="text-sm font-medium text-gray-900">Run Backup</span>
+            <span class="text-xs sm:text-sm font-medium text-gray-900 text-center">Run Backup</span>
           </div>
         </button>
         
         <button
           @click="executeQuickAction('cleanup')"
           :disabled="quickActionLoading"
-          class="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-sap-blue hover:bg-blue-50 transition-colors disabled:opacity-50"
+          class="p-3 sm:p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-sap-blue hover:bg-blue-50 transition-colors disabled:opacity-50"
         >
           <div class="flex flex-col items-center">
-            <svg class="w-8 h-8 text-green-600 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-6 h-6 sm:w-8 sm:h-8 text-green-600 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
             </svg>
-            <span class="text-sm font-medium text-gray-900">Cleanup Files</span>
+            <span class="text-xs sm:text-sm font-medium text-gray-900 text-center">Cleanup Files</span>
           </div>
         </button>
         
         <button
           @click="executeQuickAction('optimize')"
           :disabled="quickActionLoading"
-          class="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-sap-blue hover:bg-blue-50 transition-colors disabled:opacity-50"
+          class="p-3 sm:p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-sap-blue hover:bg-blue-50 transition-colors disabled:opacity-50"
         >
           <div class="flex flex-col items-center">
-            <svg class="w-8 h-8 text-purple-600 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-6 h-6 sm:w-8 sm:h-8 text-purple-600 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
-            <span class="text-sm font-medium text-gray-900">Optimize DB</span>
+            <span class="text-xs sm:text-sm font-medium text-gray-900 text-center">Optimize DB</span>
           </div>
         </button>
         
         <button
           @click="executeQuickAction('maintenance')"
           :disabled="quickActionLoading"
-          class="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-sap-blue hover:bg-blue-50 transition-colors disabled:opacity-50"
+          class="p-3 sm:p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-sap-blue hover:bg-blue-50 transition-colors disabled:opacity-50"
         >
           <div class="flex flex-col items-center">
-            <svg class="w-8 h-8 text-orange-600 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-6 h-6 sm:w-8 sm:h-8 text-orange-600 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
-            <span class="text-sm font-medium text-gray-900">Maintenance</span>
+            <span class="text-xs sm:text-sm font-medium text-gray-900 text-center">Maintenance</span>
           </div>
         </button>
       </div>
@@ -200,8 +200,8 @@
 
     <!-- Utility Tasks Table -->
     <div class="bg-white shadow rounded-lg overflow-hidden">
-      <div class="px-6 py-4 border-b border-gray-200">
-        <h2 class="text-lg font-medium text-gray-900">Utility Tasks</h2>
+      <div class="px-4 lg:px-6 py-4 border-b border-gray-200">
+        <h2 class="text-base sm:text-lg font-medium text-gray-900">Utility Tasks</h2>
       </div>
       
       <div v-if="loading" class="p-6 text-center">
@@ -241,36 +241,36 @@
         <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-50">
             <tr>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="px-3 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Task
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="hidden sm:table-cell px-3 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Type
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="px-3 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Status
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="hidden lg:table-cell px-3 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Progress
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="hidden xl:table-cell px-3 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Next Run
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="hidden xl:table-cell px-3 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Duration
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="px-3 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Actions
               </th>
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
             <tr v-for="task in filteredTasks" :key="task.id" class="hover:bg-gray-50">
-              <td class="px-6 py-4 whitespace-nowrap">
+              <td class="px-3 lg:px-6 py-4">
                 <div class="flex items-center">
-                  <div class="flex-shrink-0 h-10 w-10">
+                  <div class="flex-shrink-0 h-8 w-8 sm:h-10 sm:w-10">
                     <div
-                      class="h-10 w-10 rounded-full flex items-center justify-center"
+                      class="h-8 w-8 sm:h-10 sm:w-10 rounded-full flex items-center justify-center"
                       :class="{
                         'bg-green-100': task.status === 'COMPLETED',
                         'bg-blue-100': task.status === 'RUNNING',
@@ -279,8 +279,8 @@
                         'bg-gray-100': task.status === 'PAUSED'
                       }"
                     >
-                      <svg 
-                        class="w-5 h-5"
+                      <svg
+                        class="w-4 h-4 sm:w-5 sm:h-5"
                         :class="{
                           'text-green-600': task.status === 'COMPLETED',
                           'text-blue-600': task.status === 'RUNNING',
@@ -295,18 +295,23 @@
                       </svg>
                     </div>
                   </div>
-                  <div class="ml-4">
-                    <div class="text-sm font-medium text-gray-900">{{ task.name }}</div>
-                    <div class="text-sm text-gray-500">{{ task.description || 'No description' }}</div>
+                  <div class="ml-2 sm:ml-4 min-w-0 flex-1">
+                    <div class="text-xs sm:text-sm font-medium text-gray-900 truncate">{{ task.name }}</div>
+                    <div class="text-xs text-gray-500 truncate sm:block hidden">{{ task.description || 'No description' }}</div>
+                    <div class="sm:hidden mt-1">
+                      <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                        {{ formatType(task.type) }}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap">
+              <td class="hidden sm:table-cell px-3 lg:px-6 py-4 whitespace-nowrap">
                 <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
                   {{ formatType(task.type) }}
                 </span>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap">
+              <td class="px-3 lg:px-6 py-4 whitespace-nowrap">
                 <span
                   class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
                   :class="{
@@ -320,39 +325,39 @@
                   {{ formatStatus(task.status) }}
                 </span>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap">
+              <td class="hidden lg:table-cell px-3 lg:px-6 py-4 whitespace-nowrap">
                 <div class="w-full bg-gray-200 rounded-full h-2">
-                  <div 
+                  <div
                     class="bg-sap-blue h-2 rounded-full transition-all duration-300"
                     :style="{ width: `${task.progress || 0}%` }"
                   ></div>
                 </div>
                 <div class="text-xs text-gray-500 mt-1">{{ task.progress || 0 }}%</div>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              <td class="hidden xl:table-cell px-3 lg:px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-gray-900">
                 {{ task.nextRun ? formatDate(task.nextRun) : 'Manual' }}
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              <td class="hidden xl:table-cell px-3 lg:px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-gray-900">
                 {{ task.duration || 'N/A' }}
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                <div class="flex space-x-2">
+              <td class="px-3 lg:px-6 py-4 whitespace-nowrap text-xs sm:text-sm font-medium">
+                <div class="flex flex-col sm:flex-row gap-1 sm:gap-2">
                   <button @click="viewTask(task)" class="text-sap-blue hover:text-sap-dark-blue">
                     View
                   </button>
                   <button @click="editTask(task)" class="text-indigo-600 hover:text-indigo-900">
                     Edit
                   </button>
-                  <button 
+                  <button
                     v-if="task.status === 'SCHEDULED' || task.status === 'PAUSED'"
-                    @click="runTask(task.id)" 
+                    @click="runTask(task.id)"
                     class="text-green-600 hover:text-green-900"
                   >
                     Run
                   </button>
-                  <button 
+                  <button
                     v-if="task.status === 'RUNNING'"
-                    @click="pauseTask(task.id)" 
+                    @click="pauseTask(task.id)"
                     class="text-yellow-600 hover:text-yellow-900"
                   >
                     Pause
@@ -368,7 +373,7 @@
       </div>
 
       <!-- Pagination -->
-      <div v-if="filteredTasks.length > 0" class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+      <div v-if="filteredTasks.length > 0" class="bg-white px-3 lg:px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
         <div class="flex-1 flex justify-between sm:hidden">
           <button
             @click="previousPage"
@@ -427,12 +432,12 @@
 
     <!-- Create/Edit Task Modal -->
     <div v-if="isCreateModalOpen" class="fixed inset-0 z-50 overflow-y-auto">
-      <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <div class="flex items-end justify-center min-h-screen pt-4 px-2 sm:px-4 pb-20 text-center sm:block sm:p-0">
         <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
         <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-        <div class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full sm:p-6">
+        <div class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full sm:p-6 mx-2 sm:mx-auto">
           <div class="flex items-center justify-between mb-4">
-            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+            <h3 class="text-base sm:text-lg leading-6 font-medium text-gray-900" id="modal-title">
               {{ taskToEdit ? 'Edit Utility Task' : 'Create New Utility Task' }}
             </h3>
             <button @click="closeCreateModal" type="button" class="bg-white rounded-md text-gray-400 hover:text-gray-600 focus:outline-none">
@@ -442,28 +447,28 @@
               </svg>
             </button>
           </div>
-          
-          <form @submit.prevent="handleSubmitTask" class="space-y-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          <form @submit.prevent="handleSubmitTask" class="space-y-4 sm:space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
               <div>
-                <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Task Name</label>
+                <label for="name" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Task Name</label>
                 <input
                   id="name"
                   v-model="formData.name"
                   type="text"
                   required
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                   placeholder="Enter task name"
                 />
               </div>
-              
+
               <div>
-                <label for="type" class="block text-sm font-medium text-gray-700 mb-2">Task Type</label>
+                <label for="type" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Task Type</label>
                 <select
                   id="type"
                   v-model="formData.type"
                   required
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                 >
                   <option value="">Select Type</option>
                   <option value="BACKUP">Backup</option>
@@ -476,12 +481,12 @@
               </div>
               
               <div>
-                <label for="priority" class="block text-sm font-medium text-gray-700 mb-2">Priority</label>
+                <label for="priority" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Priority</label>
                 <select
                   id="priority"
                   v-model="formData.priority"
                   required
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                 >
                   <option value="">Select Priority</option>
                   <option value="CRITICAL">Critical</option>
@@ -492,51 +497,51 @@
               </div>
               
               <div>
-                <label for="schedule" class="block text-sm font-medium text-gray-700 mb-2">Schedule (Cron)</label>
+                <label for="schedule" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Schedule (Cron)</label>
                 <input
                   id="schedule"
                   v-model="formData.schedule"
                   type="text"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                   placeholder="0 2 * * * (Daily at 2 AM)"
                 />
               </div>
-              
-              <div class="md:col-span-2">
-                <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+
+              <div class="lg:col-span-2">
+                <label for="description" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Description</label>
                 <textarea
                   id="description"
                   v-model="formData.description"
                   rows="3"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                   placeholder="Enter task description"
                 ></textarea>
               </div>
-              
-              <div class="md:col-span-2">
-                <label for="settings" class="block text-sm font-medium text-gray-700 mb-2">Task Settings (JSON)</label>
+
+              <div class="lg:col-span-2">
+                <label for="settings" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Task Settings (JSON)</label>
                 <textarea
                   id="settings"
                   v-model="formData.settings"
                   rows="5"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm font-mono"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm font-mono px-3 py-2"
                   placeholder='{"timeout": 3600, "retries": 3}'
                 ></textarea>
               </div>
             </div>
             
-            <div class="flex justify-end space-x-3 pt-6 border-t border-gray-200">
+            <div class="flex flex-col sm:flex-row sm:justify-end gap-3 pt-4 sm:pt-6 border-t border-gray-200">
               <button
                 type="button"
                 @click="closeCreateModal"
-                class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue"
+                class="w-full sm:w-auto px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 :disabled="formLoading"
-                class="inline-flex justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-sap-blue hover:bg-sap-blue-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue disabled:opacity-50 disabled:cursor-not-allowed"
+                class="w-full sm:w-auto inline-flex justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-sap-blue hover:bg-sap-blue-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <svg v-if="formLoading" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -552,12 +557,12 @@
 
     <!-- View Task Modal -->
     <div v-if="isViewModalOpen" class="fixed inset-0 z-50 overflow-y-auto">
-      <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <div class="flex items-end justify-center min-h-screen pt-4 px-2 sm:px-4 pb-20 text-center sm:block sm:p-0">
         <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
         <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-        <div class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-6xl sm:w-full sm:p-6">
-          <div class="flex items-center justify-between mb-6">
-            <h3 class="text-lg leading-6 font-medium text-gray-900">Task Details</h3>
+        <div class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-6xl sm:w-full sm:p-6 mx-2 sm:mx-auto">
+          <div class="flex items-center justify-between mb-4 sm:mb-6">
+            <h3 class="text-base sm:text-lg leading-6 font-medium text-gray-900">Task Details</h3>
             <button @click="closeViewModal" type="button" class="bg-white rounded-md text-gray-400 hover:text-gray-600 focus:outline-none">
               <span class="sr-only">Close</span>
               <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -565,9 +570,9 @@
               </svg>
             </button>
           </div>
-          
+
           <div v-if="selectedTask" class="bg-white">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4 lg:gap-6 mb-4 sm:mb-6">
               <div class="bg-gray-50 p-4 rounded-lg">
                 <dt class="text-sm font-medium text-gray-500 mb-1">Task Name</dt>
                 <dd class="text-sm font-semibold text-gray-900">{{ selectedTask.name }}</dd>
@@ -653,16 +658,16 @@
               <pre class="bg-gray-100 p-4 rounded-lg text-sm overflow-x-auto"><code>{{ JSON.stringify(JSON.parse(selectedTask.settings || '{}'), null, 2) }}</code></pre>
             </div>
             
-            <div class="flex justify-end space-x-3 mt-6 pt-6 border-t border-gray-200">
+            <div class="flex flex-col sm:flex-row sm:justify-end gap-3 mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-gray-200">
               <button
                 @click="editTask(selectedTask)"
-                class="inline-flex justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-sap-blue hover:bg-sap-blue-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue"
+                class="w-full sm:w-auto inline-flex justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-sap-blue hover:bg-sap-blue-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue"
               >
                 Edit Task
               </button>
               <button
                 @click="closeViewModal"
-                class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue"
+                class="w-full sm:w-auto px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue"
               >
                 Close
               </button>

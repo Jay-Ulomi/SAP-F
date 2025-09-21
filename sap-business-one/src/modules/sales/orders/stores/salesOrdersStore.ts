@@ -9,8 +9,9 @@ import type {
   Customer,
   OrderStatus,
   OrderType,
+  FormType,
 } from '../types'
-import { OrderStatus, OrderType } from '../types'
+import { OrderStatus, OrderType, FormType } from '../types'
 
 export const useSalesOrdersStore = defineStore('salesOrders', () => {
   // State
@@ -38,6 +39,7 @@ export const useSalesOrdersStore = defineStore('salesOrders', () => {
     dateFrom: '',
     dateTo: '',
     search: '',
+    formType: [],
   })
 
   // Computed Properties
@@ -68,6 +70,28 @@ export const useSalesOrdersStore = defineStore('salesOrders', () => {
 
     return grouped
   })
+
+  const salesOrdersByFormType = computed(() => {
+    const grouped = salesOrders.value.reduce(
+      (acc, order) => {
+        const formType = order.formType
+        if (!acc[formType]) acc[formType] = []
+        acc[formType].push(order)
+        return acc
+      },
+      {} as Record<FormType, SalesOrder[]>,
+    )
+
+    return grouped
+  })
+
+  const itemOrders = computed(() =>
+    salesOrders.value.filter((o) => o.formType === FormType.ITEM),
+  )
+
+  const serviceOrders = computed(() =>
+    salesOrders.value.filter((o) => o.formType === FormType.SERVICE),
+  )
 
   const draftOrders = computed(() =>
     salesOrders.value.filter((o) => o.status === OrderStatus.DRAFT),
@@ -381,6 +405,7 @@ export const useSalesOrdersStore = defineStore('salesOrders', () => {
       dateFrom: '',
       dateTo: '',
       search: '',
+      formType: [],
     }
     pagination.value.page = 1
   }
@@ -408,6 +433,9 @@ export const useSalesOrdersStore = defineStore('salesOrders', () => {
     // Computed
     salesOrdersByStatus,
     salesOrdersByType,
+    salesOrdersByFormType,
+    itemOrders,
+    serviceOrders,
     draftOrders,
     openOrders,
     releasedOrders,

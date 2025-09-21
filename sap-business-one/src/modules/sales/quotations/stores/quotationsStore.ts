@@ -9,8 +9,9 @@ import type {
   Customer,
   QuotationStatus,
   QuotationType,
+  FormType,
 } from '../types'
-import { QuotationStatus, QuotationType } from '../types'
+import { QuotationStatus, QuotationType, FormType } from '../types'
 
 export const useQuotationsStore = defineStore('quotations', () => {
   // State
@@ -38,6 +39,7 @@ export const useQuotationsStore = defineStore('quotations', () => {
     dateFrom: '',
     dateTo: '',
     search: '',
+    formType: [],
   })
 
   // Computed Properties
@@ -68,6 +70,28 @@ export const useQuotationsStore = defineStore('quotations', () => {
 
     return grouped
   })
+
+  const quotationsByFormType = computed(() => {
+    const grouped = quotations.value.reduce(
+      (acc, quotation) => {
+        const formType = quotation.formType
+        if (!acc[formType]) acc[formType] = []
+        acc[formType].push(quotation)
+        return acc
+      },
+      {} as Record<FormType, Quotation[]>,
+    )
+
+    return grouped
+  })
+
+  const itemQuotations = computed(() =>
+    quotations.value.filter((q) => q.formType === FormType.ITEM),
+  )
+
+  const serviceQuotations = computed(() =>
+    quotations.value.filter((q) => q.formType === FormType.SERVICE),
+  )
 
   const draftQuotations = computed(() =>
     quotations.value.filter((q) => q.status === QuotationStatus.DRAFT),
@@ -421,6 +445,7 @@ export const useQuotationsStore = defineStore('quotations', () => {
       dateFrom: '',
       dateTo: '',
       search: '',
+      formType: [],
     }
     pagination.value.page = 1
   }
@@ -448,6 +473,9 @@ export const useQuotationsStore = defineStore('quotations', () => {
     // Computed
     quotationsByStatus,
     quotationsByType,
+    quotationsByFormType,
+    itemQuotations,
+    serviceQuotations,
     draftQuotations,
     sentQuotations,
     acceptedQuotations,

@@ -123,13 +123,32 @@ export interface ApCreditMemo {
   updatedAt: string
 }
 
+export interface ServiceItem {
+  description: string
+  discount: number
+  totalLC: number
+  taxCode: string
+  dimension1?: string
+  dimension2?: string
+  dimension3?: string
+  dimension4?: string
+  warehouse?: string
+}
+
 export interface ApCreditMemoFormData {
+  series?: string
+  validTill?: string
+  requiredDate?: string
+  contactPerson?: string
+  referenceNo?: string
+  requestType?: string
+  remarks?: string
   vendorCode: string
   vendorName: string
   creditMemoNumber: string
   creditMemoDate: string
   postingDate: string
-  type: ApCreditMemoType
+  type: string
   currency: Currency
   exchangeRate: number
   paymentTerms: PaymentTerms
@@ -139,7 +158,10 @@ export interface ApCreditMemoFormData {
   projectCode?: string
   costCenter?: string
   notes?: string
-  lineItems: Omit<ApCreditMemoLineItem, 'id' | 'lineTotal' | 'taxAmount'>[]
+  freightType?: string
+  freightAmount?: number
+  lineItems: any[]
+  serviceItems: ServiceItem[]
 }
 
 export interface ApCreditMemoFilters {

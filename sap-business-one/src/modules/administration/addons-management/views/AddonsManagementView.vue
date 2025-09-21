@@ -1,10 +1,10 @@
 <template>
-  <div class="p-6 bg-gray-50 min-h-screen">
-    <div class="flex justify-between items-center mb-6">
-      <h1 class="text-3xl font-bold text-gray-900">Add-Ons Management</h1>
+  <div class="p-4 lg:p-6 bg-gray-50 min-h-screen max-w-full overflow-hidden">
+    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
+      <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Add-Ons Management</h1>
       <button
         @click="openCreateModal"
-        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-sap-blue hover:bg-sap-blue-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue"
+        class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-sap-blue hover:bg-sap-blue-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue w-full sm:w-auto"
       >
         <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
@@ -19,49 +19,49 @@
     </div>
 
     <!-- Statistics Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-      <div class="bg-white shadow rounded-lg p-5 flex items-center justify-between">
-        <div>
-          <p class="text-sm font-medium text-gray-500">Installed Add-Ons</p>
-          <p class="text-2xl font-semibold text-gray-900">{{ stats?.installedAddons || 0 }}</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 lg:gap-4 mb-6">
+      <div class="bg-white shadow rounded-lg p-4 sm:p-5 flex items-center justify-between">
+        <div class="flex-1 min-w-0">
+          <p class="text-xs sm:text-sm font-medium text-gray-500">Installed Add-Ons</p>
+          <p class="text-xl sm:text-2xl font-semibold text-gray-900 truncate">{{ stats?.installedAddons || 0 }}</p>
         </div>
-        <div class="w-8 h-8 bg-green-100 rounded-md flex items-center justify-center">
+        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-green-100 rounded-md flex items-center justify-center flex-shrink-0 ml-3">
           <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         </div>
       </div>
 
-      <div class="bg-white shadow rounded-lg p-5 flex items-center justify-between">
-        <div>
-          <p class="text-sm font-medium text-gray-500">Active Add-Ons</p>
-          <p class="text-2xl font-semibold text-gray-900">{{ stats?.activeAddons || 0 }}</p>
+      <div class="bg-white shadow rounded-lg p-4 sm:p-5 flex items-center justify-between">
+        <div class="flex-1 min-w-0">
+          <p class="text-xs sm:text-sm font-medium text-gray-500">Active Add-Ons</p>
+          <p class="text-xl sm:text-2xl font-semibold text-gray-900 truncate">{{ stats?.activeAddons || 0 }}</p>
         </div>
-        <div class="w-8 h-8 bg-blue-100 rounded-md flex items-center justify-center">
+        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-blue-100 rounded-md flex items-center justify-center flex-shrink-0 ml-3">
           <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
           </svg>
         </div>
       </div>
 
-      <div class="bg-white shadow rounded-lg p-5 flex items-center justify-between">
-        <div>
-          <p class="text-sm font-medium text-gray-500">Updates Available</p>
-          <p class="text-2xl font-semibold text-gray-900">{{ stats?.updatesAvailable || 0 }}</p>
+      <div class="bg-white shadow rounded-lg p-4 sm:p-5 flex items-center justify-between">
+        <div class="flex-1 min-w-0">
+          <p class="text-xs sm:text-sm font-medium text-gray-500">Updates Available</p>
+          <p class="text-xl sm:text-2xl font-semibold text-gray-900 truncate">{{ stats?.updatesAvailable || 0 }}</p>
         </div>
-        <div class="w-8 h-8 bg-yellow-100 rounded-md flex items-center justify-center">
+        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-yellow-100 rounded-md flex items-center justify-center flex-shrink-0 ml-3">
           <svg class="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
           </svg>
         </div>
       </div>
 
-      <div class="bg-white shadow rounded-lg p-5 flex items-center justify-between">
-        <div>
-          <p class="text-sm font-medium text-gray-500">Total Cost</p>
-          <p class="text-2xl font-semibold text-gray-900">{{ formatCurrency(stats?.totalCost || 0) }}</p>
+      <div class="bg-white shadow rounded-lg p-4 sm:p-5 flex items-center justify-between">
+        <div class="flex-1 min-w-0">
+          <p class="text-xs sm:text-sm font-medium text-gray-500">Total Cost</p>
+          <p class="text-xl sm:text-2xl font-semibold text-gray-900 truncate">{{ formatCurrency(stats?.totalCost || 0) }}</p>
         </div>
-        <div class="w-8 h-8 bg-purple-100 rounded-md flex items-center justify-center">
+        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-purple-100 rounded-md flex items-center justify-center flex-shrink-0 ml-3">
           <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
           </svg>
@@ -70,33 +70,33 @@
     </div>
 
     <!-- Filters Section -->
-    <div class="bg-white shadow rounded-lg p-6 mb-6">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-medium text-gray-900">Add-On Filters</h3>
+    <div class="bg-white shadow rounded-lg p-4 lg:p-6 mb-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+        <h3 class="text-base sm:text-lg font-medium text-gray-900">Add-On Filters</h3>
         <button
           @click="clearFilters"
-          class="text-sm text-sap-blue hover:text-sap-dark-blue"
+          class="text-xs sm:text-sm text-sap-blue hover:text-sap-dark-blue self-start sm:self-auto"
         >
           Clear All Filters
         </button>
       </div>
-      
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Search Add-Ons</label>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 lg:gap-4">
+        <div class="sm:col-span-2 xl:col-span-1">
+          <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Search Add-Ons</label>
           <input
             v-model="searchQuery"
             type="text"
             placeholder="Search add-ons..."
-            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
           />
         </div>
-        
+
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+          <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Category</label>
           <select
             v-model="selectedCategory"
-            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
           >
             <option value="">All Categories</option>
             <option value="INTEGRATION">Integration</option>
@@ -109,12 +109,12 @@
             <option value="UTILITIES">Utilities</option>
           </select>
         </div>
-        
+
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+          <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Status</label>
           <select
             v-model="selectedStatus"
-            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
           >
             <option value="">All Statuses</option>
             <option value="ACTIVE">Active</option>
@@ -124,12 +124,12 @@
             <option value="ERROR">Error</option>
           </select>
         </div>
-        
+
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">License Type</label>
+          <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">License Type</label>
           <select
             v-model="selectedLicenseType"
-            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
           >
             <option value="">All Types</option>
             <option value="FREE">Free</option>
@@ -142,7 +142,7 @@
     </div>
 
     <!-- Add-Ons Table -->
-    <div class="bg-white shadow rounded-lg overflow-hidden">
+    <div class="bg-white shadow rounded-lg overflow-hidden max-w-full">
       <div class="px-6 py-4 border-b border-gray-200">
         <h2 class="text-lg font-medium text-gray-900">Add-On Management</h2>
       </div>
@@ -179,57 +179,62 @@
         <button @click="openCreateModal" class="btn-primary">Install Add-On</button>
       </div>
 
-      <div v-else class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200">
+      <div v-else class="w-full overflow-x-auto">
+        <table class="w-full divide-y divide-gray-200">
           <thead class="bg-gray-50">
             <tr>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
                 Add-On
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase hidden sm:table-cell">
                 Category
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Status
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase hidden lg:table-cell">
                 Version
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase hidden md:table-cell">
                 License
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase hidden lg:table-cell">
                 Cost
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Actions
               </th>
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
             <tr v-for="addon in filteredAddons" :key="addon.id" class="hover:bg-gray-50">
-              <td class="px-6 py-4 whitespace-nowrap">
+              <td class="px-2 sm:px-4 py-3 whitespace-nowrap">
                 <div class="flex items-center">
-                  <div class="flex-shrink-0 h-10 w-10">
+                  <div class="flex-shrink-0 h-8 w-8 sm:h-10 sm:w-10">
                     <div
-                      class="h-10 w-10 rounded-lg flex items-center justify-center text-white font-medium text-sm"
+                      class="h-8 w-8 sm:h-10 sm:w-10 rounded-lg flex items-center justify-center text-white font-medium text-xs sm:text-sm"
                       :style="{ backgroundColor: addon.iconColor || '#3B82F6' }"
                     >
                       {{ addon.name.charAt(0) }}{{ addon.name.split(' ')[1]?.charAt(0) || '' }}
                     </div>
                   </div>
-                  <div class="ml-4">
-                    <div class="text-sm font-medium text-gray-900">{{ addon.name }}</div>
-                    <div class="text-sm text-gray-500">{{ addon.developer || 'Unknown Developer' }}</div>
+                  <div class="ml-2 sm:ml-4 min-w-0 flex-1">
+                    <div class="text-xs sm:text-sm font-medium text-gray-900 truncate">{{ addon.name }}</div>
+                    <div class="text-xs text-gray-500 truncate">{{ addon.developer || 'Unknown Developer' }}</div>
+                    <div class="sm:hidden mt-1">
+                      <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                        {{ formatCategory(addon.category) }}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap">
+              <td class="px-2 sm:px-4 py-3 whitespace-nowrap hidden sm:table-cell">
                 <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
                   {{ formatCategory(addon.category) }}
                 </span>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap">
+              <td class="px-2 sm:px-4 py-3 whitespace-nowrap">
                 <span
                   class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
                   :class="{
@@ -243,13 +248,13 @@
                   {{ formatStatus(addon.status) }}
                 </span>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              <td class="px-2 sm:px-4 py-3 whitespace-nowrap text-xs sm:text-sm text-gray-900 hidden lg:table-cell">
                 {{ addon.version || 'N/A' }}
                 <div v-if="addon.updateAvailable" class="text-xs text-orange-600">
                   Update to {{ addon.latestVersion }}
                 </div>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap">
+              <td class="px-2 sm:px-4 py-3 whitespace-nowrap hidden md:table-cell">
                 <span
                   class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
                   :class="{
@@ -262,46 +267,46 @@
                   {{ formatLicenseType(addon.licenseType) }}
                 </span>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              <td class="px-2 sm:px-4 py-3 whitespace-nowrap text-xs sm:text-sm text-gray-900 hidden lg:table-cell">
                 {{ addon.cost ? formatCurrency(addon.cost) : 'Free' }}
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                <div class="flex space-x-2">
-                  <button @click="viewAddon(addon)" class="text-sap-blue hover:text-sap-dark-blue">
+              <td class="px-2 sm:px-4 py-3 whitespace-nowrap text-xs sm:text-sm font-medium">
+                <div class="flex flex-col sm:flex-row gap-1 sm:gap-2">
+                  <button @click="viewAddon(addon)" class="text-sap-blue hover:text-sap-dark-blue text-left">
                     View
                   </button>
-                  <button 
+                  <button
                     v-if="addon.status === 'INACTIVE'"
-                    @click="activateAddon(addon.id)" 
-                    class="text-green-600 hover:text-green-900"
+                    @click="activateAddon(addon.id)"
+                    class="text-green-600 hover:text-green-900 text-left"
                   >
                     Activate
                   </button>
-                  <button 
+                  <button
                     v-else-if="addon.status === 'ACTIVE'"
-                    @click="deactivateAddon(addon.id)" 
-                    class="text-yellow-600 hover:text-yellow-900"
+                    @click="deactivateAddon(addon.id)"
+                    class="text-yellow-600 hover:text-yellow-900 text-left"
                   >
                     Deactivate
                   </button>
-                  <button 
+                  <button
                     v-if="addon.status === 'AVAILABLE'"
-                    @click="installAddon(addon.id)" 
-                    class="text-blue-600 hover:text-blue-900"
+                    @click="installAddon(addon.id)"
+                    class="text-blue-600 hover:text-blue-900 text-left"
                   >
                     Install
                   </button>
-                  <button 
+                  <button
                     v-if="addon.updateAvailable"
-                    @click="updateAddon(addon.id)" 
-                    class="text-orange-600 hover:text-orange-900"
+                    @click="updateAddon(addon.id)"
+                    class="text-orange-600 hover:text-orange-900 text-left"
                   >
                     Update
                   </button>
-                  <button 
+                  <button
                     v-if="addon.status !== 'AVAILABLE'"
-                    @click="uninstallAddon(addon.id)" 
-                    class="text-red-600 hover:text-red-900"
+                    @click="uninstallAddon(addon.id)"
+                    class="text-red-600 hover:text-red-900 text-left"
                   >
                     Uninstall
                   </button>
@@ -372,10 +377,10 @@
 
     <!-- Install Add-On Modal -->
     <div v-if="isCreateModalOpen" class="fixed inset-0 z-50 overflow-y-auto">
-      <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <div class="flex items-end justify-center min-h-screen pt-4 px-2 pb-20 text-center sm:block sm:p-0">
         <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
         <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-        <div class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full sm:p-6">
+        <div class="inline-block align-bottom bg-white rounded-lg px-3 pt-4 pb-3 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full sm:p-6 w-full max-w-full">
           <div class="flex items-center justify-between mb-4">
             <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
               Install New Add-On
@@ -387,40 +392,40 @@
               </svg>
             </button>
           </div>
-          
-          <form @submit.prevent="handleInstallAddon" class="space-y-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          <form @submit.prevent="handleInstallAddon" class="space-y-4 sm:space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               <div>
-                <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Add-On Name</label>
+                <label for="name" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Add-On Name</label>
                 <input
                   id="name"
                   v-model="formData.name"
                   type="text"
                   required
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                   placeholder="Enter add-on name"
                 />
               </div>
-              
+
               <div>
-                <label for="developer" class="block text-sm font-medium text-gray-700 mb-2">Developer</label>
+                <label for="developer" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Developer</label>
                 <input
                   id="developer"
                   v-model="formData.developer"
                   type="text"
                   required
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                   placeholder="Enter developer name"
                 />
               </div>
-              
+
               <div>
-                <label for="category" class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                <label for="category" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Category</label>
                 <select
                   id="category"
                   v-model="formData.category"
                   required
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                 >
                   <option value="">Select Category</option>
                   <option value="INTEGRATION">Integration</option>
@@ -433,26 +438,26 @@
                   <option value="UTILITIES">Utilities</option>
                 </select>
               </div>
-              
+
               <div>
-                <label for="version" class="block text-sm font-medium text-gray-700 mb-2">Version</label>
+                <label for="version" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Version</label>
                 <input
                   id="version"
                   v-model="formData.version"
                   type="text"
                   required
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                   placeholder="e.g., 1.0.0"
                 />
               </div>
-              
+
               <div>
-                <label for="licenseType" class="block text-sm font-medium text-gray-700 mb-2">License Type</label>
+                <label for="licenseType" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">License Type</label>
                 <select
                   id="licenseType"
                   v-model="formData.licenseType"
                   required
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                 >
                   <option value="">Select License Type</option>
                   <option value="FREE">Free</option>
@@ -461,22 +466,22 @@
                   <option value="SUBSCRIPTION">Subscription</option>
                 </select>
               </div>
-              
+
               <div>
-                <label for="cost" class="block text-sm font-medium text-gray-700 mb-2">Cost ($)</label>
+                <label for="cost" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Cost ($)</label>
                 <input
                   id="cost"
                   v-model.number="formData.cost"
                   type="number"
                   min="0"
                   step="0.01"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                   placeholder="Enter cost (0 for free)"
                 />
               </div>
-              
+
               <div>
-                <label for="iconColor" class="block text-sm font-medium text-gray-700 mb-2">Icon Color</label>
+                <label for="iconColor" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Icon Color</label>
                 <input
                   id="iconColor"
                   v-model="formData.iconColor"
@@ -484,31 +489,31 @@
                   class="block w-full h-10 rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue"
                 />
               </div>
-              
+
               <div class="md:col-span-2">
-                <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                <label for="description" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Description</label>
                 <textarea
                   id="description"
                   v-model="formData.description"
                   rows="3"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                   placeholder="Enter add-on description"
                 ></textarea>
               </div>
             </div>
-            
-            <div class="flex justify-end space-x-3 pt-6 border-t border-gray-200">
+
+            <div class="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3 pt-4 sm:pt-6 border-t border-gray-200">
               <button
                 type="button"
                 @click="closeCreateModal"
-                class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue"
+                class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue order-2 sm:order-1"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 :disabled="formLoading"
-                class="inline-flex justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-sap-blue hover:bg-sap-blue-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue disabled:opacity-50 disabled:cursor-not-allowed"
+                class="inline-flex justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-sap-blue hover:bg-sap-blue-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue disabled:opacity-50 disabled:cursor-not-allowed order-1 sm:order-2"
               >
                 <svg v-if="formLoading" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -524,11 +529,11 @@
 
     <!-- View Add-On Modal -->
     <div v-if="isViewModalOpen" class="fixed inset-0 z-50 overflow-y-auto">
-      <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <div class="flex items-end justify-center min-h-screen pt-4 px-2 pb-20 text-center sm:block sm:p-0">
         <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
         <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-        <div class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-6xl sm:w-full sm:p-6">
-          <div class="flex items-center justify-between mb-6">
+        <div class="inline-block align-bottom bg-white rounded-lg px-3 pt-4 pb-3 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-6xl sm:w-full sm:p-6 w-full max-w-full">
+          <div class="flex items-center justify-between mb-4 sm:mb-6">
             <h3 class="text-lg leading-6 font-medium text-gray-900">Add-On Details</h3>
             <button @click="closeViewModal" type="button" class="bg-white rounded-md text-gray-400 hover:text-gray-600 focus:outline-none">
               <span class="sr-only">Close</span>
@@ -537,21 +542,21 @@
               </svg>
             </button>
           </div>
-          
+
           <div v-if="selectedAddon" class="bg-white">
-            <div class="flex items-start space-x-6 mb-6">
+            <div class="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 mb-4 sm:mb-6">
               <div
-                class="w-16 h-16 rounded-lg flex items-center justify-center text-white font-bold text-lg"
+                class="w-12 h-12 sm:w-16 sm:h-16 rounded-lg flex items-center justify-center text-white font-bold text-sm sm:text-lg flex-shrink-0"
                 :style="{ backgroundColor: selectedAddon.iconColor || '#3B82F6' }"
               >
                 {{ selectedAddon.name.charAt(0) }}{{ selectedAddon.name.split(' ')[1]?.charAt(0) || '' }}
               </div>
-              <div class="flex-1">
-                <h4 class="text-2xl font-bold text-gray-900">{{ selectedAddon.name }}</h4>
-                <p class="text-gray-600">by {{ selectedAddon.developer || 'Unknown Developer' }}</p>
-                <div class="flex items-center space-x-4 mt-2">
+              <div class="flex-1 min-w-0">
+                <h4 class="text-xl sm:text-2xl font-bold text-gray-900 truncate">{{ selectedAddon.name }}</h4>
+                <p class="text-sm sm:text-base text-gray-600 truncate">by {{ selectedAddon.developer || 'Unknown Developer' }}</p>
+                <div class="flex flex-wrap items-center gap-2 sm:gap-4 mt-2">
                   <span
-                    class="inline-flex px-3 py-1 text-sm font-semibold rounded-full"
+                    class="inline-flex px-2 sm:px-3 py-1 text-xs sm:text-sm font-semibold rounded-full"
                     :class="{
                       'bg-green-100 text-green-800': selectedAddon.status === 'ACTIVE',
                       'bg-gray-100 text-gray-800': selectedAddon.status === 'INACTIVE',
@@ -562,24 +567,24 @@
                   >
                     {{ formatStatus(selectedAddon.status) }}
                   </span>
-                  <span class="text-gray-500">Version {{ selectedAddon.version }}</span>
+                  <span class="text-xs sm:text-sm text-gray-500">Version {{ selectedAddon.version }}</span>
                 </div>
               </div>
             </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-              <div class="bg-gray-50 p-4 rounded-lg">
-                <dt class="text-sm font-medium text-gray-500 mb-1">Category</dt>
-                <dd class="text-sm text-gray-900">
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4 lg:gap-6 mb-4 sm:mb-6">
+              <div class="bg-gray-50 p-3 sm:p-4 rounded-lg">
+                <dt class="text-xs sm:text-sm font-medium text-gray-500 mb-1">Category</dt>
+                <dd class="text-xs sm:text-sm text-gray-900">
                   <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
                     {{ formatCategory(selectedAddon.category) }}
                   </span>
                 </dd>
               </div>
-              
-              <div class="bg-gray-50 p-4 rounded-lg">
-                <dt class="text-sm font-medium text-gray-500 mb-1">License Type</dt>
-                <dd class="text-sm text-gray-900">
+
+              <div class="bg-gray-50 p-3 sm:p-4 rounded-lg">
+                <dt class="text-xs sm:text-sm font-medium text-gray-500 mb-1">License Type</dt>
+                <dd class="text-xs sm:text-sm text-gray-900">
                   <span
                     class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
                     :class="{
@@ -593,53 +598,53 @@
                   </span>
                 </dd>
               </div>
-              
-              <div class="bg-gray-50 p-4 rounded-lg">
-                <dt class="text-sm font-medium text-gray-500 mb-1">Cost</dt>
-                <dd class="text-sm font-semibold text-gray-900">{{ selectedAddon.cost ? formatCurrency(selectedAddon.cost) : 'Free' }}</dd>
+
+              <div class="bg-gray-50 p-3 sm:p-4 rounded-lg">
+                <dt class="text-xs sm:text-sm font-medium text-gray-500 mb-1">Cost</dt>
+                <dd class="text-xs sm:text-sm font-semibold text-gray-900">{{ selectedAddon.cost ? formatCurrency(selectedAddon.cost) : 'Free' }}</dd>
               </div>
-              
-              <div class="bg-gray-50 p-4 rounded-lg">
-                <dt class="text-sm font-medium text-gray-500 mb-1">Installation Date</dt>
-                <dd class="text-sm text-gray-900">{{ selectedAddon.installDate ? formatDate(selectedAddon.installDate) : 'Not installed' }}</dd>
+
+              <div class="bg-gray-50 p-3 sm:p-4 rounded-lg">
+                <dt class="text-xs sm:text-sm font-medium text-gray-500 mb-1">Installation Date</dt>
+                <dd class="text-xs sm:text-sm text-gray-900">{{ selectedAddon.installDate ? formatDate(selectedAddon.installDate) : 'Not installed' }}</dd>
               </div>
-              
-              <div class="bg-gray-50 p-4 rounded-lg">
-                <dt class="text-sm font-medium text-gray-500 mb-1">Last Updated</dt>
-                <dd class="text-sm text-gray-900">{{ selectedAddon.lastUpdated ? formatDate(selectedAddon.lastUpdated) : 'Never' }}</dd>
+
+              <div class="bg-gray-50 p-3 sm:p-4 rounded-lg">
+                <dt class="text-xs sm:text-sm font-medium text-gray-500 mb-1">Last Updated</dt>
+                <dd class="text-xs sm:text-sm text-gray-900">{{ selectedAddon.lastUpdated ? formatDate(selectedAddon.lastUpdated) : 'Never' }}</dd>
               </div>
-              
-              <div class="bg-gray-50 p-4 rounded-lg">
-                <dt class="text-sm font-medium text-gray-500 mb-1">Update Available</dt>
-                <dd class="text-sm text-gray-900">
+
+              <div class="bg-gray-50 p-3 sm:p-4 rounded-lg">
+                <dt class="text-xs sm:text-sm font-medium text-gray-500 mb-1">Update Available</dt>
+                <dd class="text-xs sm:text-sm text-gray-900">
                   {{ selectedAddon.updateAvailable ? `Yes (${selectedAddon.latestVersion})` : 'No' }}
                 </dd>
               </div>
             </div>
-            
-            <div v-if="selectedAddon.description" class="mb-6">
-              <h5 class="text-md font-medium text-gray-900 mb-2">Description</h5>
-              <p class="text-sm text-gray-600">{{ selectedAddon.description }}</p>
+
+            <div v-if="selectedAddon.description" class="mb-4 sm:mb-6">
+              <h5 class="text-sm sm:text-base font-medium text-gray-900 mb-2">Description</h5>
+              <p class="text-xs sm:text-sm text-gray-600">{{ selectedAddon.description }}</p>
             </div>
-            
-            <div class="flex justify-end space-x-3 mt-6 pt-6 border-t border-gray-200">
+
+            <div class="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3 mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-gray-200">
               <button
                 v-if="selectedAddon.status === 'INACTIVE'"
                 @click="activateAddon(selectedAddon.id)"
-                class="inline-flex justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                class="inline-flex justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 order-1"
               >
                 Activate Add-On
               </button>
               <button
                 v-else-if="selectedAddon.status === 'ACTIVE'"
                 @click="deactivateAddon(selectedAddon.id)"
-                class="inline-flex justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
+                class="inline-flex justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 order-1"
               >
                 Deactivate Add-On
               </button>
               <button
                 @click="closeViewModal"
-                class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue"
+                class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue order-2"
               >
                 Close
               </button>

@@ -172,10 +172,9 @@
               class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
             >
               <option value="">All Types</option>
-              <option value="STANDARD">Standard</option>
-              <option value="SPECIAL_PRICING">Special Pricing</option>
-              <option value="VOLUME_DISCOUNT">Volume Discount</option>
-              <option value="PROMOTIONAL">Promotional</option>
+              <option v-for="type in formTypes" :key="type" :value="type">
+                {{ type }}
+              </option>
             </select>
           </div>
 
@@ -438,6 +437,30 @@
                 Valid Until
               </th>
               <th
+                v-if="!selectedType || selectedType === 'Item'"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Items
+              </th>
+              <th
+                v-if="!selectedType || selectedType === 'Item'"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Warehouse
+              </th>
+              <th
+                v-if="!selectedType || selectedType === 'Service'"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Services
+              </th>
+              <th
+                v-if="!selectedType || selectedType === 'Service'"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Description
+              </th>
+              <th
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
                 Type
@@ -483,12 +506,38 @@
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="text-sm text-gray-900">{{ formatDate(quotation.validUntil) }}</div>
               </td>
+              <td
+                v-if="!selectedType || selectedType === 'Item'"
+                class="px-6 py-4 whitespace-nowrap"
+              >
+                <div class="text-sm text-gray-900">{{ getItemsSummary(quotation) }}</div>
+                <div class="text-xs text-gray-500">{{ getItemCount(quotation) }} item(s)</div>
+              </td>
+              <td
+                v-if="!selectedType || selectedType === 'Item'"
+                class="px-6 py-4 whitespace-nowrap"
+              >
+                <div class="text-sm text-gray-900">{{ getPrimaryWarehouse(quotation) }}</div>
+              </td>
+              <td
+                v-if="!selectedType || selectedType === 'Service'"
+                class="px-6 py-4 whitespace-nowrap"
+              >
+                <div class="text-sm text-gray-900">{{ getServicesSummary(quotation) }}</div>
+                <div class="text-xs text-gray-500">{{ getServiceCount(quotation) }} service(s)</div>
+              </td>
+              <td
+                v-if="!selectedType || selectedType === 'Service'"
+                class="px-6 py-4 whitespace-nowrap"
+              >
+                <div class="text-sm text-gray-900">{{ getServiceDescription(quotation) }}</div>
+              </td>
               <td class="px-6 py-4 whitespace-nowrap">
                 <span
                   class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
-                  :class="getTypeBadgeClass(quotation.type)"
+                  :class="quotation.type === 'Item' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'"
                 >
-                  {{ formatType(quotation.type) }}
+                  {{ quotation.type || 'Item' }}
                 </span>
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
@@ -779,6 +828,7 @@ const showAdvancedFilters = ref(false)
 const quotations = computed(() => quotationsStore.quotations)
 const stats = computed(() => quotationsStore.stats)
 const pagination = computed(() => quotationsStore.pagination)
+const formTypes = computed(() => ['Item', 'Service'])
 // Loading state available from store if needed
 
 const paginatedQuotations = computed(() => {
@@ -932,6 +982,52 @@ const getTypeBadgeClass = (type: QuotationType): string => {
     [QuotationType.PROMOTIONAL]: 'bg-orange-100 text-orange-800',
   }
   return classMap[type] || 'bg-gray-100 text-gray-800'
+}
+
+// Helper functions for Item/Service display
+const getItemsSummary = (record) => {
+  if (!record.lineItems || record.lineItems.length === 0) return 'No items'
+  const firstItem = record.lineItems[0]
+  if (record.lineItems.length === 1) {
+    return firstItem.itemCode || firstItem.description || 'Item'
+  }
+  return `${firstItem.itemCode || firstItem.description || 'Item'} +${record.lineItems.length - 1} more`
+}
+
+const getItemCount = (record) => {
+  return record.lineItems?.length || 0
+}
+
+const getPrimaryWarehouse = (record) => {
+  if (!record.lineItems || record.lineItems.length === 0) return '-'
+  const warehouses = [...new Set(record.lineItems.map(item => item.warehouseCode).filter(Boolean))]
+  if (warehouses.length === 0) return '-'
+  if (warehouses.length === 1) return warehouses[0]
+  return `${warehouses[0]} +${warehouses.length - 1} more`
+}
+
+const getServicesSummary = (record) => {
+  if (!record.serviceItems || record.serviceItems.length === 0) return 'No services'
+  const firstService = record.serviceItems[0]
+  if (record.serviceItems.length === 1) {
+    return firstService.description || 'Service'
+  }
+  return `${firstService.description || 'Service'} +${record.serviceItems.length - 1} more`
+}
+
+const getServiceCount = (record) => {
+  return record.serviceItems?.length || 0
+}
+
+const getServiceDescription = (record) => {
+  if (!record.serviceItems || record.serviceItems.length === 0) return '-'
+  const descriptions = record.serviceItems
+    .map(service => service.description)
+    .filter(Boolean)
+    .slice(0, 2)
+  if (descriptions.length === 0) return '-'
+  if (descriptions.length === 1) return descriptions[0]
+  return descriptions.join(', ') + (record.serviceItems.length > 2 ? '...' : '')
 }
 
 // Lifecycle

@@ -8,6 +8,7 @@ import type {
   ArInvoiceFilters,
   ArInvoiceValidationResult,
   Customer,
+  FormType,
 } from '../types'
 
 const AR_INVOICES_BASE_PATH = '/ar-invoices'

@@ -9,8 +9,9 @@ import type {
   Customer,
   InvoiceStatus,
   InvoiceType,
+  FormType,
 } from '../types'
-import { InvoiceStatus, InvoiceType } from '../types'
+import { InvoiceStatus, InvoiceType, FormType } from '../types'
 
 export const useArInvoicesStore = defineStore('arInvoices', () => {
   // State
@@ -42,6 +43,7 @@ export const useArInvoicesStore = defineStore('arInvoices', () => {
     amountTo: undefined,
     currency: undefined,
     overdue: false,
+    formType: [],
   })
 
   // Computed Properties
@@ -64,6 +66,28 @@ export const useArInvoicesStore = defineStore('arInvoices', () => {
       {} as Record<InvoiceType, number>,
     )
   })
+
+  const invoicesByFormType = computed(() => {
+    const grouped = invoices.value.reduce(
+      (acc, invoice) => {
+        const formType = invoice.formType
+        if (!acc[formType]) acc[formType] = []
+        acc[formType].push(invoice)
+        return acc
+      },
+      {} as Record<FormType, ArInvoice[]>,
+    )
+
+    return grouped
+  })
+
+  const itemInvoices = computed(() =>
+    invoices.value.filter((i) => i.formType === FormType.ITEM),
+  )
+
+  const serviceInvoices = computed(() =>
+    invoices.value.filter((i) => i.formType === FormType.SERVICE),
+  )
 
   const draftInvoices = computed(() =>
     invoices.value.filter((invoice) => invoice.status === InvoiceStatus.DRAFT),
@@ -375,6 +399,7 @@ export const useArInvoicesStore = defineStore('arInvoices', () => {
       amountTo: undefined,
       currency: undefined,
       overdue: false,
+      formType: [],
     }
   }
 
@@ -393,6 +418,9 @@ export const useArInvoicesStore = defineStore('arInvoices', () => {
     // Computed
     invoicesByStatus,
     invoicesByType,
+    invoicesByFormType,
+    itemInvoices,
+    serviceInvoices,
     draftInvoices,
     openInvoices,
     paidInvoices,

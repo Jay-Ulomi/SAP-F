@@ -122,13 +122,33 @@ export interface PurchaseReturn {
   updatedAt: string
 }
 
+export interface ServiceItem {
+  description: string
+  discount: number
+  totalLC: number
+  taxCode: string
+  dimension1?: string
+  dimension2?: string
+  dimension3?: string
+  dimension4?: string
+  warehouse?: string
+}
+
 export interface PurchaseReturnFormData {
   returnNumber: string
   returnDate: string
   postingDate: string
-  type: ReturnType
-  currency: Currency
+  validTill?: string
+  documentDate?: string
+  requiredDate?: string
   vendorCode: string
+  vendorName?: string
+  contactPerson?: string
+  referenceNo?: string
+  requestType?: string
+  type: string
+  currency: Currency
+  remarks?: string
   goodsReceiptId?: string
   warehouseCode: string
   department: string
@@ -136,7 +156,10 @@ export interface PurchaseReturnFormData {
   projectCode?: string
   returnReason: ReturnReason
   notes?: string
-  lineItems: Omit<PurchaseReturnLineItem, 'id' | 'lineTotal' | 'taxAmount'>[]
+  freightType?: string
+  freightAmount?: number
+  lineItems: any[]
+  serviceItems: ServiceItem[]
 }
 
 export interface PurchaseReturnFilters {

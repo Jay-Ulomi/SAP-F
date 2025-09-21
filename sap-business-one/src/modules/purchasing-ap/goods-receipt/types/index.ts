@@ -78,7 +78,9 @@ export interface GoodsReceiptLineItem {
   description: string
   orderedQuantity: number
   receivedQuantity: number
+  quantity?: number // for UI compatibility
   unitPrice: number
+  discount?: number // for UI compatibility
   taxCode: string
   taxPercent: number
   taxAmount: number
@@ -87,12 +89,18 @@ export interface GoodsReceiptLineItem {
   costCenter: string
   projectCode?: string
   warehouseCode: string
+  warehouse?: string // for UI compatibility
   binLocation?: string
   batchNumber?: string
   serialNumber?: string
   qualityStatus: QualityStatus
   qualityNotes?: string
   vendorNotes?: string
+  uom?: string // unit of measure for UI
+  dimension1?: string // for UI dimensions
+  dimension2?: string
+  dimension3?: string
+  dimension4?: string
 }
 
 export interface GoodsReceipt {
@@ -127,20 +135,43 @@ export interface GoodsReceipt {
   updatedAt: string
 }
 
+export interface ServiceItem {
+  description: string
+  discount: number
+  totalLC: number
+  taxCode: string
+  dimension1?: string
+  dimension2?: string
+  dimension3?: string
+  dimension4?: string
+  warehouse?: string
+}
+
 export interface GoodsReceiptFormData {
+  series: string
+  postingDate: string
+  dueDate: string
+  documentDate?: string
+  vendorCode: string
+  vendorName: string
+  contactPerson: string
+  referenceNo: string
+  requestType: string
+  type: string
+  currency: string
+  remarks?: string
   receiptNumber: string
   receiptDate: string
-  postingDate: string
-  type: ReceiptType
-  currency: Currency
-  vendorCode: string
   purchaseOrderId: string
   warehouseCode: string
   department: string
   costCenter: string
   projectCode?: string
   notes?: string
+  freightType?: string
+  freightAmount?: number
   lineItems: Omit<GoodsReceiptLineItem, 'id' | 'lineTotal' | 'taxAmount'>[]
+  serviceItems: ServiceItem[]
 }
 
 export interface GoodsReceiptFilters {

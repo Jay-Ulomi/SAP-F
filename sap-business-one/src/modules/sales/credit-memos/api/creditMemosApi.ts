@@ -8,6 +8,7 @@ import type {
   CreditMemoFilters,
   CreditMemoValidationResult,
   Customer,
+  FormType,
 } from '../types'
 
 const CREDIT_MEMOS_BASE_PATH = '/credit-memos'

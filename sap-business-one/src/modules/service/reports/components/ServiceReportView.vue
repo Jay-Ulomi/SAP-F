@@ -255,6 +255,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { ServiceReport, ReportExecution } from '../types'
+import { ReportStatus } from '../types'
 
 interface Props {
   report: ServiceReport
@@ -307,7 +308,7 @@ const recentExecutions = computed((): ReportExecution[] => [
     id: '1',
     reportId: props.report.id,
     reportName: props.report.name,
-    status: 'completed',
+    status: ReportStatus.COMPLETED,
     startedAt: new Date(Date.now() - 3600000).toISOString(),
     completedAt: new Date(Date.now() - 3000000).toISOString(),
     duration: 600000,
@@ -319,7 +320,7 @@ const recentExecutions = computed((): ReportExecution[] => [
     id: '2',
     reportId: props.report.id,
     reportName: props.report.name,
-    status: 'failed',
+    status: ReportStatus.FAILED,
     startedAt: new Date(Date.now() - 7200000).toISOString(),
     error: 'Data source unavailable',
     parameters: props.report.parameters,

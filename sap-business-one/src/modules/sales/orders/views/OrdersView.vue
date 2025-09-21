@@ -169,8 +169,8 @@
               class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
             >
               <option value="">All Types</option>
-              <option v-for="type in orderTypes" :key="type" :value="type">
-                {{ type.replace('_', ' ') }}
+              <option v-for="type in formTypes" :key="type" :value="type">
+                {{ type }}
               </option>
             </select>
           </div>
@@ -473,6 +473,32 @@
               >
                 Type
               </th>
+              <!-- Item Type Columns -->
+              <th
+                v-if="!selectedType || selectedType === 'Item'"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Items
+              </th>
+              <th
+                v-if="!selectedType || selectedType === 'Item'"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Warehouse
+              </th>
+              <!-- Service Type Columns -->
+              <th
+                v-if="!selectedType || selectedType === 'Service'"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Services
+              </th>
+              <th
+                v-if="!selectedType || selectedType === 'Service'"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Description
+              </th>
               <th
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
@@ -512,8 +538,68 @@
                 </span>
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
-                <span class="text-sm text-gray-900">{{ order.type.replace('_', ' ') }}</span>
+                <div class="flex items-center">
+                  <span
+                    :class="order.type === 'Item' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'"
+                    class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
+                  >
+                    {{ order.type.replace('_', ' ') }}
+                  </span>
+                </div>
               </td>
+
+              <!-- Item Type Columns -->
+              <template v-if="order.type === 'Item'">
+                <td v-if="!selectedType || selectedType === 'Item'" class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">
+                    {{ getItemsSummary(order) }}
+                  </div>
+                  <div class="text-sm text-gray-500">
+                    {{ getItemCount(order) }} item(s)
+                  </div>
+                </td>
+                <td v-if="!selectedType || selectedType === 'Item'" class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">
+                    {{ getPrimaryWarehouse(order) }}
+                  </div>
+                </td>
+              </template>
+
+              <!-- Service Type Columns -->
+              <template v-if="order.type === 'Service'">
+                <td v-if="!selectedType || selectedType === 'Service'" class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">
+                    {{ getServicesSummary(order) }}
+                  </div>
+                  <div class="text-sm text-gray-500">
+                    {{ getServiceCount(order) }} service(s)
+                  </div>
+                </td>
+                <td v-if="!selectedType || selectedType === 'Service'" class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">
+                    {{ getServiceDescription(order) }}
+                  </div>
+                </td>
+              </template>
+
+              <!-- Empty columns for opposite type when no filter is applied -->
+              <template v-if="order.type === 'Item' && (!selectedType || selectedType === 'Service')">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="text-gray-400">-</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="text-gray-400">-</span>
+                </td>
+              </template>
+              <template v-if="order.type === 'Service' && (!selectedType || selectedType === 'Item')">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="text-gray-400">-</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="text-gray-400">-</span>
+                </td>
+              </template>
+
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="text-sm font-medium text-gray-900">
                   {{ formatCurrency(order.totalAmount) }}
@@ -698,6 +784,7 @@ const pagination = computed(() => store.pagination)
 
 const orderStatuses = computed(() => Object.values(OrderStatus))
 const orderTypes = computed(() => Object.values(OrderType))
+const formTypes = ['Item', 'Service']
 
 const hasActiveFilters = computed(() => {
   return (
@@ -827,6 +914,61 @@ const formatCurrency = (amount: number) => {
     style: 'currency',
     currency: 'USD',
   }).format(amount)
+}
+
+// Helper functions for extracting data based on order type
+const getItemsSummary = (order: SalesOrder) => {
+  if (!order.lineItems || order.lineItems.length === 0) return 'No items'
+
+  const firstItem = order.lineItems[0]
+  if (order.lineItems.length === 1) {
+    return firstItem.itemCode || firstItem.description || 'Item'
+  }
+
+  return `${firstItem.itemCode || firstItem.description || 'Item'} +${order.lineItems.length - 1} more`
+}
+
+const getItemCount = (order: SalesOrder) => {
+  return order.lineItems?.length || 0
+}
+
+const getPrimaryWarehouse = (order: SalesOrder) => {
+  if (!order.lineItems || order.lineItems.length === 0) return '-'
+
+  const warehouses = [...new Set(order.lineItems.map(item => item.warehouseCode).filter(Boolean))]
+  if (warehouses.length === 0) return '-'
+  if (warehouses.length === 1) return warehouses[0]
+
+  return `${warehouses[0]} +${warehouses.length - 1} more`
+}
+
+const getServicesSummary = (order: SalesOrder) => {
+  if (!order.serviceItems || order.serviceItems.length === 0) return 'No services'
+
+  const firstService = order.serviceItems[0]
+  if (order.serviceItems.length === 1) {
+    return firstService.description || 'Service'
+  }
+
+  return `${firstService.description || 'Service'} +${order.serviceItems.length - 1} more`
+}
+
+const getServiceCount = (order: SalesOrder) => {
+  return order.serviceItems?.length || 0
+}
+
+const getServiceDescription = (order: SalesOrder) => {
+  if (!order.serviceItems || order.serviceItems.length === 0) return '-'
+
+  const descriptions = order.serviceItems
+    .map(service => service.description)
+    .filter(Boolean)
+    .slice(0, 2)
+
+  if (descriptions.length === 0) return '-'
+  if (descriptions.length === 1) return descriptions[0]
+
+  return descriptions.join(', ') + (order.serviceItems.length > 2 ? '...' : '')
 }
 
 // Lifecycle

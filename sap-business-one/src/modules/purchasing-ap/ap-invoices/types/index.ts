@@ -121,14 +121,34 @@ export interface ApInvoice {
   updatedAt: string
 }
 
+export interface ServiceItem {
+  description: string
+  discount: number
+  totalLC: number
+  taxCode: string
+  dimension1?: string
+  dimension2?: string
+  dimension3?: string
+  dimension4?: string
+  warehouse?: string
+}
+
 export interface ApInvoiceFormData {
+  series?: string
+  validTill?: string
+  documentDate?: string
+  requiredDate?: string
+  contactPerson?: string
+  referenceNo?: string
+  requestType?: string
+  remarks?: string
   vendorCode: string
   vendorName: string
   invoiceNumber: string
   invoiceDate: string
   postingDate: string
   dueDate: string
-  type: ApInvoiceType
+  type: string
   currency: Currency
   exchangeRate: number
   paymentTerms: PaymentTerms
@@ -137,7 +157,10 @@ export interface ApInvoiceFormData {
   projectCode?: string
   costCenter?: string
   notes?: string
-  lineItems: Omit<ApInvoiceLineItem, 'id' | 'lineTotal' | 'taxAmount'>[]
+  freightType?: string
+  freightAmount?: number
+  lineItems: any[]
+  serviceItems: ServiceItem[]
 }
 
 export interface ApInvoiceFilters {

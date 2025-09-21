@@ -1,10 +1,10 @@
 <template>
-  <div class="p-6 bg-gray-50 min-h-screen">
-    <div class="flex justify-between items-center mb-6">
-      <h1 class="text-3xl font-bold text-gray-900">System Administration</h1>
+  <div class="p-4 lg:p-6 bg-gray-50 min-h-screen max-w-full overflow-hidden">
+    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
+      <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">System Administration</h1>
       <button
         @click="openCreateModal"
-        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-sap-blue hover:bg-sap-blue-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue"
+        class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-sap-blue hover:bg-sap-blue-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue w-full sm:w-auto"
       >
         <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
@@ -19,13 +19,13 @@
     </div>
 
     <!-- Statistics Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-      <div class="bg-white shadow rounded-lg p-5 flex items-center justify-between">
-        <div>
-          <p class="text-sm font-medium text-gray-500">Configuration Items</p>
-          <p class="text-2xl font-semibold text-gray-900">{{ stats?.totalConfigurations || 0 }}</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 lg:gap-4 mb-6">
+      <div class="bg-white shadow rounded-lg p-4 sm:p-5 flex items-center justify-between">
+        <div class="flex-1 min-w-0">
+          <p class="text-xs sm:text-sm font-medium text-gray-500">Configuration Items</p>
+          <p class="text-xl sm:text-2xl font-semibold text-gray-900">{{ stats?.totalConfigurations || 0 }}</p>
         </div>
-        <div class="w-8 h-8 bg-blue-100 rounded-md flex items-center justify-center">
+        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-blue-100 rounded-md flex items-center justify-center flex-shrink-0 ml-3">
           <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -33,36 +33,36 @@
         </div>
       </div>
 
-      <div class="bg-white shadow rounded-lg p-5 flex items-center justify-between">
-        <div>
-          <p class="text-sm font-medium text-gray-500">Active Settings</p>
-          <p class="text-2xl font-semibold text-gray-900">{{ stats?.activeSettings || 0 }}</p>
+      <div class="bg-white shadow rounded-lg p-4 sm:p-5 flex items-center justify-between">
+        <div class="flex-1 min-w-0">
+          <p class="text-xs sm:text-sm font-medium text-gray-500">Active Settings</p>
+          <p class="text-xl sm:text-2xl font-semibold text-gray-900">{{ stats?.activeSettings || 0 }}</p>
         </div>
-        <div class="w-8 h-8 bg-green-100 rounded-md flex items-center justify-center">
+        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-green-100 rounded-md flex items-center justify-center flex-shrink-0 ml-3">
           <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         </div>
       </div>
 
-      <div class="bg-white shadow rounded-lg p-5 flex items-center justify-between">
-        <div>
-          <p class="text-sm font-medium text-gray-500">Pending Setup</p>
-          <p class="text-2xl font-semibold text-gray-900">{{ stats?.pendingSetup || 0 }}</p>
+      <div class="bg-white shadow rounded-lg p-4 sm:p-5 flex items-center justify-between">
+        <div class="flex-1 min-w-0">
+          <p class="text-xs sm:text-sm font-medium text-gray-500">Pending Setup</p>
+          <p class="text-xl sm:text-2xl font-semibold text-gray-900">{{ stats?.pendingSetup || 0 }}</p>
         </div>
-        <div class="w-8 h-8 bg-yellow-100 rounded-md flex items-center justify-center">
+        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-yellow-100 rounded-md flex items-center justify-center flex-shrink-0 ml-3">
           <svg class="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.268 18.5c-.77.833.192 2.5 1.732 2.5z" />
           </svg>
         </div>
       </div>
 
-      <div class="bg-white shadow rounded-lg p-5 flex items-center justify-between">
-        <div>
-          <p class="text-sm font-medium text-gray-500">Security Policies</p>
-          <p class="text-2xl font-semibold text-gray-900">{{ stats?.securityPolicies || 0 }}</p>
+      <div class="bg-white shadow rounded-lg p-4 sm:p-5 flex items-center justify-between">
+        <div class="flex-1 min-w-0">
+          <p class="text-xs sm:text-sm font-medium text-gray-500">Security Policies</p>
+          <p class="text-xl sm:text-2xl font-semibold text-gray-900">{{ stats?.securityPolicies || 0 }}</p>
         </div>
-        <div class="w-8 h-8 bg-purple-100 rounded-md flex items-center justify-center">
+        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-purple-100 rounded-md flex items-center justify-center flex-shrink-0 ml-3">
           <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
           </svg>
@@ -71,33 +71,33 @@
     </div>
 
     <!-- Filters Section -->
-    <div class="bg-white shadow rounded-lg p-6 mb-6">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-medium text-gray-900">Configuration Filters</h3>
+    <div class="bg-white shadow rounded-lg p-4 lg:p-6 mb-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+        <h3 class="text-base sm:text-lg font-medium text-gray-900">Configuration Filters</h3>
         <button
           @click="clearFilters"
-          class="text-sm text-sap-blue hover:text-sap-dark-blue"
+          class="text-xs sm:text-sm text-sap-blue hover:text-sap-dark-blue self-start sm:self-auto"
         >
           Clear All Filters
         </button>
       </div>
-      
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Search Settings</label>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 lg:gap-4">
+        <div class="sm:col-span-2 xl:col-span-1">
+          <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Search Settings</label>
           <input
             v-model="searchQuery"
             type="text"
             placeholder="Search configurations..."
-            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
           />
         </div>
-        
+
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+          <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Category</label>
           <select
             v-model="selectedCategory"
-            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
           >
             <option value="">All Categories</option>
             <option value="SYSTEM">System</option>
@@ -110,12 +110,12 @@
             <option value="REPORTING">Reporting</option>
           </select>
         </div>
-        
+
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+          <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Status</label>
           <select
             v-model="selectedStatus"
-            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
           >
             <option value="">All Statuses</option>
             <option value="CONFIGURED">Configured</option>
@@ -124,12 +124,12 @@
             <option value="ERROR">Error</option>
           </select>
         </div>
-        
+
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Priority</label>
+          <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Priority</label>
           <select
             v-model="selectedPriority"
-            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
           >
             <option value="">All Priorities</option>
             <option value="CRITICAL">Critical</option>
@@ -142,7 +142,7 @@
     </div>
 
     <!-- Setup Configuration Table -->
-    <div class="bg-white shadow rounded-lg overflow-hidden">
+    <div class="bg-white shadow rounded-lg overflow-hidden max-w-full">
       <div class="px-6 py-4 border-b border-gray-200">
         <h2 class="text-lg font-medium text-gray-900">System Configuration</h2>
       </div>
@@ -180,40 +180,40 @@
         <button @click="openCreateModal" class="btn-primary">Create Configuration</button>
       </div>
 
-      <div v-else class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200">
+      <div v-else class="w-full overflow-x-auto">
+        <table class="w-full divide-y divide-gray-200">
           <thead class="bg-gray-50">
             <tr>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
                 Configuration
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase hidden sm:table-cell">
                 Category
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Status
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Priority
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase hidden lg:table-cell">
                 Last Updated
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase hidden md:table-cell">
                 Updated By
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Actions
               </th>
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
             <tr v-for="config in filteredConfigurations" :key="config.id" class="hover:bg-gray-50">
-              <td class="px-6 py-4 whitespace-nowrap">
+              <td class="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap">
                 <div class="flex items-center">
-                  <div class="flex-shrink-0 h-10 w-10">
+                  <div class="flex-shrink-0 h-8 w-8 sm:h-10 sm:w-10">
                     <div
-                      class="h-10 w-10 rounded-full flex items-center justify-center"
+                      class="h-8 w-8 sm:h-10 sm:w-10 rounded-full flex items-center justify-center"
                       :class="{
                         'bg-green-100': config.status === 'CONFIGURED',
                         'bg-yellow-100': config.status === 'PENDING',
@@ -221,7 +221,7 @@
                         'bg-red-100': config.status === 'ERROR'
                       }"
                     >
-                      <svg 
+                      <svg
                         class="w-5 h-5"
                         :class="{
                           'text-green-600': config.status === 'CONFIGURED',
@@ -236,18 +236,18 @@
                       </svg>
                     </div>
                   </div>
-                  <div class="ml-4">
-                    <div class="text-sm font-medium text-gray-900">{{ config.name }}</div>
-                    <div class="text-sm text-gray-500">{{ config.description || 'No description' }}</div>
+                  <div class="ml-3">
+                    <div class="text-xs sm:text-sm font-medium text-gray-900">{{ config.name }}</div>
+                    <div class="text-xs text-gray-500 hidden lg:block">{{ config.description || 'No description' }}</div>
                   </div>
                 </div>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap">
+              <td class="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap hidden sm:table-cell">
                 <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
                   {{ formatCategory(config.category) }}
                 </span>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap">
+              <td class="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap">
                 <span
                   class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
                   :class="{
@@ -260,7 +260,7 @@
                   {{ formatStatus(config.status) }}
                 </span>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap">
+              <td class="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap">
                 <span
                   class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
                   :class="{
@@ -273,35 +273,35 @@
                   {{ formatPriority(config.priority) }}
                 </span>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              <td class="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap text-xs sm:text-sm text-gray-900 hidden lg:table-cell">
                 {{ formatDate(config.lastUpdated) }}
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              <td class="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap text-xs sm:text-sm text-gray-900 hidden md:table-cell">
                 {{ config.updatedBy || 'System' }}
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                <div class="flex space-x-2">
-                  <button @click="viewConfiguration(config)" class="text-sap-blue hover:text-sap-dark-blue">
+              <td class="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap text-sm font-medium">
+                <div class="flex flex-wrap gap-1">
+                  <button @click="viewConfiguration(config)" class="text-sap-blue hover:text-sap-dark-blue text-xs px-1">
                     View
                   </button>
-                  <button @click="editConfiguration(config)" class="text-indigo-600 hover:text-indigo-900">
+                  <button @click="editConfiguration(config)" class="text-indigo-600 hover:text-indigo-900 text-xs px-1">
                     Edit
                   </button>
-                  <button 
+                  <button
                     v-if="config.status === 'DISABLED'"
-                    @click="enableConfiguration(config.id)" 
-                    class="text-green-600 hover:text-green-900"
+                    @click="enableConfiguration(config.id)"
+                    class="text-green-600 hover:text-green-900 text-xs px-1"
                   >
                     Enable
                   </button>
-                  <button 
+                  <button
                     v-else
-                    @click="disableConfiguration(config.id)" 
-                    class="text-yellow-600 hover:text-yellow-900"
+                    @click="disableConfiguration(config.id)"
+                    class="text-yellow-600 hover:text-yellow-900 text-xs px-1"
                   >
                     Disable
                   </button>
-                  <button @click="deleteConfiguration(config.id)" class="text-red-600 hover:text-red-900">
+                  <button @click="deleteConfiguration(config.id)" class="text-red-600 hover:text-red-900 text-xs px-1">
                     Delete
                   </button>
                 </div>
@@ -371,47 +371,47 @@
 
     <!-- Create/Edit Configuration Modal -->
     <div v-if="showCreateModal" class="fixed inset-0 z-50 overflow-y-auto">
-      <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
-        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
-          <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-            <div class="flex items-center justify-between mb-4">
-              <h3 class="text-lg leading-6 font-medium text-gray-900">
-                {{ configToEdit ? 'Edit Configuration' : 'Create New Configuration' }}
-              </h3>
-              <button @click="closeCreateModal" class="text-gray-400 hover:text-gray-600">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-              </button>
-            </div>
-            <ConfigurationForm
-              :configuration="configToEdit"
-              :loading="formLoading"
-              @submit="handleSubmitConfiguration"
-              @cancel="closeCreateModal"
-            />
+      <div class="flex items-end justify-center min-h-screen pt-4 px-2 pb-20 text-center sm:block sm:p-0">
+        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+        <div class="inline-block align-bottom bg-white rounded-lg px-3 pt-4 pb-3 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full sm:p-6 w-full max-w-full">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+              {{ configToEdit ? 'Edit Configuration' : 'Create New Configuration' }}
+            </h3>
+            <button @click="closeCreateModal" type="button" class="bg-white rounded-md text-gray-400 hover:text-gray-600 focus:outline-none">
+              <span class="sr-only">Close</span>
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
           </div>
+          <ConfigurationForm
+            :configuration="configToEdit"
+            :loading="formLoading"
+            @submit="handleSubmitConfiguration"
+            @cancel="closeCreateModal"
+          />
         </div>
       </div>
     </div>
 
     <!-- View Configuration Modal -->
     <div v-if="showViewModal" class="fixed inset-0 z-50 overflow-y-auto">
-      <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
-        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-7xl sm:w-full">
-          <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-            <div class="flex items-center justify-between mb-4">
-              <h3 class="text-lg leading-6 font-medium text-gray-900">Configuration Details</h3>
-              <button @click="closeViewModal" class="text-gray-400 hover:text-gray-600">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-              </button>
-            </div>
-            <ConfigurationView v-if="selectedConfiguration" :configuration="selectedConfiguration" />
+      <div class="flex items-end justify-center min-h-screen pt-4 px-2 pb-20 text-center sm:block sm:p-0">
+        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+        <div class="inline-block align-bottom bg-white rounded-lg px-3 pt-4 pb-3 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-6xl sm:w-full sm:p-6 w-full max-w-full">
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">Configuration Details</h3>
+            <button @click="closeViewModal" type="button" class="bg-white rounded-md text-gray-400 hover:text-gray-600 focus:outline-none">
+              <span class="sr-only">Close</span>
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
           </div>
+          <ConfigurationView v-if="selectedConfiguration" :configuration="selectedConfiguration" />
         </div>
       </div>
     </div>

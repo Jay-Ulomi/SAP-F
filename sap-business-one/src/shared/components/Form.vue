@@ -150,6 +150,7 @@ interface Field {
   required?: boolean
   placeholder?: string
   helpText?: string
+  description?: string
   disabled?: boolean
   fullWidth?: boolean
   rows?: number

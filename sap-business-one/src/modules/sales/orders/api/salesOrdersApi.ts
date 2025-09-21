@@ -7,6 +7,7 @@ import type {
   SalesOrderFilters,
   SalesOrderValidationResult,
   Customer,
+  FormType,
 } from '../types'
 
 const SALES_ORDERS_BASE_PATH = '/sales-orders'
@@ -27,6 +28,7 @@ const salesOrdersApi = {
     const params = new URLSearchParams()
     if (filters?.status?.length) params.append('status', filters.status.join(','))
     if (filters?.type?.length) params.append('type', filters.type.join(','))
+    if (filters?.formType?.length) params.append('formType', filters.formType.join(','))
     if (filters?.customerCode) params.append('customerCode', filters.customerCode)
     if (filters?.salesPerson) params.append('salesPerson', filters.salesPerson)
     if (filters?.dateFrom) params.append('dateFrom', filters.dateFrom)
@@ -139,6 +141,7 @@ const salesOrdersApi = {
     const params = new URLSearchParams()
     if (filters?.status?.length) params.append('status', filters.status.join(','))
     if (filters?.type?.length) params.append('type', filters.type.join(','))
+    if (filters?.formType?.length) params.append('formType', filters.formType.join(','))
     if (filters?.customerCode) params.append('customerCode', filters.customerCode)
     if (filters?.salesPerson) params.append('salesPerson', filters.salesPerson)
     if (filters?.dateFrom) params.append('dateFrom', filters.dateFrom)

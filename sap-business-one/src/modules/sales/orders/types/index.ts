@@ -1,3 +1,8 @@
+enum FormType {
+  ITEM = 'Item',
+  SERVICE = 'Service',
+}
+
 enum OrderStatus {
   DRAFT = 'DRAFT',
   OPEN = 'OPEN',
@@ -50,10 +55,9 @@ interface CustomerAddress {
   country: string
 }
 
-interface OrderLineItem {
+interface BaseLineItem {
   id: string
   itemCode: string
-  itemType: 'INVENTORY' | 'SERVICE'
   description: string
   quantity: number
   unitPrice: number
@@ -64,9 +68,25 @@ interface OrderLineItem {
   lineTotal: number
   deliveredQuantity: number
   remainingQuantity: number
-  warehouseCode?: string
   remarks?: string
 }
+
+interface ItemLineItem extends BaseLineItem {
+  itemType: 'INVENTORY'
+  warehouseCode: string
+  batchNumber?: string
+  serialNumber?: string
+  binLocation?: string
+}
+
+interface ServiceLineItem extends BaseLineItem {
+  itemType: 'SERVICE'
+  serviceCategory?: string
+  serviceDescription?: string
+  billingMethod?: 'HOURLY' | 'FIXED' | 'MILESTONE'
+}
+
+type OrderLineItem = ItemLineItem | ServiceLineItem
 
 interface TaxSummary {
   taxCode: string
@@ -86,6 +106,7 @@ interface SalesOrder {
   postingDate: string
   type: OrderType
   status: OrderStatus
+  formType: FormType
 
   // Customer Information
   customerCode: string
@@ -103,6 +124,8 @@ interface SalesOrder {
 
   // Line Items
   lineItems: OrderLineItem[]
+  itemLineItems: ItemLineItem[]
+  serviceLineItems: ServiceLineItem[]
 
   // Tax Information
   taxSummary: TaxSummary[]
@@ -183,6 +206,7 @@ interface SalesOrderStatsResponse {
 interface SalesOrderFilters {
   status?: OrderStatus[]
   type?: OrderType[]
+  formType?: FormType[]
   customerCode?: string
   salesPerson?: string
   dateFrom?: string
@@ -196,11 +220,14 @@ interface SalesOrderValidationResult {
   warnings: string[]
 }
 
-export { OrderStatus, OrderType, Currency, TaxType }
+export { FormType, OrderStatus, OrderType, Currency, TaxType }
 
 export type {
   Customer,
   CustomerAddress,
+  BaseLineItem,
+  ItemLineItem,
+  ServiceLineItem,
   OrderLineItem,
   TaxSummary,
   SalesOrder,
