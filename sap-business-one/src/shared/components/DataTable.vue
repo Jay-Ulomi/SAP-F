@@ -1,26 +1,26 @@
 <template>
   <div class="card">
-    <div class="flex justify-between items-center mb-6">
-      <h2 class="text-xl font-semibold text-gray-900">{{ title }}</h2>
-      <button v-if="showAddButton" @click="$emit('add')" class="btn-primary">
+    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 sm:mb-6 gap-4">
+      <h2 class="text-lg sm:text-xl font-semibold text-gray-900">{{ title }}</h2>
+      <button v-if="showAddButton" @click="$emit('add')" class="btn-primary w-full sm:w-auto">
         <PlusIcon class="w-4 h-4 mr-2" />
-        Add New
+        <span class="text-sm sm:text-base">Add New</span>
       </button>
     </div>
 
     <!-- Search and Filters -->
-    <div class="mb-4 flex gap-4">
+    <div class="mb-4 flex flex-col sm:flex-row gap-2 sm:gap-4">
       <div class="flex-1">
         <input
           v-model="searchQuery"
           type="text"
           placeholder="Search..."
-          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sap-blue focus:border-transparent"
+          class="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-sap-blue focus:border-transparent"
         />
       </div>
-      <button v-if="showFilters" @click="showFilterModal = true" class="btn-secondary">
+      <button v-if="showFilters" @click="showFilterModal = true" class="btn-secondary w-full sm:w-auto">
         <FunnelIcon class="w-4 h-4 mr-2" />
-        Filters
+        <span class="text-sm sm:text-base">Filters</span>
       </button>
     </div>
 
@@ -37,14 +37,16 @@
     </div>
 
     <!-- Data Table -->
-    <div v-else-if="data.length > 0" class="overflow-x-auto">
-      <table class="min-w-full divide-y divide-gray-200">
+    <div v-else-if="data.length > 0" class="overflow-x-auto -mx-4 sm:mx-0">
+      <div class="inline-block min-w-full align-middle">
+        <div class="overflow-hidden shadow-sm sm:rounded-lg">
+          <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-50">
           <tr>
             <th
               v-for="column in columns"
               :key="column.key"
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+              class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
               @click="sortBy(column.key)"
             >
               <div class="flex items-center">
@@ -60,9 +62,10 @@
               </div>
             </th>
             <th
-              class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+              class="px-3 sm:px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Actions
+              <span class="hidden sm:inline">Actions</span>
+              <span class="sm:hidden">Act</span>
             </th>
           </tr>
         </thead>
@@ -71,14 +74,14 @@
             <td
               v-for="column in columns"
               :key="column.key"
-              class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
+              class="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-900"
             >
               <slot :name="column.key" :item="item" :value="item[column.key]">
                 {{ formatValue(item[column.key], column.type) }}
               </slot>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-              <div class="flex justify-end gap-2">
+            <td class="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap text-right text-sm font-medium">
+              <div class="flex justify-end gap-1 sm:gap-2">
                 <button @click="$emit('view', item)" class="text-sap-blue hover:text-sap-dark-blue">
                   <EyeIcon class="w-4 h-4" />
                 </button>
@@ -93,26 +96,29 @@
           </tr>
         </tbody>
       </table>
+        </div>
+      </div>
 
       <!-- Pagination -->
-      <div v-if="totalPages > 1" class="flex items-center justify-between mt-6">
-        <div class="text-sm text-gray-700">
+      <div v-if="totalPages > 1" class="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-4 sm:mt-6 gap-4">
+        <div class="text-xs sm:text-sm text-gray-700 text-center sm:text-left">
           Showing {{ startIndex + 1 }} to {{ endIndex }} of {{ data.length }} results
         </div>
-        <div class="flex gap-2">
+        <div class="flex justify-center sm:justify-end gap-1 sm:gap-2">
           <button
             @click="currentPage--"
             :disabled="currentPage === 1"
-            class="btn-secondary disabled:opacity-50 disabled:cursor-not-allowed"
+            class="btn-secondary text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Previous
+            <span class="hidden sm:inline">Previous</span>
+            <span class="sm:hidden">Prev</span>
           </button>
           <button
             v-for="page in visiblePages"
             :key="page"
             @click="currentPage = page"
             :class="[
-              'px-3 py-2 rounded-lg',
+              'px-2 sm:px-3 py-1 sm:py-2 text-xs sm:text-sm rounded-lg',
               currentPage === page
                 ? 'bg-sap-blue text-white'
                 : 'bg-gray-200 text-gray-700 hover:bg-gray-300',
@@ -123,7 +129,7 @@
           <button
             @click="currentPage++"
             :disabled="currentPage === totalPages"
-            class="btn-secondary disabled:opacity-50 disabled:cursor-not-allowed"
+            class="btn-secondary text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Next
           </button>

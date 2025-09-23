@@ -1,15 +1,15 @@
 <template>
-  <form @submit.prevent="handleSubmit" class="space-y-6">
+  <form @submit.prevent="handleSubmit" class="space-y-4 sm:space-y-6">
     <!-- Tabs -->
     <div class="bg-white rounded-lg shadow">
-      <div class="border-b border-gray-200">
-        <nav class="-mb-px flex space-x-8">
+      <div class="border-b border-gray-200 overflow-x-auto">
+        <nav class="-mb-px flex space-x-2 sm:space-x-4 md:space-x-8 min-w-full px-2 sm:px-4">
           <button
             v-for="tab in tabs"
             :key="tab.id"
             @click="activeTab = tab.id"
             type="button"
-            class="py-2 px-1 border-b-2 font-medium text-sm"
+            class="py-2 px-2 sm:px-3 border-b-2 font-medium text-xs sm:text-sm whitespace-nowrap"
             :class="
               activeTab === tab.id
                 ? 'border-sap-blue text-sap-blue'
@@ -22,48 +22,48 @@
       </div>
 
       <!-- Basic Information Tab -->
-      <div v-if="activeTab === 'basic'" class="p-4">
-        <h3 class="text-base font-medium text-gray-900 mb-4">Basic Information</h3>
+      <div v-if="activeTab === 'basic'" class="p-3 sm:p-4">
+        <h3 class="text-sm sm:text-base font-medium text-gray-900 mb-3 sm:mb-4">Basic Information</h3>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Customer Code *</label>
+            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Customer Code *</label>
             <input
               v-model="formData.customerCode"
               type="text"
               required
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
               placeholder="CUST-001"
             />
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Customer Name *</label>
+            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Customer Name *</label>
             <input
               v-model="formData.customerName"
               type="text"
               required
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
               placeholder="Customer Name"
             />
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
+            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Company Name</label>
             <input
               v-model="formData.companyName"
               type="text"
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
               placeholder="Company Name"
             />
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Customer Type *</label>
+            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Customer Type *</label>
             <select
               v-model="formData.type"
               required
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
             >
               <option value="">Select Type</option>
               <option value="REGULAR">Regular</option>
@@ -76,11 +76,11 @@
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Status *</label>
+            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Status *</label>
             <select
               v-model="formData.status"
               required
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
             >
               <option value="">Select Status</option>
               <option value="ACTIVE">Active</option>
@@ -92,53 +92,53 @@
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Industry</label>
+            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Industry</label>
             <input
               v-model="formData.industry"
               type="text"
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
               placeholder="Technology, Manufacturing"
             />
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Website</label>
+            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Website</label>
             <input
               v-model="formData.website"
               type="url"
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
               placeholder="https://example.com"
             />
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Phone *</label>
+            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Phone *</label>
             <input
               v-model="formData.phone"
               type="tel"
               required
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
               placeholder="+1-555-123-4567"
             />
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Email *</label>
             <input
               v-model="formData.email"
               type="email"
               required
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
               placeholder="contact@example.com"
             />
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Fax</label>
+            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Fax</label>
             <input
               v-model="formData.fax"
               type="tel"
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
               placeholder="+1-555-123-4568"
             />
           </div>
@@ -164,77 +164,77 @@
           <h4 class="text-sm font-medium text-gray-900 mb-3">Primary Contact</h4>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">First Name *</label>
+              <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">First Name *</label>
               <input
                 v-model="primaryContact.firstName"
                 type="text"
                 required
-                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                 placeholder="John"
               />
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Last Name *</label>
+              <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Last Name *</label>
               <input
                 v-model="primaryContact.lastName"
                 type="text"
                 required
-                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                 placeholder="Doe"
               />
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Position</label>
+              <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Position</label>
               <input
                 v-model="primaryContact.position"
                 type="text"
-                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                 placeholder="Manager"
               />
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+              <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Email *</label>
               <input
                 v-model="primaryContact.email"
                 type="email"
                 required
-                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                 placeholder="john.doe@example.com"
               />
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Phone *</label>
+              <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Phone *</label>
               <input
                 v-model="primaryContact.phone"
                 type="tel"
                 required
-                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                 placeholder="+1-555-123-4567"
               />
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Mobile</label>
+              <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Mobile</label>
               <input
                 v-model="primaryContact.mobile"
                 type="tel"
                 required
-                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                 placeholder="+1-555-987-6543"
               />
             </div>
           </div>
 
           <div class="mt-3">
-            <label class="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Notes</label>
             <textarea
               v-model="primaryContact.notes"
               rows="2"
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
               placeholder="Additional notes about this contact"
             ></textarea>
           </div>
@@ -290,72 +290,72 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">First Name</label>
                 <input
                   v-model="contact.firstName"
                   type="text"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                   placeholder="Jane"
                 />
               </div>
 
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Last Name</label>
                 <input
                   v-model="contact.lastName"
                   type="text"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                   placeholder="Smith"
                 />
               </div>
 
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Position</label>
+                <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Position</label>
                 <input
                   v-model="contact.position"
                   type="text"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                   placeholder="Assistant"
                 />
               </div>
 
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Email</label>
                 <input
                   v-model="contact.email"
                   type="email"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                   placeholder="jane.smith@example.com"
                 />
               </div>
 
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Phone</label>
                 <input
                   v-model="contact.phone"
                   type="tel"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                   placeholder="+1-555-111-2222"
                 />
               </div>
 
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Mobile</label>
+                <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Mobile</label>
                 <input
                   v-model="contact.mobile"
                   type="tel"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                   placeholder="+1-555-333-4444"
                 />
               </div>
             </div>
 
             <div class="mt-3">
-              <label class="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+              <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Notes</label>
               <textarea
                 v-model="contact.notes"
                 rows="2"
-                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                 placeholder="Additional notes about this contact"
               ></textarea>
             </div>
@@ -416,10 +416,10 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Address Type</label>
+                <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Address Type</label>
                 <select
                   v-model="address.type"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                 >
                   <option value="BILLING">Billing</option>
                   <option value="SHIPPING">Shipping</option>
@@ -428,81 +428,81 @@
               </div>
 
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Address Line 1</label>
+                <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Address Line 1</label>
                 <input
                   v-model="address.addressLine1"
                   type="text"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                   placeholder="123 Main Street"
                 />
               </div>
 
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Address Line 2</label>
+                <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Address Line 2</label>
                 <input
                   v-model="address.addressLine2"
                   type="text"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                   placeholder="Suite 100"
                 />
               </div>
 
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">City</label>
+                <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">City</label>
                 <input
                   v-model="address.city"
                   type="text"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                   placeholder="New York"
                 />
               </div>
 
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">State/Province</label>
+                <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">State/Province</label>
                 <input
                   v-model="address.state"
                   type="text"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                   placeholder="NY"
                 />
               </div>
 
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Postal Code</label>
+                <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Postal Code</label>
                 <input
                   v-model="address.postalCode"
                   type="text"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                   placeholder="10001"
                 />
               </div>
 
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Country</label>
+                <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Country</label>
                 <input
                   v-model="address.country"
                   type="text"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                   placeholder="USA"
                 />
               </div>
 
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Phone</label>
                 <input
                   v-model="address.phone"
                   type="tel"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                   placeholder="+1-555-123-4567"
                 />
               </div>
 
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Email</label>
                 <input
                   v-model="address.email"
                   type="email"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
                   placeholder="billing@example.com"
                 />
               </div>
@@ -528,35 +528,35 @@
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Credit Limit</label>
+            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Credit Limit</label>
             <input
               v-model="formData.creditLimit"
               type="number"
               min="0"
               step="0.01"
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
               placeholder="100000.00"
             />
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Current Balance</label>
+            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Current Balance</label>
             <input
               v-model="formData.currentBalance"
               type="number"
               min="0"
               step="0.01"
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
               placeholder="0.00"
             />
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Payment Terms *</label>
+            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Payment Terms *</label>
             <select
               v-model="formData.paymentTerms"
               required
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
             >
               <option value="">Select Payment Terms</option>
               <option value="IMMEDIATE">Immediate</option>
@@ -571,11 +571,11 @@
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Currency *</label>
+            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Currency *</label>
             <select
               v-model="formData.currency"
               required
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
             >
               <option value="">Select Currency</option>
               <option value="USD">USD - US Dollar</option>
@@ -588,10 +588,10 @@
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Tax Exemption</label>
+            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Tax Exemption</label>
             <select
               v-model="formData.taxExemption"
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
             >
               <option value="NONE">None</option>
               <option value="EXEMPT">Exempt</option>
@@ -602,24 +602,24 @@
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Tax Exemption Number</label>
+            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Tax Exemption Number</label>
             <input
               v-model="formData.taxExemptionNumber"
               type="text"
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
               placeholder="TAX-EX-001"
             />
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Discount Percent</label>
+            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Discount Percent</label>
             <input
               v-model="formData.discountPercent"
               type="number"
               min="0"
               max="100"
               step="0.01"
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
               placeholder="0.00"
             />
           </div>
@@ -632,21 +632,21 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Assigned Sales Rep</label>
+            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Assigned Sales Rep</label>
             <input
               v-model="formData.assignedSalesRep"
               type="text"
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
               placeholder="Sales Representative Name"
             />
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Source</label>
+            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Source</label>
             <input
               v-model="formData.source"
               type="text"
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm px-3 py-2"
               placeholder="Website, Referral, Trade Show"
             />
           </div>

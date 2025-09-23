@@ -7,15 +7,35 @@
 /* SAP Business One Custom Styles */
 @layer components {
   .btn-primary {
-    @apply bg-sap-blue hover:bg-sap-dark-blue text-white font-medium py-1.5 px-3 text-sm rounded-lg transition-colors duration-200;
+    @apply bg-sap-blue hover:bg-sap-dark-blue text-white font-medium py-2 px-3 sm:py-1.5 sm:px-3 text-xs sm:text-sm rounded-lg transition-colors duration-200 min-h-touch;
   }
 
   .btn-secondary {
-    @apply bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-1.5 px-3 text-sm rounded-lg transition-colors duration-200;
+    @apply bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-3 sm:py-1.5 sm:px-3 text-xs sm:text-sm rounded-lg transition-colors duration-200 min-h-touch;
+  }
+
+  .btn-icon {
+    @apply p-1.5 sm:p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200;
+  }
+
+  .btn-group {
+    @apply flex flex-col sm:flex-row gap-2 sm:gap-3;
+  }
+
+  .btn-group-mobile {
+    @apply flex flex-col gap-2 w-full sm:w-auto sm:flex-row sm:gap-3;
   }
 
   .card {
-    @apply bg-white rounded-lg shadow-md border border-gray-200 p-4 text-sm;
+    @apply bg-white rounded-lg shadow-md border border-gray-200 p-3 sm:p-4 text-xs sm:text-sm;
+  }
+
+  .card-header {
+    @apply flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4;
+  }
+
+  .card-title {
+    @apply text-base sm:text-lg font-semibold text-gray-900;
   }
 
   .sidebar-item {
@@ -32,41 +52,127 @@
   @apply min-h-screen bg-gray-50 text-sm;
 }
 
-/* Global font size adjustments */
+/* Global font size adjustments - Responsive */
 @layer base {
   h1 {
-    @apply text-lg font-semibold;
+    @apply text-base sm:text-lg font-semibold;
   }
   h2 {
-    @apply text-base font-medium;
+    @apply text-sm sm:text-base font-medium;
   }
   h3 {
-    @apply text-sm font-medium;
+    @apply text-xs sm:text-sm font-medium;
   }
   h4 {
-    @apply text-sm font-normal;
+    @apply text-xs sm:text-sm font-normal;
   }
   h5 {
-    @apply text-xs font-medium;
+    @apply text-xxs sm:text-xs font-medium;
   }
   h6 {
-    @apply text-xs font-normal;
+    @apply text-xxs sm:text-xs font-normal;
   }
 
-  /* Form elements */
+  /* Form elements - Responsive */
   input,
   textarea,
   select {
-    @apply text-sm;
+    @apply text-xs sm:text-sm min-h-touch px-2 sm:px-3 py-2;
   }
 
-  /* Table elements */
+  /* Table elements - Responsive */
   table {
-    @apply text-sm;
+    @apply text-xs sm:text-sm;
   }
 
-  /* Button adjustments */
+  th {
+    @apply text-xxs sm:text-xs uppercase font-medium;
+  }
+
+  td {
+    @apply text-xs sm:text-sm;
+  }
+
+  /* Button adjustments - Responsive */
   button {
-    @apply text-sm;
+    @apply text-xs sm:text-sm touch-manipulation;
+  }
+
+  /* Link styles */
+  a {
+    @apply touch-manipulation;
+  }
+}
+
+/* Responsive utilities */
+@layer utilities {
+  .touch-manipulation {
+    touch-action: manipulation;
+  }
+
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .safe-left {
+    padding-left: env(safe-area-inset-left);
+  }
+
+  .safe-right {
+    padding-right: env(safe-area-inset-right);
+  }
+
+  .min-h-touch {
+    min-height: 44px;
+  }
+
+  .hide-mobile {
+    @apply hidden;
+  }
+
+  @screen sm {
+    .hide-mobile {
+      @apply block;
+    }
+  }
+
+  .mobile-full-width {
+    @apply w-full;
+  }
+
+  @screen sm {
+    .mobile-full-width {
+      @apply w-auto;
+    }
+  }
+
+  .mobile-stack {
+    @apply flex-col;
+  }
+
+  @screen sm {
+    .mobile-stack {
+      @apply flex-row;
+    }
+  }
+
+  .responsive-padding {
+    @apply px-2;
+  }
+
+  @screen sm {
+    .responsive-padding {
+      @apply px-4;
+    }
+  }
+
+  @screen lg {
+    .responsive-padding {
+      @apply px-8;
+    }
   }
 }

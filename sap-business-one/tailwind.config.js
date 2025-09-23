@@ -5,6 +5,14 @@ import typography from '@tailwindcss/typography'
 export default {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
+    screens: {
+      'xs': '475px',
+      'sm': '640px',
+      'md': '768px',
+      'lg': '1024px',
+      'xl': '1280px',
+      '2xl': '1536px',
+    },
     extend: {
       colors: {
         'sap-blue': '#0070f3',
@@ -17,13 +25,25 @@ export default {
         sans: ['Inter', 'system-ui', 'sans-serif'],
       },
       fontSize: {
-        xs: ['0.65rem', { lineHeight: '1rem' }],
-        sm: ['0.75rem', { lineHeight: '1.25rem' }],
-        base: ['0.8rem', { lineHeight: '1.375rem' }],
-        lg: ['0.9rem', { lineHeight: '1.5rem' }],
-        xl: ['1rem', { lineHeight: '1.625rem' }],
-        '2xl': ['1.125rem', { lineHeight: '1.75rem' }],
-        '3xl': ['1.25rem', { lineHeight: '2rem' }],
+        'xxs': ['0.625rem', { lineHeight: '0.875rem' }],
+        xs: ['0.75rem', { lineHeight: '1rem' }],
+        sm: ['0.875rem', { lineHeight: '1.25rem' }],
+        base: ['1rem', { lineHeight: '1.5rem' }],
+        lg: ['1.125rem', { lineHeight: '1.75rem' }],
+        xl: ['1.25rem', { lineHeight: '1.75rem' }],
+        '2xl': ['1.5rem', { lineHeight: '2rem' }],
+        '3xl': ['1.875rem', { lineHeight: '2.25rem' }],
+      },
+      spacing: {
+        '72': '18rem',
+        '84': '21rem',
+        '96': '24rem',
+      },
+      minHeight: {
+        '0': '0',
+        'full': '100%',
+        'screen': '100vh',
+        'touch': '44px',
       },
     },
   },

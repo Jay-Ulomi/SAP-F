@@ -1,10 +1,10 @@
 <template>
-  <div class="min-h-screen bg-gray-100 flex">
+  <div class="min-h-screen bg-gray-100 flex relative">
     <!-- Mobile sidebar backdrop -->
     <div
       v-if="sidebarOpen"
       @click="sidebarOpen = false"
-      class="fixed inset-0 bg-gray-600 bg-opacity-75 z-30 lg:hidden"
+      class="fixed inset-0 bg-gray-600 bg-opacity-75 z-40 lg:hidden"
     ></div>
 
     <!-- Sidebar -->
@@ -16,7 +16,7 @@
     />
 
     <!-- Main content -->
-    <div class="flex-1 flex flex-col lg:pl-64">
+    <div class="flex-1 flex flex-col lg:pl-64 min-w-0">
       <!-- Header -->
       <AppHeader
         @toggle-sidebar="sidebarOpen = !sidebarOpen"
@@ -44,10 +44,10 @@
       <AppBreadcrumbs :modules="modules" />
 
       <!-- Main content area -->
-      <main class="flex-1">
-        <div class="py-6">
-          <div class="mx-auto px-4 sm:px-6 lg:px-8">
-            <router-view />
+      <main class="flex-1 overflow-x-hidden overflow-y-auto">
+        <div class="py-2 sm:py-4 md:py-6">
+          <div class="max-w-full mx-auto px-2 sm:px-4 md:px-6 lg:px-8">
+            <router-view class="w-full" />
           </div>
         </div>
       </main>

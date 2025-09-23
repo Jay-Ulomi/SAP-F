@@ -1,15 +1,15 @@
 <template>
   <div class="space-y-6">
     <!-- Header -->
-    <div class="bg-white border border-gray-200 rounded-lg p-6">
-      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+    <div class="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900">Customer Management</h1>
-          <p class="text-gray-600">
+          <h1 class="text-xl sm:text-2xl font-bold text-gray-900">Customer Management</h1>
+          <p class="text-sm sm:text-base text-gray-600 mt-1">
             Manage customer relationships, contacts, and financial information
           </p>
         </div>
-        <div class="mt-4 lg:mt-0">
+        <div class="flex justify-start sm:justify-end">
           <button
             @click="openCreateForm"
             class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-sap-blue hover:bg-sap-dark-blue focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue"
@@ -29,8 +29,8 @@
     </div>
 
     <!-- Statistics Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div class="bg-white border border-gray-200 rounded-lg p-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+      <div class="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
         <div class="flex items-center">
           <div class="flex-shrink-0">
             <div
@@ -58,7 +58,7 @@
         </div>
       </div>
 
-      <div class="bg-white border border-gray-200 rounded-lg p-6">
+      <div class="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
         <div class="flex items-center">
           <div class="flex-shrink-0">
             <div class="w-8 h-8 bg-emerald-100 rounded-md flex items-center justify-center">
@@ -84,7 +84,7 @@
         </div>
       </div>
 
-      <div class="bg-white border border-gray-200 rounded-lg p-6">
+      <div class="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
         <div class="flex items-center">
           <div class="flex-shrink-0">
             <div class="w-8 h-8 bg-yellow-100 rounded-md flex items-center justify-center">
@@ -112,7 +112,7 @@
         </div>
       </div>
 
-      <div class="bg-white border border-gray-200 rounded-lg p-6">
+      <div class="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
         <div class="flex items-center">
           <div class="flex-shrink-0">
             <div class="w-8 h-8 bg-red-100 rounded-md flex items-center justify-center">
@@ -143,8 +143,8 @@
 
     <!-- Customers Table -->
     <div class="bg-white border border-gray-200 rounded-lg">
-      <div class="px-6 py-4 border-b border-gray-200">
-        <div class="flex items-center justify-between">
+      <div class="px-4 sm:px-6 py-4 border-b border-gray-200">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <h3 class="text-lg font-medium text-gray-900">Customers</h3>
           <div class="flex items-center space-x-3">
             <select
@@ -199,42 +199,44 @@
         No customers found.
       </div>
 
-      <div v-else class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200">
+      <div v-else class="overflow-x-auto -mx-4 sm:mx-0">
+        <div class="inline-block min-w-full align-middle">
+          <div class="overflow-hidden shadow-sm sm:rounded-lg">
+            <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-50">
             <tr>
               <th
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
                 Customer
               </th>
               <th
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                class="hidden sm:table-cell px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
                 Status
               </th>
               <th
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                class="hidden lg:table-cell px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
                 Type
               </th>
               <th
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                class="hidden lg:table-cell px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
                 Credit Limit
               </th>
               <th
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
                 Balance
               </th>
               <th
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                class="hidden md:table-cell px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
                 Last Activity
               </th>
               <th
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
                 Actions
               </th>
@@ -242,24 +244,38 @@
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
             <tr v-for="customer in customers" :key="customer.id" class="hover:bg-gray-50">
-              <td class="px-6 py-4 whitespace-nowrap">
+              <td class="px-3 sm:px-6 py-4 whitespace-nowrap">
                 <div class="flex items-center">
-                  <div class="flex-shrink-0 h-10 w-10">
+                  <div class="flex-shrink-0 h-8 w-8 sm:h-10 sm:w-10">
                     <div
-                      class="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center"
+                      class="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-blue-100 flex items-center justify-center"
                     >
-                      <span class="text-sm font-medium text-blue-600">{{
+                      <span class="text-xs sm:text-sm font-medium text-blue-600">{{
                         customer.customerName.charAt(0)
                       }}</span>
                     </div>
                   </div>
-                  <div class="ml-4">
+                  <div class="ml-3 sm:ml-4">
                     <div class="text-sm font-medium text-gray-900">{{ customer.customerName }}</div>
-                    <div class="text-sm text-gray-500">{{ customer.customerCode }}</div>
+                    <div class="text-xs sm:text-sm text-gray-500">{{ customer.customerCode }}</div>
+                    <div class="sm:hidden text-xs text-gray-500 mt-1">
+                      <span
+                        class="inline-flex px-2 py-0.5 text-xs font-semibold rounded-full"
+                        :class="{
+                          'bg-green-100 text-green-800': customer.status === 'ACTIVE',
+                          'bg-gray-100 text-gray-800': customer.status === 'INACTIVE',
+                          'bg-yellow-100 text-yellow-800': customer.status === 'SUSPENDED',
+                          'bg-blue-100 text-blue-800': customer.status === 'PENDING_APPROVAL',
+                          'bg-red-100 text-red-800': customer.status === 'BLOCKED',
+                        }"
+                      >
+                        {{ formatStatus(customer.status) }}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap">
+              <td class="hidden sm:table-cell px-3 sm:px-6 py-4 whitespace-nowrap">
                 <span
                   class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
                   :class="{
@@ -273,37 +289,37 @@
                   {{ formatStatus(customer.status) }}
                 </span>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              <td class="hidden lg:table-cell px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                 {{ formatCustomerType(customer.type) }}
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              <td class="hidden lg:table-cell px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                 {{ formatCurrency(customer.financial.creditLimit) }}
               </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900">
+              <td class="px-3 sm:px-6 py-4 whitespace-nowrap">
+                <div class="text-xs sm:text-sm text-gray-900">
                   {{ formatCurrency(customer.financial.currentBalance) }}
                 </div>
-                <div class="text-sm text-gray-500">
+                <div class="hidden sm:block text-xs sm:text-sm text-gray-500">
                   {{ formatCurrency(customer.financial.availableCredit) }} available
                 </div>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <td class="hidden md:table-cell px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 {{ customer.lastActivityDate ? formatDate(customer.lastActivityDate) : 'Never' }}
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                <div class="flex items-center space-x-2">
-                  <button @click="viewCustomer(customer)" class="text-blue-600 hover:text-blue-900">
+              <td class="px-3 sm:px-6 py-4 whitespace-nowrap text-sm font-medium">
+                <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-0 sm:space-x-2">
+                  <button @click="viewCustomer(customer)" class="text-xs sm:text-sm text-blue-600 hover:text-blue-900">
                     View
                   </button>
                   <button
                     @click="editCustomer(customer)"
-                    class="text-indigo-600 hover:text-indigo-900"
+                    class="text-xs sm:text-sm text-indigo-600 hover:text-indigo-900"
                   >
                     Edit
                   </button>
                   <button
                     @click="deleteCustomer(customer.id)"
-                    class="text-red-600 hover:text-red-900"
+                    class="hidden sm:inline text-xs sm:text-sm text-red-600 hover:text-red-900"
                   >
                     Delete
                   </button>
@@ -312,17 +328,19 @@
             </tr>
           </tbody>
         </table>
+          </div>
+        </div>
       </div>
 
       <!-- Pagination -->
-      <div v-if="pagination.totalPages > 1" class="px-6 py-4 border-t border-gray-200">
-        <div class="flex items-center justify-between">
-          <div class="text-sm text-gray-700">
+      <div v-if="pagination.totalPages > 1" class="px-4 sm:px-6 py-4 border-t border-gray-200">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div class="text-xs sm:text-sm text-gray-700 text-center sm:text-left">
             Showing {{ (pagination.page - 1) * pagination.limit + 1 }} to
             {{ Math.min(pagination.page * pagination.limit, pagination.total) }} of
             {{ pagination.total }} results
           </div>
-          <div class="flex items-center space-x-2">
+          <div class="flex items-center justify-center sm:justify-end space-x-2">
             <button
               @click="previousPage"
               :disabled="pagination.page === 1"
@@ -330,7 +348,7 @@
             >
               Previous
             </button>
-            <span class="text-sm text-gray-700">
+            <span class="text-xs sm:text-sm text-gray-700">
               Page {{ pagination.page }} of {{ pagination.totalPages }}
             </span>
             <button
@@ -346,83 +364,36 @@
     </div>
 
     <!-- Customer View Modal -->
-    <div v-if="showViewModal" class="fixed inset-0 z-50 overflow-y-auto">
-      <div
-        class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
-      >
-        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
-        <div
-          class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-6xl sm:w-full"
-        >
-          <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-            <div class="sm:flex sm:items-start">
-              <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
-                <div class="flex items-center justify-between mb-4">
-                  <h3 class="text-lg leading-6 font-medium text-gray-900">Customer Details</h3>
-                  <button @click="closeViewModal" class="text-gray-400 hover:text-gray-600">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M6 18L18 6M6 6l12 12"
-                      ></path>
-                    </svg>
-                  </button>
-                </div>
-                <CustomerView v-if="selectedCustomer" :customer="selectedCustomer" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <ResponsiveModal
+      :is-open="showViewModal"
+      title="Customer Details"
+      size="xl"
+      @close="closeViewModal"
+    >
+      <CustomerView v-if="selectedCustomer" :customer="selectedCustomer" />
+    </ResponsiveModal>
 
     <!-- Customer Form Modal -->
-    <div v-if="showFormModal" class="fixed inset-0 z-50 overflow-y-auto">
-      <div
-        class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
-      >
-        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
-        <div
-          class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-7xl sm:w-full"
-        >
-          <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-            <div class="sm:flex sm:items-start">
-              <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
-                <div class="flex items-center justify-between mb-4">
-                  <h3 class="text-lg leading-6 font-medium text-gray-900">
-                    {{ customerToEdit ? 'Edit Customer' : 'Create New Customer' }}
-                  </h3>
-                  <button @click="closeFormModal" class="text-gray-400 hover:text-gray-600">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M6 18L18 6M6 6l12 12"
-                      ></path>
-                    </svg>
-                  </button>
-                </div>
-                <CustomerForm
-                  :customer="customerToEdit"
-                  :loading="isFormLoading"
-                  @submit="handleSubmitCustomer"
-                  @cancel="closeFormModal"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <ResponsiveModal
+      :is-open="showFormModal"
+      :title="customerToEdit ? 'Edit Customer' : 'Create New Customer'"
+      size="full"
+      @close="closeFormModal"
+    >
+      <CustomerForm
+        :customer="customerToEdit"
+        :loading="isFormLoading"
+        @submit="handleSubmitCustomer"
+        @cancel="closeFormModal"
+      />
+    </ResponsiveModal>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useCustomerStore } from '../stores'
+import ResponsiveModal from '@/components/ResponsiveModal.vue'
 import CustomerView from '../components/CustomerView.vue'
 import CustomerForm from '../components/CustomerForm.vue'
 import type { Customer, CustomerFormData } from '../types'
