@@ -443,24 +443,6 @@
                 Items
               </th>
               <th
-                v-if="!selectedType || selectedType === 'Item'"
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
-                Warehouse
-              </th>
-              <th
-                v-if="!selectedType || selectedType === 'Service'"
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
-                Services
-              </th>
-              <th
-                v-if="!selectedType || selectedType === 'Service'"
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
-                Description
-              </th>
-              <th
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
                 Type
@@ -513,29 +495,14 @@
                 <div class="text-sm text-gray-900">{{ getItemsSummary(quotation) }}</div>
                 <div class="text-xs text-gray-500">{{ getItemCount(quotation) }} item(s)</div>
               </td>
-              <td
-                v-if="!selectedType || selectedType === 'Item'"
-                class="px-6 py-4 whitespace-nowrap"
-              >
-                <div class="text-sm text-gray-900">{{ getPrimaryWarehouse(quotation) }}</div>
-              </td>
-              <td
-                v-if="!selectedType || selectedType === 'Service'"
-                class="px-6 py-4 whitespace-nowrap"
-              >
-                <div class="text-sm text-gray-900">{{ getServicesSummary(quotation) }}</div>
-                <div class="text-xs text-gray-500">{{ getServiceCount(quotation) }} service(s)</div>
-              </td>
-              <td
-                v-if="!selectedType || selectedType === 'Service'"
-                class="px-6 py-4 whitespace-nowrap"
-              >
-                <div class="text-sm text-gray-900">{{ getServiceDescription(quotation) }}</div>
-              </td>
               <td class="px-6 py-4 whitespace-nowrap">
                 <span
                   class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
-                  :class="quotation.type === 'Item' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'"
+                  :class="
+                    String(quotation.type) === 'Item'
+                      ? 'bg-blue-100 text-blue-800'
+                      : 'bg-green-100 text-green-800'
+                  "
                 >
                   {{ quotation.type || 'Item' }}
                 </span>
@@ -673,122 +640,15 @@
           </button>
         </div>
 
-        <div class="space-y-6">
-          <!-- Basic Information -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Document Number</label>
-              <p class="mt-1 text-sm text-gray-900">{{ selectedQuotation.docNum }}</p>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Status</label>
-              <p class="mt-1">
-                <span
-                  class="inline-flex px-2 py-1 text-xs font-medium rounded-full"
-                  :class="getStatusBadgeClass(selectedQuotation.status)"
-                >
-                  {{ formatStatus(selectedQuotation.status) }}
-                </span>
-              </p>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Customer</label>
-              <p class="mt-1 text-sm text-gray-900">{{ selectedQuotation.customerName }}</p>
-              <p class="text-xs text-gray-500">{{ selectedQuotation.customerCode }}</p>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Quotation Date</label>
-              <p class="mt-1 text-sm text-gray-900">
-                {{ formatDate(selectedQuotation.quotationDate) }}
-              </p>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Valid Until</label>
-              <p class="mt-1 text-sm text-gray-900">
-                {{ formatDate(selectedQuotation.validUntil) }}
-              </p>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Total Amount</label>
-              <p class="mt-1 text-lg font-semibold text-sap-blue">
-                {{ formatCurrency(selectedQuotation.totalAmount, selectedQuotation.currency) }}
-              </p>
-            </div>
-          </div>
-
-          <!-- Line Items -->
-          <div>
-            <h4 class="text-md font-medium text-gray-900 mb-3">Line Items</h4>
-            <div class="overflow-x-auto">
-              <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                  <tr>
-                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                      Item
-                    </th>
-                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                      Description
-                    </th>
-                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                      Qty
-                    </th>
-                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                      Unit Price
-                    </th>
-                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                      Line Total
-                    </th>
-                  </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                  <tr v-for="item in selectedQuotation.lineItems" :key="item.id">
-                    <td class="px-3 py-2 text-sm text-gray-900">{{ item.itemCode }}</td>
-                    <td class="px-3 py-2 text-sm text-gray-900">{{ item.description }}</td>
-                    <td class="px-3 py-2 text-sm text-gray-900">{{ item.quantity }}</td>
-                    <td class="px-3 py-2 text-sm text-gray-900">
-                      {{ formatCurrency(item.unitPrice, selectedQuotation.currency) }}
-                    </td>
-                    <td class="px-3 py-2 text-sm font-medium text-gray-900">
-                      {{ formatCurrency(item.lineTotal, selectedQuotation.currency) }}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <!-- Totals -->
-          <div class="bg-gray-50 p-4 rounded-lg">
-            <div class="space-y-2">
-              <div class="flex justify-between">
-                <span class="text-sm text-gray-600">Subtotal:</span>
-                <span class="font-medium">{{
-                  formatCurrency(selectedQuotation.subtotal, selectedQuotation.currency)
-                }}</span>
-              </div>
-              <div class="flex justify-between">
-                <span class="text-sm text-gray-600">Discount Total:</span>
-                <span class="font-medium">{{
-                  formatCurrency(selectedQuotation.discountTotal, selectedQuotation.currency)
-                }}</span>
-              </div>
-              <div class="flex justify-between">
-                <span class="text-sm text-gray-600">Tax Total:</span>
-                <span class="font-medium">{{
-                  formatCurrency(selectedQuotation.taxTotal, selectedQuotation.currency)
-                }}</span>
-              </div>
-              <div class="border-t pt-2">
-                <div class="flex justify-between">
-                  <span class="text-lg font-semibold text-gray-900">Total Amount:</span>
-                  <span class="text-lg font-semibold text-sap-blue">
-                    {{ formatCurrency(selectedQuotation.totalAmount, selectedQuotation.currency) }}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <!-- QuotationView Component -->
+        <QuotationView
+          :quotation="selectedQuotation"
+          @edit="handleEditQuotation(selectedQuotation)"
+          @convert="handleConvertToOrder(selectedQuotation)"
+          @print="handlePrintQuotation(selectedQuotation)"
+          @email="handleEmailQuotation(selectedQuotation)"
+          @duplicate="handleDuplicateQuotation(selectedQuotation)"
+        />
       </div>
     </div>
   </div>
@@ -797,7 +657,10 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useQuotationsStore } from '../stores/quotationsStore'
+// @ts-ignore - Vue SFC default export shim
 import QuotationForm from '../components/QuotationForm.vue'
+// @ts-ignore - Vue SFC default export shim
+import QuotationView from '../components/QuotationView.vue'
 import type { Quotation } from '../types'
 import { QuotationStatus, QuotationType } from '../types'
 
@@ -907,6 +770,37 @@ const editQuotation = (quotation: Quotation) => {
   showFormModal.value = true
 }
 
+// Event handlers for QuotationView component
+const handleEditQuotation = (quotation: any) => {
+  editQuotation(quotation)
+  showDetailModal.value = false
+}
+
+const handleConvertToOrder = (quotation: any) => {
+  console.log('Convert to Order:', quotation)
+  // TODO: Implement convert to order functionality
+}
+
+const handlePrintQuotation = (quotation: any) => {
+  console.log('Print Quotation:', quotation)
+  // TODO: Implement print functionality
+}
+
+const handleEmailQuotation = (quotation: any) => {
+  console.log('Email Quotation:', quotation)
+  // TODO: Implement email functionality
+}
+
+const handleDuplicateQuotation = (quotation: any) => {
+  console.log('Duplicate Quotation:', quotation)
+  // TODO: Implement duplicate functionality
+}
+
+const addQuotation = () => {
+  editingQuotation.value = null
+  showFormModal.value = true
+}
+
 const deleteQuotation = async (quotation: Quotation) => {
   if (confirm(`Are you sure you want to delete quotation ${quotation.docNum}?`)) {
     const result = await quotationsStore.deleteQuotation(quotation.id)
@@ -931,11 +825,21 @@ const formatDate = (dateString: string): string => {
   return new Date(dateString).toLocaleDateString()
 }
 
-const formatCurrency = (amount: number, currency: string): string => {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: currency,
-  }).format(amount)
+const formatCurrency = (amount: number | string | null | undefined, currency?: string): string => {
+  const numericAmount = typeof amount === 'string' ? parseFloat(amount) : Number(amount)
+  if (!isFinite(numericAmount)) {
+    return '—'
+  }
+
+  const currencyCode = (currency && currency.trim()) || 'USD'
+  try {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: currencyCode,
+    }).format(numericAmount)
+  } catch (_err) {
+    return `${currencyCode} ${numericAmount.toFixed(2)}`
+  }
 }
 
 const formatStatus = (status: QuotationStatus): string => {
@@ -985,7 +889,7 @@ const getTypeBadgeClass = (type: QuotationType): string => {
 }
 
 // Helper functions for Item/Service display
-const getItemsSummary = (record) => {
+const getItemsSummary = (record: any) => {
   if (!record.lineItems || record.lineItems.length === 0) return 'No items'
   const firstItem = record.lineItems[0]
   if (record.lineItems.length === 1) {
@@ -994,41 +898,13 @@ const getItemsSummary = (record) => {
   return `${firstItem.itemCode || firstItem.description || 'Item'} +${record.lineItems.length - 1} more`
 }
 
-const getItemCount = (record) => {
+const getItemCount = (record: any) => {
   return record.lineItems?.length || 0
 }
 
-const getPrimaryWarehouse = (record) => {
-  if (!record.lineItems || record.lineItems.length === 0) return '-'
-  const warehouses = [...new Set(record.lineItems.map(item => item.warehouseCode).filter(Boolean))]
-  if (warehouses.length === 0) return '-'
-  if (warehouses.length === 1) return warehouses[0]
-  return `${warehouses[0]} +${warehouses.length - 1} more`
-}
 
-const getServicesSummary = (record) => {
-  if (!record.serviceItems || record.serviceItems.length === 0) return 'No services'
-  const firstService = record.serviceItems[0]
-  if (record.serviceItems.length === 1) {
-    return firstService.description || 'Service'
-  }
-  return `${firstService.description || 'Service'} +${record.serviceItems.length - 1} more`
-}
 
-const getServiceCount = (record) => {
-  return record.serviceItems?.length || 0
-}
 
-const getServiceDescription = (record) => {
-  if (!record.serviceItems || record.serviceItems.length === 0) return '-'
-  const descriptions = record.serviceItems
-    .map(service => service.description)
-    .filter(Boolean)
-    .slice(0, 2)
-  if (descriptions.length === 0) return '-'
-  if (descriptions.length === 1) return descriptions[0]
-  return descriptions.join(', ') + (record.serviceItems.length > 2 ? '...' : '')
-}
 
 // Lifecycle
 onMounted(async () => {

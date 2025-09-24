@@ -27,7 +27,7 @@
   }
 
   .card {
-    @apply bg-white rounded-lg shadow-md border border-gray-200 p-3 sm:p-4 text-xs sm:text-sm;
+    @apply bg-white rounded-lg shadow-md border border-gray-200 p-3 sm:p-4 text-xxs sm:text-xs;
   }
 
   .card-header {
@@ -35,42 +35,42 @@
   }
 
   .card-title {
-    @apply text-base sm:text-lg font-semibold text-gray-900;
+    @apply text-sm sm:text-base font-semibold text-gray-900;
   }
 
   .sidebar-item {
-    @apply flex items-center px-3 py-1.5 text-sm text-gray-700 hover:bg-sap-light-blue hover:text-sap-blue rounded-lg transition-colors duration-200;
+    @apply flex items-center px-3 py-1.5 text-xs text-gray-700 hover:bg-sap-light-blue hover:text-sap-blue rounded-lg transition-colors duration-200;
   }
 
 
   .sidebar-item.active {
-    @apply bg-sap-light-blue text-sap-blue font-medium text-sm;
+    @apply bg-sap-light-blue text-sap-blue font-medium text-xs;
   }
 }
 
 #app {
-  @apply min-h-screen bg-gray-50 text-sm;
+  @apply min-h-screen bg-gray-50 text-xs;
 }
 
 /* Global font size adjustments - Responsive */
 @layer base {
   h1 {
-    @apply text-base sm:text-lg font-semibold;
+    @apply text-sm sm:text-base font-semibold;
   }
   h2 {
-    @apply text-sm sm:text-base font-medium;
-  }
-  h3 {
     @apply text-xs sm:text-sm font-medium;
   }
-  h4 {
-    @apply text-xs sm:text-sm font-normal;
-  }
-  h5 {
+  h3 {
     @apply text-xxs sm:text-xs font-medium;
   }
-  h6 {
+  h4 {
     @apply text-xxs sm:text-xs font-normal;
+  }
+  h5 {
+    @apply text-xxs font-medium;
+  }
+  h6 {
+    @apply text-xxs font-normal;
   }
 
   /* Form elements - Responsive */
@@ -82,15 +82,15 @@
 
   /* Table elements - Responsive */
   table {
-    @apply text-xs sm:text-sm;
+    @apply text-xxs sm:text-xs;
   }
 
   th {
-    @apply text-xxs sm:text-xs uppercase font-medium;
+    @apply text-xxs uppercase font-medium;
   }
 
   td {
-    @apply text-xs sm:text-sm;
+    @apply text-xxs sm:text-xs;
   }
 
   /* Button adjustments - Responsive */

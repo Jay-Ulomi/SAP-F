@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { quotationsApi, customersApi, itemsApi, taxCodesApi } from '../api/quotationsApi'
+import { quotationsApi } from '../api/quotationsApi'
 import type {
   Quotation,
   QuotationFormData,
@@ -138,17 +138,12 @@ export const useQuotationsStore = defineStore('quotations', () => {
       loading.value = true
       error.value = null
 
-      const response = await quotationsApi.list(filters.value, page, limit)
-
-      if (response.success) {
-        quotations.value = response.data
-        pagination.value = {
-          page: response.page,
-          limit: response.limit,
-          total: response.total,
-        }
-      } else {
-        error.value = response.message || 'Failed to fetch quotations'
+      const data = await quotationsApi.getQuotations()
+      quotations.value = data
+      pagination.value = {
+        page,
+        limit,
+        total: data.length,
       }
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'An error occurred'
@@ -162,12 +157,10 @@ export const useQuotationsStore = defineStore('quotations', () => {
       loading.value = true
       error.value = null
 
-      const response = await quotationsApi.get(id)
-
-      if (response.success) {
-        currentQuotation.value = response.data
-      } else {
-        error.value = response.message || 'Failed to fetch quotation'
+      const data = await quotationsApi.getQuotation(id)
+      currentQuotation.value = data || null
+      if (!data) {
+        error.value = 'Quotation not found'
       }
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'An error occurred'
@@ -181,16 +174,10 @@ export const useQuotationsStore = defineStore('quotations', () => {
       loading.value = true
       error.value = null
 
-      const response = await quotationsApi.create(data)
-
-      if (response.success) {
-        quotations.value.unshift(response.data)
-        currentQuotation.value = response.data
-        return { success: true, data: response.data }
-      } else {
-        error.value = response.message || 'Failed to create quotation'
-        return { success: false, message: response.message }
-      }
+      const newQuotation = await quotationsApi.createQuotation(data as any)
+      quotations.value.unshift(newQuotation)
+      currentQuotation.value = newQuotation
+      return { success: true, data: newQuotation }
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'An error occurred'
       return { success: false, message: error.value }
@@ -204,20 +191,19 @@ export const useQuotationsStore = defineStore('quotations', () => {
       loading.value = true
       error.value = null
 
-      const response = await quotationsApi.update(id, data)
-
-      if (response.success) {
+      const updatedQuotation = await quotationsApi.updateQuotation(id, data as any)
+      if (updatedQuotation) {
         const index = quotations.value.findIndex((q) => q.id === id)
         if (index !== -1) {
-          quotations.value[index] = response.data
+          quotations.value[index] = updatedQuotation
         }
         if (currentQuotation.value?.id === id) {
-          currentQuotation.value = response.data
+          currentQuotation.value = updatedQuotation
         }
-        return { success: true, data: response.data }
+        return { success: true, data: updatedQuotation }
       } else {
-        error.value = response.message || 'Failed to update quotation'
-        return { success: false, message: response.message }
+        error.value = 'Failed to update quotation'
+        return { success: false, message: 'Failed to update quotation' }
       }
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'An error occurred'
@@ -232,17 +218,16 @@ export const useQuotationsStore = defineStore('quotations', () => {
       loading.value = true
       error.value = null
 
-      const response = await quotationsApi.delete(id)
-
-      if (response.success) {
+      const success = await quotationsApi.deleteQuotation(id)
+      if (success) {
         quotations.value = quotations.value.filter((q) => q.id !== id)
         if (currentQuotation.value?.id === id) {
           currentQuotation.value = null
         }
         return { success: true }
       } else {
-        error.value = response.message || 'Failed to delete quotation'
-        return { success: false, message: response.message }
+        error.value = 'Failed to delete quotation'
+        return { success: false, message: 'Failed to delete quotation' }
       }
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'An error occurred'
@@ -257,13 +242,20 @@ export const useQuotationsStore = defineStore('quotations', () => {
       loading.value = true
       error.value = null
 
-      const response = await quotationsApi.getStats()
+      // Mock stats calculation from current quotations
+      const total = quotations.value.length
+      const draft = quotations.value.filter(q => q.status === 'DRAFT').length
+      const sent = quotations.value.filter(q => q.status === 'PENDING').length
+      const accepted = quotations.value.filter(q => q.status === 'APPROVED').length
 
-      if (response.success) {
-        stats.value = response.data
-      } else {
-        error.value = response.message || 'Failed to fetch stats'
-      }
+      stats.value = {
+        totalQuotations: total,
+        draftQuotations: draft,
+        sentQuotations: sent,
+        acceptedQuotations: accepted,
+        totalValue: quotations.value.reduce((sum, q) => sum + q.total, 0),
+        conversionRate: sent > 0 ? (accepted / sent) * 100 : 0
+      } as any
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'An error occurred'
     } finally {
@@ -273,10 +265,12 @@ export const useQuotationsStore = defineStore('quotations', () => {
 
   const fetchCustomers = async (search?: string) => {
     try {
-      const response = await customersApi.list(search)
-      if (response.success) {
-        customers.value = response.data
-      }
+      // Mock customer data
+      customers.value = [
+        { id: '1', code: 'CUST001', name: 'Acme Corporation' },
+        { id: '2', code: 'CUST002', name: 'TechStart Solutions' },
+        { id: '3', code: 'CUST003', name: 'Global Enterprises Ltd' }
+      ] as any
     } catch (err) {
       console.error('Failed to fetch customers:', err)
     }
@@ -284,10 +278,12 @@ export const useQuotationsStore = defineStore('quotations', () => {
 
   const fetchTaxCodes = async () => {
     try {
-      const response = await taxCodesApi.list()
-      if (response.success) {
-        taxCodes.value = response.data
-      }
+      // Mock tax codes
+      taxCodes.value = [
+        { code: 'TAX1', name: 'Standard Tax', rate: 10, type: 'Standard' },
+        { code: 'TAX2', name: 'Reduced Tax', rate: 5, type: 'Reduced' },
+        { code: 'NOTAX', name: 'No Tax', rate: 0, type: 'Exempt' }
+      ]
     } catch (err) {
       console.error('Failed to fetch tax codes:', err)
     }
@@ -295,8 +291,12 @@ export const useQuotationsStore = defineStore('quotations', () => {
 
   const fetchItems = async (search?: string) => {
     try {
-      const response = await itemsApi.list(search)
-      return response.success ? response.data : []
+      // Mock items data
+      return [
+        { id: '1', code: 'LAPTOP-001', name: 'Business Laptop Pro', price: 1299.99 },
+        { id: '2', code: 'MOUSE-002', name: 'Wireless Mouse', price: 29.99 },
+        { id: '3', code: 'KEYBOARD-003', name: 'Mechanical Keyboard', price: 89.99 }
+      ] as any
     } catch (err) {
       console.error('Failed to fetch items:', err)
       return []
@@ -311,21 +311,21 @@ export const useQuotationsStore = defineStore('quotations', () => {
       loading.value = true
       error.value = null
 
-      const response = await quotationsApi.sendQuotation(id, emailData)
-
-      if (response.success) {
-        // Update the quotation in the list
+      // Mock sending - just update status to PENDING
+      const quotation = quotations.value.find(q => q.id === id)
+      if (quotation) {
+        const updatedQuotation = { ...quotation, status: 'PENDING' as any }
         const index = quotations.value.findIndex((q) => q.id === id)
         if (index !== -1) {
-          quotations.value[index] = response.data
+          quotations.value[index] = updatedQuotation
         }
         if (currentQuotation.value?.id === id) {
-          currentQuotation.value = response.data
+          currentQuotation.value = updatedQuotation
         }
-        return { success: true, data: response.data }
+        return { success: true, data: updatedQuotation }
       } else {
-        error.value = response.message || 'Failed to send quotation'
-        return { success: false, message: response.message }
+        error.value = 'Quotation not found'
+        return { success: false, message: 'Quotation not found' }
       }
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'An error occurred'
@@ -343,21 +343,21 @@ export const useQuotationsStore = defineStore('quotations', () => {
       loading.value = true
       error.value = null
 
-      const response = await quotationsApi.acceptQuotation(id, acceptanceData)
-
-      if (response.success) {
-        // Update the quotation in the list
+      // Mock acceptance - just update status to APPROVED
+      const quotation = quotations.value.find(q => q.id === id)
+      if (quotation) {
+        const updatedQuotation = { ...quotation, status: 'APPROVED' as any }
         const index = quotations.value.findIndex((q) => q.id === id)
         if (index !== -1) {
-          quotations.value[index] = response.data
+          quotations.value[index] = updatedQuotation
         }
         if (currentQuotation.value?.id === id) {
-          currentQuotation.value = response.data
+          currentQuotation.value = updatedQuotation
         }
-        return { success: true, data: response.data }
+        return { success: true, data: updatedQuotation }
       } else {
-        error.value = response.message || 'Failed to accept quotation'
-        return { success: false, message: response.message }
+        error.value = 'Quotation not found'
+        return { success: false, message: 'Quotation not found' }
       }
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'An error occurred'
@@ -375,21 +375,21 @@ export const useQuotationsStore = defineStore('quotations', () => {
       loading.value = true
       error.value = null
 
-      const response = await quotationsApi.rejectQuotation(id, rejectionData)
-
-      if (response.success) {
-        // Update the quotation in the list
+      // Mock rejection - just update status to REJECTED
+      const quotation = quotations.value.find(q => q.id === id)
+      if (quotation) {
+        const updatedQuotation = { ...quotation, status: 'REJECTED' as any }
         const index = quotations.value.findIndex((q) => q.id === id)
         if (index !== -1) {
-          quotations.value[index] = response.data
+          quotations.value[index] = updatedQuotation
         }
         if (currentQuotation.value?.id === id) {
-          currentQuotation.value = response.data
+          currentQuotation.value = updatedQuotation
         }
-        return { success: true, data: response.data }
+        return { success: true, data: updatedQuotation }
       } else {
-        error.value = response.message || 'Failed to reject quotation'
-        return { success: false, message: response.message }
+        error.value = 'Quotation not found'
+        return { success: false, message: 'Quotation not found' }
       }
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'An error occurred'
@@ -407,21 +407,21 @@ export const useQuotationsStore = defineStore('quotations', () => {
       loading.value = true
       error.value = null
 
-      const response = await quotationsApi.convertToOrder(id, orderData)
-
-      if (response.success) {
-        // Update the quotation in the list
+      // Mock conversion - update status to show it was converted
+      const quotation = quotations.value.find(q => q.id === id)
+      if (quotation) {
+        const updatedQuotation = { ...quotation, status: 'APPROVED' as any }
         const index = quotations.value.findIndex((q) => q.id === id)
         if (index !== -1) {
-          quotations.value[index] = response.data
+          quotations.value[index] = updatedQuotation
         }
         if (currentQuotation.value?.id === id) {
-          currentQuotation.value = response.data
+          currentQuotation.value = updatedQuotation
         }
-        return { success: true, data: response.data }
+        return { success: true, data: updatedQuotation }
       } else {
-        error.value = response.message || 'Failed to convert quotation to order'
-        return { success: false, message: response.message }
+        error.value = 'Quotation not found'
+        return { success: false, message: 'Quotation not found' }
       }
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'An error occurred'

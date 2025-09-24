@@ -1,279 +1,155 @@
-import { apiClient } from '../../../../shared/api/apiClient'
-import type {
-  CreditMemo,
-  CreditMemoFormData,
-  CreditMemoResponse,
-  CreditMemoListResponse,
-  CreditMemoStatsResponse,
-  CreditMemoFilters,
-  CreditMemoValidationResult,
-  Customer,
-  FormType,
-} from '../types'
-
-const CREDIT_MEMOS_BASE_PATH = '/credit-memos'
-const CUSTOMERS_BASE_PATH = '/customers'
-
-// Credit Memos API
-const creditMemosApi = {
-  // Get all credit memos with pagination and filters
-  getCreditMemos: async (params?: {
-    page?: number
-    limit?: number
-    filters?: CreditMemoFilters
-  }): Promise<CreditMemoListResponse> => {
-    const response = await apiClient.get(CREDIT_MEMOS_BASE_PATH, { params })
-    return response.data
-  },
-
-  // Get single credit memo by ID
-  getCreditMemo: async (id: string): Promise<CreditMemoResponse> => {
-    const response = await apiClient.get(`${CREDIT_MEMOS_BASE_PATH}/${id}`)
-    return response.data
-  },
-
-  // Create new credit memo
-  createCreditMemo: async (data: CreditMemoFormData): Promise<CreditMemoResponse> => {
-    const response = await apiClient.post(CREDIT_MEMOS_BASE_PATH, data)
-    return response.data
-  },
-
-  // Update existing credit memo
-  updateCreditMemo: async (
-    id: string,
-    data: Partial<CreditMemoFormData>,
-  ): Promise<CreditMemoResponse> => {
-    const response = await apiClient.put(`${CREDIT_MEMOS_BASE_PATH}/${id}`, data)
-    return response.data
-  },
-
-  // Delete credit memo
-  deleteCreditMemo: async (id: string): Promise<void> => {
-    await apiClient.delete(`${CREDIT_MEMOS_BASE_PATH}/${id}`)
-  },
-
-  // Post credit memo (change from draft to open)
-  postCreditMemo: async (id: string): Promise<CreditMemoResponse> => {
-    const response = await apiClient.post(`${CREDIT_MEMOS_BASE_PATH}/${id}/post`)
-    return response.data
-  },
-
-  // Cancel credit memo
-  cancelCreditMemo: async (id: string, reason: string): Promise<CreditMemoResponse> => {
-    const response = await apiClient.post(`${CREDIT_MEMOS_BASE_PATH}/${id}/cancel`, { reason })
-    return response.data
-  },
-
-  // Copy credit memo
-  copyCreditMemo: async (id: string, newDate?: string): Promise<CreditMemoResponse> => {
-    const response = await apiClient.post(`${CREDIT_MEMOS_BASE_PATH}/${id}/copy`, { newDate })
-    return response.data
-  },
-
-  // Print credit memo
-  printCreditMemo: async (id: string, format: 'PDF' | 'HTML'): Promise<Blob> => {
-    const response = await apiClient.get(`${CREDIT_MEMOS_BASE_PATH}/${id}/print`, {
-      params: { format },
-      responseType: 'blob',
-    })
-    return response.data
-  },
-
-  // Email credit memo
-  emailCreditMemo: async (
-    id: string,
-    email: string,
-    subject?: string,
-    message?: string,
-  ): Promise<void> => {
-    await apiClient.post(`${CREDIT_MEMOS_BASE_PATH}/${id}/email`, {
-      email,
-      subject,
-      message,
-    })
-  },
-
-  // Get credit memo statistics
-  getCreditMemoStats: async (filters?: CreditMemoFilters): Promise<CreditMemoStatsResponse> => {
-    const response = await apiClient.get(`${CREDIT_MEMOS_BASE_PATH}/stats`, {
-      params: filters,
-    })
-    return response.data
-  },
-
-  // Validate credit memo data
-  validateCreditMemo: async (data: CreditMemoFormData): Promise<CreditMemoValidationResult> => {
-    const response = await apiClient.post(`${CREDIT_MEMOS_BASE_PATH}/validate`, data)
-    return response.data
-  },
-
-  // Get unapplied credit memos
-  getUnappliedCreditMemos: async (params?: {
-    page?: number
-    limit?: number
-    customerCode?: string
-  }): Promise<CreditMemoListResponse> => {
-    const response = await apiClient.get(`${CREDIT_MEMOS_BASE_PATH}/unapplied`, { params })
-    return response.data
-  },
-
-  // Apply credit memo to invoice
-  applyCreditMemo: async (
-    id: string,
-    invoiceId: string,
-    amount: number,
-    notes?: string,
-  ): Promise<CreditMemoResponse> => {
-    const response = await apiClient.post(`${CREDIT_MEMOS_BASE_PATH}/${id}/apply`, {
-      invoiceId,
-      amount,
-      notes,
-    })
-    return response.data
-  },
-
-  // Unapply credit memo from invoice
-  unapplyCreditMemo: async (
-    id: string,
-    applicationId: string,
-    reason: string,
-  ): Promise<CreditMemoResponse> => {
-    const response = await apiClient.post(`${CREDIT_MEMOS_BASE_PATH}/${id}/unapply`, {
-      applicationId,
-      reason,
-    })
-    return response.data
-  },
-
-  // Get available invoices for application
-  getAvailableInvoices: async (
-    customerCode: string,
-  ): Promise<{
-    data: Array<{
-      id: string
-      docNum: string
-      invoiceDate: string
-      dueDate: string
-      total: number
-      balance: number
-      currency: string
-    }>
-  }> => {
-    const response = await apiClient.get(`${CREDIT_MEMOS_BASE_PATH}/available-invoices`, {
-      params: { customerCode },
-    })
-    return response.data
-  },
-
-  // Create credit memo from invoice
-  createFromInvoice: async (
-    invoiceId: string,
-    data: Partial<CreditMemoFormData>,
-  ): Promise<CreditMemoResponse> => {
-    const response = await apiClient.post(`${CREDIT_MEMOS_BASE_PATH}/from-invoice`, {
-      invoiceId,
-      ...data,
-    })
-    return response.data
-  },
-
-  // Export credit memos
-  exportCreditMemos: async (
-    filters?: CreditMemoFilters,
-    format: 'CSV' | 'EXCEL' | 'PDF' = 'CSV',
-  ): Promise<Blob> => {
-    const response = await apiClient.get(`${CREDIT_MEMOS_BASE_PATH}/export`, {
-      params: { ...filters, format },
-      responseType: 'blob',
-    })
-    return response.data
-  },
+export interface CreditMemoItem {
+  id: string
+  itemCode: string
+  itemName: string
+  quantity: number
+  unitPrice: number
+  creditAmount: number
 }
 
-// Customers API (for dropdowns and lookups)
-const customersApi = {
-  // Get all customers
-  getCustomers: async (params?: {
-    page?: number
-    limit?: number
-    search?: string
-  }): Promise<{ data: Customer[]; total: number }> => {
-    const response = await apiClient.get(CUSTOMERS_BASE_PATH, { params })
-    return response.data
-  },
+export interface CreditMemo {
+  id: string
+  creditMemoNumber: string
+  customerName: string
+  originalInvoiceNumber: string
+  creditDate: string
+  processedDate?: string
+  status: 'DRAFT' | 'PENDING' | 'APPROVED' | 'REJECTED' | 'PROCESSED'
+  reason: string
+  rmaNumber?: string
+  items: CreditMemoItem[]
+  subtotal: number
+  taxCredit: number
+  totalCredit: number
+  refundAmount?: number
+  approvedBy?: string
+  notes?: string
+}
 
-  // Get customer by code
-  getCustomer: async (code: string): Promise<{ data: Customer }> => {
-    const response = await apiClient.get(`${CUSTOMERS_BASE_PATH}/${code}`)
-    return response.data
+const mockCreditMemos: CreditMemo[] = [
+  {
+    id: '1',
+    creditMemoNumber: 'CM-2024-001',
+    customerName: 'Beta Industries',
+    originalInvoiceNumber: 'INV-2024-002',
+    creditDate: '2024-02-01',
+    processedDate: '2024-02-02',
+    status: 'PROCESSED',
+    reason: 'Damaged items - 2 monitors arrived with cracked screens',
+    rmaNumber: 'RMA-2024-001',
+    items: [
+      {
+        id: '1',
+        itemCode: 'MONITOR-001',
+        itemName: '27" 4K Monitor',
+        quantity: 2,
+        unitPrice: 499.99,
+        creditAmount: 999.98
+      }
+    ],
+    subtotal: 999.98,
+    taxCredit: 89.99,
+    totalCredit: 1089.97,
+    refundAmount: 1089.97,
+    approvedBy: 'Manager: Robert Chen',
+    notes: 'Customer has been refunded via original payment method'
   },
+  {
+    id: '2',
+    creditMemoNumber: 'CM-2024-002',
+    customerName: 'Acme Corporation',
+    originalInvoiceNumber: 'INV-2024-001',
+    creditDate: '2024-02-05',
+    status: 'PENDING',
+    reason: 'Price adjustment - promotional discount not applied',
+    items: [
+      {
+        id: '2',
+        itemCode: 'LAPTOP-001',
+        itemName: 'Business Laptop Pro',
+        quantity: 10,
+        unitPrice: 100.00,
+        creditAmount: 1000.00
+      }
+    ],
+    subtotal: 1000.00,
+    taxCredit: 90.00,
+    totalCredit: 1090.00,
+    notes: 'Awaiting management approval for price adjustment'
+  },
+  {
+    id: '3',
+    creditMemoNumber: 'CM-2024-003',
+    customerName: 'TechStart Solutions',
+    originalInvoiceNumber: 'INV-2024-004',
+    creditDate: '2024-02-08',
+    status: 'APPROVED',
+    reason: 'Product defect discovered after installation',
+    rmaNumber: 'RMA-2024-003',
+    items: [
+      {
+        id: '3',
+        itemCode: 'SERVER-001',
+        itemName: 'Enterprise Server',
+        quantity: 1,
+        unitPrice: 8999.99,
+        creditAmount: 8999.99
+      }
+    ],
+    subtotal: 8999.99,
+    taxCredit: 809.99,
+    totalCredit: 9809.98,
+    approvedBy: 'Manager: Sarah Wilson'
+  }
+]
 
-  // Search customers
-  searchCustomers: async (query: string): Promise<{ data: Customer[] }> => {
-    const response = await apiClient.get(`${CUSTOMERS_BASE_PATH}/search`, {
-      params: { q: query },
+class CreditMemosApiService {
+  async getCreditMemos(): Promise<CreditMemo[]> {
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(mockCreditMemos), 500)
     })
-    return response.data
-  },
-}
+  }
 
-// Items API (for line items)
-const itemsApi = {
-  // Search items
-  searchItems: async (
-    query: string,
-  ): Promise<{
-    data: Array<{
-      id: string
-      code: string
-      description: string
-      price: number
-      taxCode: string
-      unitOfMeasure: string
-    }>
-  }> => {
-    const response = await apiClient.get('/items/search', {
-      params: { q: query },
+  async getCreditMemo(id: string): Promise<CreditMemo | undefined> {
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(mockCreditMemos.find(c => c.id === id)), 300)
     })
-    return response.data
-  },
+  }
 
-  // Get item details
-  getItem: async (
-    code: string,
-  ): Promise<{
-    data: {
-      id: string
-      code: string
-      description: string
-      price: number
-      taxCode: string
-      unitOfMeasure: string
-      warehouseQuantities: Array<{
-        warehouseCode: string
-        quantity: number
-      }>
-    }
-  }> => {
-    const response = await apiClient.get(`/items/${code}`)
-    return response.data
-  },
+  async createCreditMemo(creditMemo: Omit<CreditMemo, 'id'>): Promise<CreditMemo> {
+    return new Promise((resolve) => {
+      const newCreditMemo: CreditMemo = {
+        ...creditMemo,
+        id: Date.now().toString()
+      }
+      mockCreditMemos.unshift(newCreditMemo)
+      setTimeout(() => resolve(newCreditMemo), 300)
+    })
+  }
+
+  async updateCreditMemo(id: string, creditMemo: Partial<CreditMemo>): Promise<CreditMemo | undefined> {
+    return new Promise((resolve) => {
+      const index = mockCreditMemos.findIndex(c => c.id === id)
+      if (index !== -1) {
+        mockCreditMemos[index] = { ...mockCreditMemos[index], ...creditMemo }
+        setTimeout(() => resolve(mockCreditMemos[index]), 300)
+      } else {
+        setTimeout(() => resolve(undefined), 300)
+      }
+    })
+  }
+
+  async deleteCreditMemo(id: string): Promise<boolean> {
+    return new Promise((resolve) => {
+      const index = mockCreditMemos.findIndex(c => c.id === id)
+      if (index !== -1) {
+        mockCreditMemos.splice(index, 1)
+        setTimeout(() => resolve(true), 300)
+      } else {
+        setTimeout(() => resolve(false), 300)
+      }
+    })
+  }
 }
 
-// Tax Codes API
-const taxCodesApi = {
-  // Get all tax codes
-  getTaxCodes: async (): Promise<{
-    data: Array<{
-      code: string
-      name: string
-      rate: number
-      type: 'INPUT' | 'OUTPUT'
-    }>
-  }> => {
-    const response = await apiClient.get('/tax-codes')
-    return response.data
-  },
-}
-
-export { creditMemosApi, customersApi, itemsApi, taxCodesApi }
+export const creditMemosApi = new CreditMemosApiService()

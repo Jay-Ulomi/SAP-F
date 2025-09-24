@@ -1,251 +1,183 @@
-import { apiClient } from '../../../../shared/api/apiClient'
-import type {
-  Return,
-  ReturnFormData,
-  ReturnResponse,
-  ReturnListResponse,
-  ReturnStatsResponse,
-  ReturnFilters,
-  ReturnValidationResult,
-  Customer,
-  FormType,
-} from '../types'
-
-const RETURNS_BASE_PATH = '/returns'
-
-// Main Returns API
-const returnsApi = {
-  // CRUD Operations
-  get: async (id: string): Promise<ReturnResponse> => {
-    const response = await apiClient.get(`${RETURNS_BASE_PATH}/${id}`)
-    return response.data
-  },
-
-  list: async (filters?: ReturnFilters, page = 1, limit = 20): Promise<ReturnListResponse> => {
-    const params = new URLSearchParams()
-    if (filters?.status?.length) params.append('status', filters.status.join(','))
-    if (filters?.type?.length) params.append('type', filters.type.join(','))
-    if (filters?.formType?.length) params.append('formType', filters.formType.join(','))
-    if (filters?.customerCode) params.append('customerCode', filters.customerCode)
-    if (filters?.salesPerson) params.append('salesPerson', filters.salesPerson)
-    if (filters?.dateFrom) params.append('dateFrom', filters.dateFrom)
-    if (filters?.dateTo) params.append('dateTo', filters.dateTo)
-    if (filters?.search) params.append('search', filters.search)
-    params.append('page', page.toString())
-    params.append('limit', limit.toString())
-
-    const response = await apiClient.get(`${RETURNS_BASE_PATH}?${params.toString()}`)
-    return response.data
-  },
-
-  create: async (data: ReturnFormData): Promise<ReturnResponse> => {
-    const response = await apiClient.post(RETURNS_BASE_PATH, data)
-    return response.data
-  },
-
-  update: async (id: string, data: Partial<ReturnFormData>): Promise<ReturnResponse> => {
-    const response = await apiClient.put(`${RETURNS_BASE_PATH}/${id}`, data)
-    return response.data
-  },
-
-  delete: async (id: string): Promise<{ success: boolean; message?: string }> => {
-    const response = await apiClient.delete(`${RETURNS_BASE_PATH}/${id}`)
-    return response.data
-  },
-
-  // Business Actions
-  approveReturn: async (
-    id: string,
-    approvalData: { approvedBy: string; notes?: string },
-  ): Promise<ReturnResponse> => {
-    const response = await apiClient.post(`${RETURNS_BASE_PATH}/${id}/approve`, approvalData)
-    return response.data
-  },
-
-  rejectReturn: async (
-    id: string,
-    rejectionData: { rejectedBy: string; reason: string; notes?: string },
-  ): Promise<ReturnResponse> => {
-    const response = await apiClient.post(`${RETURNS_BASE_PATH}/${id}/reject`, rejectionData)
-    return response.data
-  },
-
-  processReturn: async (
-    id: string,
-    processData: { processedBy: string; notes?: string },
-  ): Promise<ReturnResponse> => {
-    const response = await apiClient.post(`${RETURNS_BASE_PATH}/${id}/process`, processData)
-    return response.data
-  },
-
-  cancelReturn: async (
-    id: string,
-    cancellationData: { cancelledBy: string; reason: string; notes?: string },
-  ): Promise<ReturnResponse> => {
-    const response = await apiClient.post(`${RETURNS_BASE_PATH}/${id}/cancel`, cancellationData)
-    return response.data
-  },
-
-  closeReturn: async (
-    id: string,
-    closeData?: { closedBy: string; notes?: string },
-  ): Promise<ReturnResponse> => {
-    const response = await apiClient.post(`${RETURNS_BASE_PATH}/${id}/close`, closeData)
-    return response.data
-  },
-
-  copyReturn: async (
-    id: string,
-    copyData?: { newReturnDate: string; newPostingDate: string },
-  ): Promise<ReturnResponse> => {
-    const response = await apiClient.post(`${RETURNS_BASE_PATH}/${id}/copy`, copyData)
-    return response.data
-  },
-
-  createFromInvoice: async (
-    invoiceId: string,
-    returnData?: { returnDate: string; postingDate: string },
-  ): Promise<ReturnResponse> => {
-    const response = await apiClient.post(
-      `${RETURNS_BASE_PATH}/from-invoice/${invoiceId}`,
-      returnData,
-    )
-    return response.data
-  },
-
-  // Additional Actions
-  print: async (
-    id: string,
-    format?: string,
-  ): Promise<{ success: boolean; data?: string; message?: string }> => {
-    const response = await apiClient.post(`${RETURNS_BASE_PATH}/${id}/print`, { format })
-    return response.data
-  },
-
-  email: async (
-    id: string,
-    emailData: { to: string; subject?: string; message?: string },
-  ): Promise<{ success: boolean; message?: string }> => {
-    const response = await apiClient.post(`${RETURNS_BASE_PATH}/${id}/email`, emailData)
-    return response.data
-  },
-
-  getStats: async (): Promise<ReturnStatsResponse> => {
-    const response = await apiClient.get(`${RETURNS_BASE_PATH}/stats`)
-    return response.data
-  },
-
-  validate: async (data: ReturnFormData): Promise<ReturnValidationResult> => {
-    const response = await apiClient.post(`${RETURNS_BASE_PATH}/validate`, data)
-    return response.data
-  },
-
-  export: async (
-    filters?: ReturnFilters,
-    format: 'csv' | 'excel' | 'pdf' = 'excel',
-  ): Promise<{ success: boolean; data?: string; message?: string }> => {
-    const params = new URLSearchParams()
-    if (filters?.status?.length) params.append('status', filters.status.join(','))
-    if (filters?.type?.length) params.append('type', filters.type.join(','))
-    if (filters?.formType?.length) params.append('formType', filters.formType.join(','))
-    if (filters?.customerCode) params.append('customerCode', filters.customerCode)
-    if (filters?.salesPerson) params.append('salesPerson', filters.salesPerson)
-    if (filters?.dateFrom) params.append('dateFrom', filters.dateFrom)
-    if (filters?.dateTo) params.append('dateTo', filters.dateTo)
-    if (filters?.search) params.append('search', filters.search)
-    params.append('format', format)
-
-    const response = await apiClient.get(`${RETURNS_BASE_PATH}/export?${params.toString()}`)
-    return response.data
-  },
+export interface ReturnItem {
+  id: string
+  itemCode: string
+  itemName: string
+  returnedQuantity: number
+  condition: 'GOOD' | 'DAMAGED' | 'DEFECTIVE'
+  restockable: boolean
+  creditAmount: number
 }
 
-// Supporting APIs
-const customersApi = {
-  list: async (
-    search?: string,
-  ): Promise<{ success: boolean; data: Customer[]; message?: string }> => {
-    const params = new URLSearchParams()
-    if (search) params.append('search', search)
-    const response = await apiClient.get(`/customers?${params.toString()}`)
-    return response.data
-  },
-
-  get: async (code: string): Promise<{ success: boolean; data: Customer; message?: string }> => {
-    const response = await apiClient.get(`/customers/${code}`)
-    return response.data
-  },
+export interface Return {
+  id: string
+  returnNumber: string
+  customerName: string
+  originalInvoiceNumber: string
+  rmaNumber: string
+  returnDate: string
+  receivedDate?: string
+  status: 'PENDING' | 'APPROVED' | 'RECEIVED' | 'INSPECTING' | 'REJECTED' | 'CANCELLED'
+  returnReason: string
+  items: ReturnItem[]
+  totalCreditAmount: number
+  restockingFee: number
+  customerNotes?: string
+  inspectionNotes?: string
+  processedBy?: string
 }
 
-const itemsApi = {
-  list: async (search?: string): Promise<Array<{ code: string; name: string; price: number }>> => {
-    const params = new URLSearchParams()
-    if (search) params.append('search', search)
-    const response = await apiClient.get(`/items?${params.toString()}`)
-    return response.data.success ? response.data.data : []
+const mockReturns: Return[] = [
+  {
+    id: '1',
+    returnNumber: 'RET-2024-001',
+    customerName: 'Beta Industries',
+    originalInvoiceNumber: 'INV-2024-002',
+    rmaNumber: 'RMA-2024-001',
+    returnDate: '2024-01-31',
+    receivedDate: '2024-02-01',
+    status: 'APPROVED',
+    returnReason: 'Damaged items received',
+    items: [
+      {
+        id: '1',
+        itemCode: 'MONITOR-001',
+        itemName: '27" 4K Monitor',
+        returnedQuantity: 2,
+        condition: 'DAMAGED',
+        restockable: false,
+        creditAmount: 999.98
+      }
+    ],
+    totalCreditAmount: 999.98,
+    restockingFee: 0,
+    customerNotes: 'Two monitors arrived with visible cracks on the screen. Photos attached.',
+    inspectionNotes: 'Confirmed physical damage. Items cannot be restocked. Full credit approved.',
+    processedBy: 'QA Team - Alex Martinez'
   },
+  {
+    id: '2',
+    returnNumber: 'RET-2024-002',
+    customerName: 'TechStart Solutions',
+    originalInvoiceNumber: 'INV-2024-004',
+    rmaNumber: 'RMA-2024-002',
+    returnDate: '2024-02-03',
+    status: 'INSPECTING',
+    returnReason: 'Wrong items delivered',
+    items: [
+      {
+        id: '2',
+        itemCode: 'KEYBOARD-003',
+        itemName: 'Mechanical Keyboard',
+        returnedQuantity: 5,
+        condition: 'GOOD',
+        restockable: true,
+        creditAmount: 449.95
+      }
+    ],
+    totalCreditAmount: 449.95,
+    restockingFee: 44.99,
+    customerNotes: 'Received mechanical keyboards instead of wireless keyboards ordered.',
+    processedBy: 'Returns Dept - Maria Lopez'
+  },
+  {
+    id: '3',
+    returnNumber: 'RET-2024-003',
+    customerName: 'Global Enterprises Ltd',
+    originalInvoiceNumber: 'INV-2024-003',
+    rmaNumber: 'RMA-2024-003',
+    returnDate: '2024-02-10',
+    status: 'PENDING',
+    returnReason: 'Product not as described',
+    items: [
+      {
+        id: '3',
+        itemCode: 'SOFT-001',
+        itemName: 'Office Suite License',
+        returnedQuantity: 10,
+        condition: 'GOOD',
+        restockable: true,
+        creditAmount: 2999.90
+      }
+    ],
+    totalCreditAmount: 2999.90,
+    restockingFee: 299.99,
+    customerNotes: 'Licenses were for wrong version of software'
+  },
+  {
+    id: '4',
+    returnNumber: 'RET-2024-004',
+    customerName: 'Acme Corporation',
+    originalInvoiceNumber: 'INV-2024-005',
+    rmaNumber: 'RMA-2024-004',
+    returnDate: '2024-02-12',
+    receivedDate: '2024-02-13',
+    status: 'RECEIVED',
+    returnReason: 'Customer changed requirements',
+    items: [
+      {
+        id: '4',
+        itemCode: 'LAPTOP-001',
+        itemName: 'Business Laptop Pro',
+        returnedQuantity: 3,
+        condition: 'GOOD',
+        restockable: true,
+        creditAmount: 3899.97
+      }
+    ],
+    totalCreditAmount: 3899.97,
+    restockingFee: 194.99,
+    customerNotes: 'Project requirements changed, no longer need these specific models',
+    processedBy: 'Returns Dept - John Kim'
+  }
+]
 
-  get: async (code: string): Promise<{ success: boolean; data: any; message?: string }> => {
-    const response = await apiClient.get(`/items/${code}`)
-    return response.data
-  },
+class ReturnsApiService {
+  async getReturns(): Promise<Return[]> {
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(mockReturns), 500)
+    })
+  }
+
+  async getReturn(id: string): Promise<Return | undefined> {
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(mockReturns.find(r => r.id === id)), 300)
+    })
+  }
+
+  async createReturn(returnItem: Omit<Return, 'id'>): Promise<Return> {
+    return new Promise((resolve) => {
+      const newReturn: Return = {
+        ...returnItem,
+        id: Date.now().toString()
+      }
+      mockReturns.unshift(newReturn)
+      setTimeout(() => resolve(newReturn), 300)
+    })
+  }
+
+  async updateReturn(id: string, returnItem: Partial<Return>): Promise<Return | undefined> {
+    return new Promise((resolve) => {
+      const index = mockReturns.findIndex(r => r.id === id)
+      if (index !== -1) {
+        mockReturns[index] = { ...mockReturns[index], ...returnItem }
+        setTimeout(() => resolve(mockReturns[index]), 300)
+      } else {
+        setTimeout(() => resolve(undefined), 300)
+      }
+    })
+  }
+
+  async deleteReturn(id: string): Promise<boolean> {
+    return new Promise((resolve) => {
+      const index = mockReturns.findIndex(r => r.id === id)
+      if (index !== -1) {
+        mockReturns.splice(index, 1)
+        setTimeout(() => resolve(true), 300)
+      } else {
+        setTimeout(() => resolve(false), 300)
+      }
+    })
+  }
 }
 
-const taxCodesApi = {
-  list: async (): Promise<{
-    success: boolean
-    data: Array<{ code: string; name: string; rate: number; type: string }>
-    message?: string
-  }> => {
-    const response = await apiClient.get('/tax-codes')
-    return response.data
-  },
-
-  get: async (code: string): Promise<{ success: boolean; data: any; message?: string }> => {
-    const response = await apiClient.get(`/tax-codes/${code}`)
-    return response.data
-  },
-}
-
-const invoicesApi = {
-  list: async (
-    search?: string,
-  ): Promise<{
-    success: boolean
-    data: Array<{ id: string; docNum: string; customerName: string }>
-    message?: string
-  }> => {
-    const params = new URLSearchParams()
-    if (search) params.append('search', search)
-    const response = await apiClient.get(`/ar-invoices?${params.toString()}`)
-    return response.data
-  },
-
-  get: async (id: string): Promise<{ success: boolean; data: any; message?: string }> => {
-    const response = await apiClient.get(`/ar-invoices/${id}`)
-    return response.data
-  },
-}
-
-const salesOrdersApi = {
-  list: async (
-    search?: string,
-  ): Promise<{
-    success: boolean
-    data: Array<{ id: string; docNum: string; customerName: string }>
-    message?: string
-  }> => {
-    const params = new URLSearchParams()
-    if (search) params.append('search', search)
-    const response = await apiClient.get(`/sales-orders?${params.toString()}`)
-    return response.data
-  },
-
-  get: async (id: string): Promise<{ success: boolean; data: any; message?: string }> => {
-    const response = await apiClient.get(`/sales-orders/${id}`)
-    return response.data
-  },
-}
-
-// Export all API services
-export { returnsApi, customersApi, itemsApi, taxCodesApi, invoicesApi, salesOrdersApi }
+export const returnsApi = new ReturnsApiService()

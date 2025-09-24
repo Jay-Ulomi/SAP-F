@@ -137,7 +137,6 @@
           />
         </div>
 
-
         <!-- Remarks -->
         <div class="col-span-full mt-4">
           <label for="remarks" class="block text-sm font-medium text-gray-700 mb-1">
@@ -161,9 +160,7 @@
         <div class="flex items-center space-x-4">
           <h4 class="text-lg font-medium text-gray-900">Line Items</h4>
           <div class="flex items-center space-x-2">
-            <label for="quotationType" class="text-sm font-medium text-gray-700">
-              Type:
-            </label>
+            <label for="quotationType" class="text-sm font-medium text-gray-700"> Type: </label>
             <select
               id="quotationType"
               v-model="formData.type"
@@ -181,7 +178,12 @@
             class="inline-flex items-center px-3 py-1.5 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
           >
             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+              ></path>
             </svg>
             Import Excel
           </button>
@@ -191,7 +193,12 @@
             class="inline-flex items-center px-3 py-1.5 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
           >
             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+              ></path>
             </svg>
             Sample Excel
           </button>
@@ -201,7 +208,12 @@
             class="inline-flex items-center px-3 py-1.5 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
           >
             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"></path>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"
+              ></path>
             </svg>
             Copy From
           </button>
@@ -213,370 +225,436 @@
           <!-- Item Type Headers -->
           <thead v-if="formData.type === 'Item'" class="bg-gray-50">
             <tr>
-              <th class="min-w-[100px] px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase sticky left-0 bg-gray-50">
+              <th
+                class="min-w-[100px] px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase sticky left-0 bg-gray-50"
+              >
                 Item No.
               </th>
-              <th class="min-w-[150px] px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">
+              <th
+                class="min-w-[150px] px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase"
+              >
                 Description
               </th>
-              <th class="min-w-[80px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase">
+              <th
+                class="min-w-[80px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase"
+              >
                 Qty
               </th>
-              <th class="min-w-[80px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase">
+              <th
+                class="min-w-[80px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase"
+              >
                 UoM
               </th>
-              <th class="min-w-[100px] px-2 py-2 text-right text-xs font-medium text-gray-500 uppercase">
+              <th
+                class="min-w-[100px] px-2 py-2 text-right text-xs font-medium text-gray-500 uppercase"
+              >
                 Price
               </th>
-              <th class="min-w-[80px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase">
+              <th
+                class="min-w-[80px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase"
+              >
                 Disc%
               </th>
-              <th class="min-w-[100px] px-2 py-2 text-right text-xs font-medium text-gray-500 uppercase">
+              <th
+                class="min-w-[100px] px-2 py-2 text-right text-xs font-medium text-gray-500 uppercase"
+              >
                 Total
               </th>
-              <th class="min-w-[80px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase">
+              <th
+                class="min-w-[80px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase"
+              >
                 Tax
               </th>
-              <th class="min-w-[100px] px-2 py-2 text-right text-xs font-medium text-gray-500 uppercase">
+              <th
+                class="min-w-[100px] px-2 py-2 text-right text-xs font-medium text-gray-500 uppercase"
+              >
                 Tax Amt
               </th>
-              <th class="min-w-[80px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase hidden lg:table-cell">
+              <th
+                class="min-w-[80px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase hidden lg:table-cell"
+              >
                 Dim1
               </th>
-              <th class="min-w-[80px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase hidden lg:table-cell">
+              <th
+                class="min-w-[80px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase hidden lg:table-cell"
+              >
                 Dim2
               </th>
-              <th class="min-w-[80px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase hidden xl:table-cell">
+              <th
+                class="min-w-[80px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase hidden xl:table-cell"
+              >
                 Dim3
               </th>
-              <th class="min-w-[80px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase hidden xl:table-cell">
+              <th
+                class="min-w-[80px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase hidden xl:table-cell"
+              >
                 Dim4
               </th>
-              <th class="min-w-[80px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase hidden md:table-cell">
+              <th
+                class="min-w-[80px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase hidden md:table-cell"
+              >
                 WH
               </th>
-              <th class="min-w-[100px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase hidden lg:table-cell">
+              <th
+                class="min-w-[100px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase hidden lg:table-cell"
+              >
                 Project
               </th>
-              <th class="min-w-[60px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase sticky right-0 bg-gray-50">
-
-              </th>
+              <th
+                class="min-w-[60px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase sticky right-0 bg-gray-50"
+              ></th>
             </tr>
           </thead>
           <!-- Service Type Headers -->
           <thead v-else class="bg-gray-50">
             <tr>
-              <th class="min-w-[60px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase sticky left-0 bg-gray-50">
+              <th
+                class="min-w-[60px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase sticky left-0 bg-gray-50"
+              >
                 Sno.
               </th>
-              <th class="min-w-[200px] px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">
+              <th
+                class="min-w-[200px] px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase"
+              >
                 Description
               </th>
-              <th class="min-w-[100px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase">
+              <th
+                class="min-w-[100px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase"
+              >
                 Discount
               </th>
-              <th class="min-w-[120px] px-2 py-2 text-right text-xs font-medium text-gray-500 uppercase">
+              <th
+                class="min-w-[120px] px-2 py-2 text-right text-xs font-medium text-gray-500 uppercase"
+              >
                 Total (LC)
               </th>
-              <th class="min-w-[100px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase">
+              <th
+                class="min-w-[100px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase"
+              >
                 Tax Code
               </th>
-              <th class="min-w-[120px] px-2 py-2 text-right text-xs font-medium text-gray-500 uppercase">
+              <th
+                class="min-w-[120px] px-2 py-2 text-right text-xs font-medium text-gray-500 uppercase"
+              >
                 Tax Amount
               </th>
-              <th class="min-w-[100px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase hidden lg:table-cell">
+              <th
+                class="min-w-[100px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase hidden lg:table-cell"
+              >
                 Dim1
               </th>
-              <th class="min-w-[100px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase hidden lg:table-cell">
+              <th
+                class="min-w-[100px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase hidden lg:table-cell"
+              >
                 Dim2
               </th>
-              <th class="min-w-[100px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase hidden xl:table-cell">
+              <th
+                class="min-w-[100px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase hidden xl:table-cell"
+              >
                 Dim3
               </th>
-              <th class="min-w-[100px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase hidden xl:table-cell">
+              <th
+                class="min-w-[100px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase hidden xl:table-cell"
+              >
                 Dim4
               </th>
-              <th class="min-w-[100px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase hidden md:table-cell">
+              <th
+                class="min-w-[100px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase hidden md:table-cell"
+              >
                 WH
               </th>
-              <th class="min-w-[120px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase hidden lg:table-cell">
+              <th
+                class="min-w-[120px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase hidden lg:table-cell"
+              >
                 Project
               </th>
-              <th class="min-w-[60px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase sticky right-0 bg-gray-50">
-
-              </th>
+              <th
+                class="min-w-[60px] px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase sticky right-0 bg-gray-50"
+              ></th>
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
             <!-- Item Type Rows -->
             <template v-if="formData.type === 'Item'">
-            <tr v-for="(item, index) in formData.lineItems" :key="index">
-              <td class="px-2 py-1 sticky left-0 bg-white">
-                <input
-                  v-model="item.itemCode"
-                  type="text"
-                  placeholder="Code"
-                  class="w-full min-w-[90px] text-xs py-1 px-1 border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900 placeholder-gray-700"
-                  @input="handleLineItemInput(index)"
-                />
-              </td>
-              <td class="px-2 py-1">
-                <textarea
-                  v-model="item.description"
-                  placeholder="Description"
-                  rows="2"
-                  class="w-full min-w-[140px] text-xs py-1 px-1 border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900 placeholder-gray-700 resize-none"
-                  @input="handleLineItemInput(index)"
-                ></textarea>
-              </td>
-              <td class="px-2 py-1">
-                <input
-                  v-model.number="item.quantity"
-                  type="number"
-                  step="1"
-                  min="0"
-                  class="w-full text-xs py-1 px-1 text-center border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900"
-                  @input="calculateLineTotal(index); handleLineItemInput(index)"
-                />
-              </td>
-              <td class="px-2 py-1">
-                <select
-                  v-model="item.uom"
-                  class="w-full text-xs py-1 px-1 border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900"
-                  @change="handleLineItemInput(index)"
-                >
-                  <option value="pcs">pcs</option>
-                  <option value="kg">kg</option>
-                  <option value="m">m</option>
-                  <option value="ltr">ltr</option>
-                </select>
-              </td>
-              <td class="px-2 py-1">
-                <input
-                  v-model.number="item.unitPrice"
-                  type="number"
-                  step="0.01"
-                  min="0"
-                  class="w-full text-xs py-1 px-1 text-right border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900"
-                  @input="calculateLineTotal(index); handleLineItemInput(index)"
-                />
-              </td>
-              <td class="px-2 py-1">
-                <input
-                  v-model.number="item.discount"
-                  type="number"
-                  step="0.01"
-                  min="0"
-                  max="100"
-                  placeholder="0"
-                  class="w-full text-xs py-1 px-1 text-center border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900 placeholder-gray-700"
-                  @input="calculateLineTotal(index); handleLineItemInput(index)"
-                />
-              </td>
-              <td class="px-2 py-1 text-right text-xs font-medium text-gray-900">
-                {{ formatCurrency(getLineSubtotal(item)) }}
-              </td>
-              <td class="px-2 py-1">
-                <select
-                  v-model="item.taxCode"
-                  class="w-full text-xs py-1 px-1 border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900"
-                  @change="updateTaxRate(index); handleLineItemInput(index)"
-                >
-                  <option value="OEXEMPT">EX</option>
-                  <option value="OVAT-18">18</option>
-                  <option value="OVAT-0">0</option>
-                </select>
-              </td>
-              <td class="px-2 py-1 text-right text-xs text-gray-900">
-                {{ formatCurrency(getLineTax(item)) }}
-              </td>
-              <td class="px-2 py-1 hidden lg:table-cell">
-                <input
-                  v-model="item.dimension1"
-                  type="text"
-                  placeholder="Dim"
-                  class="w-full min-w-[70px] text-xs py-1 px-1 text-center border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900 placeholder-gray-700"
-                  @input="handleLineItemInput(index)"
-                />
-              </td>
-              <td class="px-2 py-1 hidden lg:table-cell">
-                <input
-                  v-model="item.dimension2"
-                  type="text"
-                  placeholder="Dim"
-                  class="w-full min-w-[70px] text-xs py-1 px-1 text-center border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900 placeholder-gray-700"
-                  @input="handleLineItemInput(index)"
-                />
-              </td>
-              <td class="px-2 py-1 hidden xl:table-cell">
-                <input
-                  v-model="item.dimension3"
-                  type="text"
-                  placeholder="Dim"
-                  class="w-full min-w-[70px] text-xs py-1 px-1 text-center border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900 placeholder-gray-700"
-                  @input="handleLineItemInput(index)"
-                />
-              </td>
-              <td class="px-2 py-1 hidden xl:table-cell">
-                <input
-                  v-model="item.dimension4"
-                  type="text"
-                  placeholder="Dim"
-                  class="w-full min-w-[70px] text-xs py-1 px-1 text-center border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900 placeholder-gray-700"
-                  @input="handleLineItemInput(index)"
-                />
-              </td>
-              <td class="px-2 py-1 hidden md:table-cell">
-                <input
-                  v-model="item.warehouse"
-                  type="text"
-                  placeholder="WH"
-                  class="w-full min-w-[70px] text-xs py-1 px-1 text-center border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900 placeholder-gray-700"
-                  @input="handleLineItemInput(index)"
-                />
-              </td>
-              <td class="px-2 py-1 hidden lg:table-cell">
-                <input
-                  v-model="item.project"
-                  type="text"
-                  placeholder="Project"
-                  class="w-full min-w-[90px] text-xs py-1 px-1 text-center border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900 placeholder-gray-700"
-                  @input="handleLineItemInput(index)"
-                />
-              </td>
-              <td class="px-2 py-1 text-center sticky right-0 bg-white">
-                <button
-                  v-if="formData.lineItems.length > 5 || (formData.lineItems.length > 1 && hasLineItemData(item))"
-                  type="button"
-                  @click="removeLineItem(index)"
-                  class="text-red-600 hover:text-red-800 text-xs w-6 h-6 rounded flex items-center justify-center p-1"
-                >
-                  ×
-                </button>
-              </td>
-            </tr>
+              <tr v-for="(item, index) in formData.lineItems" :key="index">
+                <td class="px-2 py-1 sticky left-0 bg-white">
+                  <input
+                    v-model="item.itemCode"
+                    type="text"
+                    placeholder="Code"
+                    class="w-full min-w-[90px] text-xs py-1 px-1 border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900 placeholder-gray-700"
+                    @input="handleLineItemInput(index)"
+                  />
+                </td>
+                <td class="px-2 py-1">
+                  <textarea
+                    v-model="item.description"
+                    placeholder="Description"
+                    rows="2"
+                    class="w-full min-w-[140px] text-xs py-1 px-1 border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900 placeholder-gray-700 resize-none"
+                    @input="handleLineItemInput(index)"
+                  ></textarea>
+                </td>
+                <td class="px-2 py-1">
+                  <input
+                    v-model.number="item.quantity"
+                    type="number"
+                    step="1"
+                    min="0"
+                    class="w-full text-xs py-1 px-1 text-center border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900"
+                    @input="(calculateLineTotal(index), handleLineItemInput(index))"
+                  />
+                </td>
+                <td class="px-2 py-1">
+                  <select
+                    v-model="item.uom"
+                    class="w-full text-xs py-1 px-1 border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900"
+                    @change="handleLineItemInput(index)"
+                  >
+                    <option value="pcs">pcs</option>
+                    <option value="kg">kg</option>
+                    <option value="m">m</option>
+                    <option value="ltr">ltr</option>
+                  </select>
+                </td>
+                <td class="px-2 py-1">
+                  <input
+                    v-model.number="item.unitPrice"
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    class="w-full text-xs py-1 px-1 text-right border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900"
+                    @input="(calculateLineTotal(index), handleLineItemInput(index))"
+                  />
+                </td>
+                <td class="px-2 py-1">
+                  <input
+                    v-model.number="item.discount"
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    max="100"
+                    placeholder="0"
+                    class="w-full text-xs py-1 px-1 text-center border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900 placeholder-gray-700"
+                    @input="(calculateLineTotal(index), handleLineItemInput(index))"
+                  />
+                </td>
+                <td class="px-2 py-1 text-right text-xs font-medium text-gray-900">
+                  {{ formatCurrency(getLineSubtotal(item)) }}
+                </td>
+                <td class="px-2 py-1">
+                  <select
+                    v-model="item.taxCode"
+                    class="w-full text-xs py-1 px-1 border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900"
+                    @change="(updateTaxRate(index), handleLineItemInput(index))"
+                  >
+                    <option value="OEXEMPT">EX</option>
+                    <option value="OVAT-18">18</option>
+                    <option value="OVAT-0">0</option>
+                  </select>
+                </td>
+                <td class="px-2 py-1 text-right text-xs text-gray-900">
+                  {{ formatCurrency(getLineTax(item)) }}
+                </td>
+                <td class="px-2 py-1 hidden lg:table-cell">
+                  <input
+                    v-model="item.dimension1"
+                    type="text"
+                    placeholder="Dim"
+                    class="w-full min-w-[70px] text-xs py-1 px-1 text-center border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900 placeholder-gray-700"
+                    @input="handleLineItemInput(index)"
+                  />
+                </td>
+                <td class="px-2 py-1 hidden lg:table-cell">
+                  <input
+                    v-model="item.dimension2"
+                    type="text"
+                    placeholder="Dim"
+                    class="w-full min-w-[70px] text-xs py-1 px-1 text-center border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900 placeholder-gray-700"
+                    @input="handleLineItemInput(index)"
+                  />
+                </td>
+                <td class="px-2 py-1 hidden xl:table-cell">
+                  <input
+                    v-model="item.dimension3"
+                    type="text"
+                    placeholder="Dim"
+                    class="w-full min-w-[70px] text-xs py-1 px-1 text-center border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900 placeholder-gray-700"
+                    @input="handleLineItemInput(index)"
+                  />
+                </td>
+                <td class="px-2 py-1 hidden xl:table-cell">
+                  <input
+                    v-model="item.dimension4"
+                    type="text"
+                    placeholder="Dim"
+                    class="w-full min-w-[70px] text-xs py-1 px-1 text-center border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900 placeholder-gray-700"
+                    @input="handleLineItemInput(index)"
+                  />
+                </td>
+                <td class="px-2 py-1 hidden md:table-cell">
+                  <input
+                    v-model="item.warehouse"
+                    type="text"
+                    placeholder="WH"
+                    class="w-full min-w-[70px] text-xs py-1 px-1 text-center border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900 placeholder-gray-700"
+                    @input="handleLineItemInput(index)"
+                  />
+                </td>
+                <td class="px-2 py-1 hidden lg:table-cell">
+                  <input
+                    v-model="item.project"
+                    type="text"
+                    placeholder="Project"
+                    class="w-full min-w-[90px] text-xs py-1 px-1 text-center border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900 placeholder-gray-700"
+                    @input="handleLineItemInput(index)"
+                  />
+                </td>
+                <td class="px-2 py-1 text-center sticky right-0 bg-white">
+                  <button
+                    v-if="
+                      formData.lineItems.length > 5 ||
+                      (formData.lineItems.length > 1 && hasLineItemData(item))
+                    "
+                    type="button"
+                    @click="removeLineItem(index)"
+                    class="text-red-600 hover:text-red-800 text-xs w-6 h-6 rounded flex items-center justify-center p-1"
+                  >
+                    ×
+                  </button>
+                </td>
+              </tr>
             </template>
             <!-- Service Type Rows -->
             <template v-else>
-            <tr v-for="(service, index) in formData.serviceItems" :key="'service-' + index">
-              <td class="px-2 py-1 text-center text-xs text-gray-900 sticky left-0 bg-white">
-                {{ service.sno }}
-              </td>
-              <td class="px-2 py-1">
-                <textarea
-                  v-model="service.description"
-                  placeholder="Description"
-                  rows="2"
-                  class="w-full min-w-[180px] text-xs py-1 px-1 border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900 placeholder-gray-700 resize-none"
-                  @input="handleServiceItemInput(index)"
-                ></textarea>
-              </td>
-              <td class="px-2 py-1">
-                <input
-                  v-model.number="service.discount"
-                  type="number"
-                  step="0.01"
-                  min="0"
-                  class="w-full text-xs py-1 px-1 text-center border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900"
-                  @input="handleServiceItemInput(index)"
-                />
-              </td>
-              <td class="px-2 py-1">
-                <input
-                  v-model.number="service.total"
-                  type="number"
-                  step="0.01"
-                  min="0"
-                  class="w-full text-xs py-1 px-1 text-right border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900"
-                  @input="handleServiceItemInput(index)"
-                />
-              </td>
-              <td class="px-2 py-1">
-                <select
-                  v-model="service.taxCode"
-                  class="w-full text-xs py-1 px-1 border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900"
-                  @change="handleServiceItemInput(index)"
-                >
-                  <option value="OEXEMPT">EX</option>
-                  <option value="OVAT-18">18</option>
-                  <option value="OVAT-0">0</option>
-                </select>
-              </td>
-              <td class="px-2 py-1 text-right text-xs text-gray-900">
-                {{ formatCurrency(service.taxAmount) }}
-              </td>
-              <td class="px-2 py-1">
-                <input
-                  v-model="service.dimension1"
-                  type="text"
-                  placeholder="Dim"
-                  class="w-full text-xs py-1 px-1 text-center border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900 placeholder-gray-700"
-                  @input="handleServiceItemInput(index)"
-                />
-              </td>
-              <td class="px-2 py-1">
-                <input
-                  v-model="service.dimension2"
-                  type="text"
-                  placeholder="Dim"
-                  class="w-full text-xs py-1 px-1 text-center border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900 placeholder-gray-700"
-                  @input="handleServiceItemInput(index)"
-                />
-              </td>
-              <td class="px-2 py-1">
-                <input
-                  v-model="service.dimension3"
-                  type="text"
-                  placeholder="Dim"
-                  class="w-full text-xs py-1 px-1 text-center border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900 placeholder-gray-700"
-                  @input="handleServiceItemInput(index)"
-                />
-              </td>
-              <td class="px-2 py-1">
-                <input
-                  v-model="service.dimension4"
-                  type="text"
-                  placeholder="Dim"
-                  class="w-full text-xs py-1 px-1 text-center border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900 placeholder-gray-700"
-                  @input="handleServiceItemInput(index)"
-                />
-              </td>
-              <td class="px-2 py-1">
-                <input
-                  v-model="service.warehouse"
-                  type="text"
-                  placeholder="WH"
-                  class="w-full text-xs py-1 px-1 text-center border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900 placeholder-gray-700"
-                  @input="handleServiceItemInput(index)"
-                />
-              </td>
-              <td class="px-2 py-1">
-                <input
-                  v-model="service.project"
-                  type="text"
-                  placeholder="Project"
-                  class="w-full text-xs py-1 px-1 text-center border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900 placeholder-gray-700"
-                  @input="handleServiceItemInput(index)"
-                />
-              </td>
-              <td class="px-2 py-1 text-center sticky right-0 bg-white">
-                <button
-                  v-if="formData.serviceItems.length > 3 || (formData.serviceItems.length > 1 && hasServiceItemData(service))"
-                  type="button"
-                  @click="removeServiceItem(index)"
-                  class="text-red-600 hover:text-red-800 text-xs w-6 h-6 rounded flex items-center justify-center p-1"
-                >
-                  ×
-                </button>
-              </td>
-            </tr>
+              <tr v-for="(service, index) in formData.serviceItems" :key="'service-' + index">
+                <td class="px-2 py-1 text-center text-xs text-gray-900 sticky left-0 bg-white">
+                  {{ service.sno }}
+                </td>
+                <td class="px-2 py-1">
+                  <textarea
+                    v-model="service.description"
+                    placeholder="Description"
+                    rows="2"
+                    class="w-full min-w-[180px] text-xs py-1 px-1 border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900 placeholder-gray-700 resize-none"
+                    @input="handleServiceItemInput(index)"
+                  ></textarea>
+                </td>
+                <td class="px-2 py-1">
+                  <input
+                    v-model.number="service.discount"
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    class="w-full text-xs py-1 px-1 text-center border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900"
+                    @input="handleServiceItemInput(index)"
+                  />
+                </td>
+                <td class="px-2 py-1">
+                  <input
+                    v-model.number="service.total"
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    class="w-full text-xs py-1 px-1 text-right border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900"
+                    @input="handleServiceItemInput(index)"
+                  />
+                </td>
+                <td class="px-2 py-1">
+                  <select
+                    v-model="service.taxCode"
+                    class="w-full text-xs py-1 px-1 border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900"
+                    @change="handleServiceItemInput(index)"
+                  >
+                    <option value="OEXEMPT">EX</option>
+                    <option value="OVAT-18">18</option>
+                    <option value="OVAT-0">0</option>
+                  </select>
+                </td>
+                <td class="px-2 py-1 text-right text-xs text-gray-900">
+                  {{ formatCurrency(service.taxAmount) }}
+                </td>
+                <td class="px-2 py-1">
+                  <input
+                    v-model="service.dimension1"
+                    type="text"
+                    placeholder="Dim"
+                    class="w-full text-xs py-1 px-1 text-center border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900 placeholder-gray-700"
+                    @input="handleServiceItemInput(index)"
+                  />
+                </td>
+                <td class="px-2 py-1">
+                  <input
+                    v-model="service.dimension2"
+                    type="text"
+                    placeholder="Dim"
+                    class="w-full text-xs py-1 px-1 text-center border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900 placeholder-gray-700"
+                    @input="handleServiceItemInput(index)"
+                  />
+                </td>
+                <td class="px-2 py-1">
+                  <input
+                    v-model="service.dimension3"
+                    type="text"
+                    placeholder="Dim"
+                    class="w-full text-xs py-1 px-1 text-center border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900 placeholder-gray-700"
+                    @input="handleServiceItemInput(index)"
+                  />
+                </td>
+                <td class="px-2 py-1">
+                  <input
+                    v-model="service.dimension4"
+                    type="text"
+                    placeholder="Dim"
+                    class="w-full text-xs py-1 px-1 text-center border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900 placeholder-gray-700"
+                    @input="handleServiceItemInput(index)"
+                  />
+                </td>
+                <td class="px-2 py-1">
+                  <input
+                    v-model="service.warehouse"
+                    type="text"
+                    placeholder="WH"
+                    class="w-full text-xs py-1 px-1 text-center border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900 placeholder-gray-700"
+                    @input="handleServiceItemInput(index)"
+                  />
+                </td>
+                <td class="px-2 py-1">
+                  <input
+                    v-model="service.project"
+                    type="text"
+                    placeholder="Project"
+                    class="w-full text-xs py-1 px-1 text-center border-gray-300 rounded focus:border-gray-400 focus:ring-0 text-gray-900 placeholder-gray-700"
+                    @input="handleServiceItemInput(index)"
+                  />
+                </td>
+                <td class="px-2 py-1 text-center sticky right-0 bg-white">
+                  <button
+                    v-if="
+                      formData.serviceItems.length > 3 ||
+                      (formData.serviceItems.length > 1 && hasServiceItemData(service))
+                    "
+                    type="button"
+                    @click="removeServiceItem(index)"
+                    class="text-red-600 hover:text-red-800 text-xs w-6 h-6 rounded flex items-center justify-center p-1"
+                  >
+                    ×
+                  </button>
+                </td>
+              </tr>
             </template>
           </tbody>
         </table>
       </div>
 
       <!-- Totals Summary -->
-      <div v-if="(formData.type === 'Item' && formData.lineItems.length > 0) || (formData.type === 'Service' && formData.serviceItems.length > 0)" class="mt-6 border-t pt-4">
+      <div
+        v-if="
+          (formData.type === 'Item' && formData.lineItems.length > 0) ||
+          (formData.type === 'Service' && formData.serviceItems.length > 0)
+        "
+        class="mt-6 border-t pt-4"
+      >
         <div class="flex justify-end">
           <div class="w-80 space-y-2">
             <div class="flex justify-between text-sm">
@@ -589,7 +667,10 @@
             </div>
             <div class="flex justify-between text-sm">
               <span class="text-gray-900">Freight Type:</span>
-              <select v-model="formData.freightType" class="w-32 text-sm border-gray-300 rounded-md text-gray-900 focus:border-gray-400 focus:ring-gray-400">
+              <select
+                v-model="formData.freightType"
+                class="w-32 text-sm border-gray-300 rounded-md text-gray-900 focus:border-gray-400 focus:ring-gray-400"
+              >
                 <option value="Air Freight">Air Freight</option>
                 <option value="Sea Freight">Sea Freight</option>
                 <option value="Road">Road</option>
@@ -612,7 +693,9 @@
             </div>
             <div class="flex justify-between text-base font-bold border-t pt-2">
               <span class="text-gray-900">Total:</span>
-              <span class="text-gray-900">{{ formatCurrency(totalAmount + (formData.freightAmount || 0)) }}</span>
+              <span class="text-gray-900">{{
+                formatCurrency(totalAmount + (formData.freightAmount || 0))
+              }}</span>
             </div>
           </div>
         </div>
@@ -795,7 +878,7 @@ const formData = ref<any>({
       dimension4: '',
       warehouse: '',
       project: '',
-      remarks: ''
+      remarks: '',
     },
     {
       itemCode: '',
@@ -813,7 +896,7 @@ const formData = ref<any>({
       dimension4: '',
       warehouse: '',
       project: '',
-      remarks: ''
+      remarks: '',
     },
     {
       itemCode: '',
@@ -831,7 +914,7 @@ const formData = ref<any>({
       dimension4: '',
       warehouse: '',
       project: '',
-      remarks: ''
+      remarks: '',
     },
     {
       itemCode: '',
@@ -849,7 +932,7 @@ const formData = ref<any>({
       dimension4: '',
       warehouse: '',
       project: '',
-      remarks: ''
+      remarks: '',
     },
     {
       itemCode: '',
@@ -867,7 +950,7 @@ const formData = ref<any>({
       dimension4: '',
       warehouse: '',
       project: '',
-      remarks: ''
+      remarks: '',
     },
   ],
 })
@@ -965,17 +1048,19 @@ const getLineTax = (item: any): number => {
 }
 
 const hasLineItemData = (item: any): boolean => {
-  return item.itemCode.trim() !== '' ||
-         item.description.trim() !== '' ||
-         item.quantity > 0 ||
-         item.unitPrice > 0 ||
-         item.discount > 0 ||
-         item.dimension1.trim() !== '' ||
-         item.dimension2.trim() !== '' ||
-         item.dimension3.trim() !== '' ||
-         item.dimension4.trim() !== '' ||
-         item.warehouse.trim() !== '' ||
-         item.project.trim() !== ''
+  return (
+    item.itemCode.trim() !== '' ||
+    item.description.trim() !== '' ||
+    item.quantity > 0 ||
+    item.unitPrice > 0 ||
+    item.discount > 0 ||
+    item.dimension1.trim() !== '' ||
+    item.dimension2.trim() !== '' ||
+    item.dimension3.trim() !== '' ||
+    item.dimension4.trim() !== '' ||
+    item.warehouse.trim() !== '' ||
+    item.project.trim() !== ''
+  )
 }
 
 const handleLineItemInput = (index: number) => {
@@ -988,15 +1073,17 @@ const handleLineItemInput = (index: number) => {
 }
 
 const hasServiceItemData = (service: ServiceItem): boolean => {
-  return service.description.trim() !== '' ||
-         service.total > 0 ||
-         service.discount > 0 ||
-         service.dimension1.trim() !== '' ||
-         service.dimension2.trim() !== '' ||
-         service.dimension3.trim() !== '' ||
-         service.dimension4.trim() !== '' ||
-         service.warehouse.trim() !== '' ||
-         service.project.trim() !== ''
+  return (
+    service.description.trim() !== '' ||
+    service.total > 0 ||
+    service.discount > 0 ||
+    service.dimension1.trim() !== '' ||
+    service.dimension2.trim() !== '' ||
+    service.dimension3.trim() !== '' ||
+    service.dimension4.trim() !== '' ||
+    service.warehouse.trim() !== '' ||
+    service.project.trim() !== ''
+  )
 }
 
 const handleServiceItemInput = (index: number) => {
@@ -1017,7 +1104,7 @@ const removeServiceItem = (index: number) => {
   if (formData.value.serviceItems.length > 3) {
     formData.value.serviceItems.splice(index, 1)
     // Renumber the remaining items
-    formData.value.serviceItems.forEach((item, idx) => {
+    formData.value.serviceItems.forEach((item: ServiceItem, idx: number) => {
       item.sno = idx + 1
     })
   } else if (formData.value.serviceItems.length > 1) {
@@ -1068,7 +1155,7 @@ const removeLineItem = (index: number) => {
       dimension4: '',
       warehouse: '',
       project: '',
-      remarks: ''
+      remarks: '',
     }
   }
 }
@@ -1149,11 +1236,21 @@ const handleSubmit = async () => {
   }
 }
 
-const formatCurrency = (amount: number): string => {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: formData.value.currency,
-  }).format(amount)
+const formatCurrency = (amount: number | string | null | undefined): string => {
+  const numericAmount = typeof amount === 'string' ? parseFloat(amount) : Number(amount)
+  if (!isFinite(numericAmount)) {
+    return '—'
+  }
+
+  const currencyCode = (formData.value.currency && String(formData.value.currency).trim()) || 'USD'
+  try {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: currencyCode,
+    }).format(numericAmount)
+  } catch (_err) {
+    return `${currencyCode} ${numericAmount.toFixed(2)}`
+  }
 }
 
 // Watch for quotation type changes
@@ -1163,7 +1260,7 @@ watch(
     if (newType === 'Service' && formData.value.serviceItems.length === 0) {
       formData.value.serviceItems = [...defaultServiceItems]
     }
-  }
+  },
 )
 
 // Initialize form data when editing

@@ -1,235 +1,161 @@
-import { apiClient } from '../../../../shared/api/apiClient'
-import type {
-  Delivery,
-  DeliveryFormData,
-  DeliveryResponse,
-  DeliveryListResponse,
-  DeliveryStatsResponse,
-  DeliveryFilters,
-  DeliveryValidationResult,
-  Customer,
-  FormType,
-} from '../types'
-
-const DELIVERIES_BASE_PATH = '/deliveries'
-
-// Main Deliveries API
-const deliveriesApi = {
-  // CRUD Operations
-  get: async (id: string): Promise<DeliveryResponse> => {
-    const response = await apiClient.get(`${DELIVERIES_BASE_PATH}/${id}`)
-    return response.data
-  },
-
-  list: async (filters?: DeliveryFilters, page = 1, limit = 20): Promise<DeliveryListResponse> => {
-    const params = new URLSearchParams()
-    if (filters?.status?.length) params.append('status', filters.status.join(','))
-    if (filters?.type?.length) params.append('type', filters.type.join(','))
-    if (filters?.formType?.length) params.append('formType', filters.formType.join(','))
-    if (filters?.customerCode) params.append('customerCode', filters.customerCode)
-    if (filters?.salesPerson) params.append('salesPerson', filters.salesPerson)
-    if (filters?.dateFrom) params.append('dateFrom', filters.dateFrom)
-    if (filters?.dateTo) params.append('dateTo', filters.dateTo)
-    if (filters?.search) params.append('search', filters.search)
-    params.append('page', page.toString())
-    params.append('limit', limit.toString())
-
-    const response = await apiClient.get(`${DELIVERIES_BASE_PATH}?${params.toString()}`)
-    return response.data
-  },
-
-  create: async (data: DeliveryFormData): Promise<DeliveryResponse> => {
-    const response = await apiClient.post(DELIVERIES_BASE_PATH, data)
-    return response.data
-  },
-
-  update: async (id: string, data: Partial<DeliveryFormData>): Promise<DeliveryResponse> => {
-    const response = await apiClient.put(`${DELIVERIES_BASE_PATH}/${id}`, data)
-    return response.data
-  },
-
-  delete: async (id: string): Promise<{ success: boolean; message?: string }> => {
-    const response = await apiClient.delete(`${DELIVERIES_BASE_PATH}/${id}`)
-    return response.data
-  },
-
-  // Business Actions
-  releaseDelivery: async (
-    id: string,
-    releaseData?: { releasedBy: string; notes?: string },
-  ): Promise<DeliveryResponse> => {
-    const response = await apiClient.post(`${DELIVERIES_BASE_PATH}/${id}/release`, releaseData)
-    return response.data
-  },
-
-  cancelDelivery: async (
-    id: string,
-    cancellationData: { cancelledBy: string; reason: string; notes?: string },
-  ): Promise<DeliveryResponse> => {
-    const response = await apiClient.post(`${DELIVERIES_BASE_PATH}/${id}/cancel`, cancellationData)
-    return response.data
-  },
-
-  closeDelivery: async (
-    id: string,
-    closeData?: { closedBy: string; notes?: string },
-  ): Promise<DeliveryResponse> => {
-    const response = await apiClient.post(`${DELIVERIES_BASE_PATH}/${id}/close`, closeData)
-    return response.data
-  },
-
-  copyDelivery: async (
-    id: string,
-    copyData?: { newDeliveryDate: string; newPostingDate: string },
-  ): Promise<DeliveryResponse> => {
-    const response = await apiClient.post(`${DELIVERIES_BASE_PATH}/${id}/copy`, copyData)
-    return response.data
-  },
-
-  createFromOrder: async (
-    orderId: string,
-    deliveryData?: { deliveryDate: string; postingDate: string },
-  ): Promise<DeliveryResponse> => {
-    const response = await apiClient.post(
-      `${DELIVERIES_BASE_PATH}/from-order/${orderId}`,
-      deliveryData,
-    )
-    return response.data
-  },
-
-  // Additional Actions
-  print: async (
-    id: string,
-    format?: string,
-  ): Promise<{ success: boolean; data?: string; message?: string }> => {
-    const response = await apiClient.post(`${DELIVERIES_BASE_PATH}/${id}/print`, { format })
-    return response.data
-  },
-
-  email: async (
-    id: string,
-    emailData: { to: string; subject?: string; message?: string },
-  ): Promise<{ success: boolean; message?: string }> => {
-    const response = await apiClient.post(`${DELIVERIES_BASE_PATH}/${id}/email`, emailData)
-    return response.data
-  },
-
-  getStats: async (): Promise<DeliveryStatsResponse> => {
-    const response = await apiClient.get(`${DELIVERIES_BASE_PATH}/stats`)
-    return response.data
-  },
-
-  validate: async (data: DeliveryFormData): Promise<DeliveryValidationResult> => {
-    const response = await apiClient.post(`${DELIVERIES_BASE_PATH}/validate`, data)
-    return response.data
-  },
-
-  export: async (
-    filters?: DeliveryFilters,
-    format: 'csv' | 'excel' | 'pdf' = 'excel',
-  ): Promise<{ success: boolean; data?: string; message?: string }> => {
-    const params = new URLSearchParams()
-    if (filters?.status?.length) params.append('status', filters.status.join(','))
-    if (filters?.type?.length) params.append('type', filters.type.join(','))
-    if (filters?.formType?.length) params.append('formType', filters.formType.join(','))
-    if (filters?.customerCode) params.append('customerCode', filters.customerCode)
-    if (filters?.salesPerson) params.append('salesPerson', filters.salesPerson)
-    if (filters?.dateFrom) params.append('dateFrom', filters.dateFrom)
-    if (filters?.dateTo) params.append('dateTo', filters.dateTo)
-    if (filters?.search) params.append('search', filters.search)
-    params.append('format', format)
-
-    const response = await apiClient.get(`${DELIVERIES_BASE_PATH}/export?${params.toString()}`)
-    return response.data
-  },
+export interface DeliveryItem {
+  id: string
+  itemCode: string
+  itemName: string
+  orderedQuantity: number
+  deliveredQuantity: number
 }
 
-// Supporting APIs
-const customersApi = {
-  list: async (
-    search?: string,
-  ): Promise<{ success: boolean; data: Customer[]; message?: string }> => {
-    const params = new URLSearchParams()
-    if (search) params.append('search', search)
-    const response = await apiClient.get(`/customers?${params.toString()}`)
-    return response.data
-  },
-
-  get: async (code: string): Promise<{ success: boolean; data: Customer; message?: string }> => {
-    const response = await apiClient.get(`/customers/${code}`)
-    return response.data
-  },
+export interface Delivery {
+  id: string
+  deliveryNumber: string
+  customerName: string
+  salesOrderNumber: string
+  deliveryAddress: string
+  deliveryDate: string
+  estimatedDelivery?: string
+  actualDelivery?: string
+  status: 'PENDING' | 'PROCESSING' | 'IN_TRANSIT' | 'DELIVERED' | 'CANCELLED'
+  items: DeliveryItem[]
+  trackingNumber?: string
+  carrier?: string
+  shippingMethod?: string
+  weight?: number
+  shippingCost?: number
+  notes?: string
 }
 
-const itemsApi = {
-  list: async (search?: string): Promise<Array<{ code: string; name: string; price: number }>> => {
-    const params = new URLSearchParams()
-    if (search) params.append('search', search)
-    const response = await apiClient.get(`/items?${params.toString()}`)
-    return response.data.success ? response.data.data : []
+const mockDeliveries: Delivery[] = [
+  {
+    id: '1',
+    deliveryNumber: 'DL-2024-001',
+    customerName: 'Acme Corporation',
+    salesOrderNumber: 'SO-2024-001',
+    deliveryAddress: '123 Business St, New York, NY 10001',
+    deliveryDate: '2024-01-25',
+    estimatedDelivery: '2024-01-27',
+    actualDelivery: '2024-01-26',
+    status: 'DELIVERED',
+    items: [
+      {
+        id: '1',
+        itemCode: 'LAPTOP-001',
+        itemName: 'Business Laptop Pro',
+        orderedQuantity: 10,
+        deliveredQuantity: 10
+      },
+      {
+        id: '2',
+        itemCode: 'MOUSE-002',
+        itemName: 'Wireless Mouse',
+        orderedQuantity: 10,
+        deliveredQuantity: 10
+      }
+    ],
+    trackingNumber: '1Z999AA10123456784',
+    carrier: 'UPS',
+    shippingMethod: 'Express',
+    weight: 25.5,
+    shippingCost: 125.50,
+    notes: 'Delivered to reception desk. Signed by J. Doe.'
   },
+  {
+    id: '2',
+    deliveryNumber: 'DL-2024-002',
+    customerName: 'Beta Industries',
+    salesOrderNumber: 'SO-2024-002',
+    deliveryAddress: '789 Industrial Park, Detroit, MI 48201',
+    deliveryDate: '2024-01-28',
+    estimatedDelivery: '2024-01-30',
+    status: 'IN_TRANSIT',
+    items: [
+      {
+        id: '3',
+        itemCode: 'MONITOR-001',
+        itemName: '27" 4K Monitor',
+        orderedQuantity: 15,
+        deliveredQuantity: 8
+      }
+    ],
+    trackingNumber: 'FDX123456789',
+    carrier: 'FedEx',
+    shippingMethod: 'Standard',
+    weight: 45.0,
+    shippingCost: 89.99
+  },
+  {
+    id: '3',
+    deliveryNumber: 'DL-2024-003',
+    customerName: 'TechStart Solutions',
+    salesOrderNumber: 'SO-2024-003',
+    deliveryAddress: '456 Innovation Ave, San Francisco, CA 94105',
+    deliveryDate: '2024-02-12',
+    estimatedDelivery: '2024-02-15',
+    status: 'PROCESSING',
+    items: [
+      {
+        id: '4',
+        itemCode: 'SERVER-001',
+        itemName: 'Enterprise Server',
+        orderedQuantity: 2,
+        deliveredQuantity: 0
+      }
+    ],
+    carrier: 'DHL',
+    shippingMethod: 'Freight',
+    weight: 85.0,
+    shippingCost: 250.00,
+    notes: 'Large item - requires freight delivery'
+  }
+]
 
-  get: async (code: string): Promise<{ success: boolean; data: any; message?: string }> => {
-    const response = await apiClient.get(`/items/${code}`)
-    return response.data
-  },
+class DeliveriesApiService {
+  async getDeliveries(): Promise<Delivery[]> {
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(mockDeliveries), 500)
+    })
+  }
+
+  async getDelivery(id: string): Promise<Delivery | undefined> {
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(mockDeliveries.find(d => d.id === id)), 300)
+    })
+  }
+
+  async createDelivery(delivery: Omit<Delivery, 'id'>): Promise<Delivery> {
+    return new Promise((resolve) => {
+      const newDelivery: Delivery = {
+        ...delivery,
+        id: Date.now().toString()
+      }
+      mockDeliveries.unshift(newDelivery)
+      setTimeout(() => resolve(newDelivery), 300)
+    })
+  }
+
+  async updateDelivery(id: string, delivery: Partial<Delivery>): Promise<Delivery | undefined> {
+    return new Promise((resolve) => {
+      const index = mockDeliveries.findIndex(d => d.id === id)
+      if (index !== -1) {
+        mockDeliveries[index] = { ...mockDeliveries[index], ...delivery }
+        setTimeout(() => resolve(mockDeliveries[index]), 300)
+      } else {
+        setTimeout(() => resolve(undefined), 300)
+      }
+    })
+  }
+
+  async deleteDelivery(id: string): Promise<boolean> {
+    return new Promise((resolve) => {
+      const index = mockDeliveries.findIndex(d => d.id === id)
+      if (index !== -1) {
+        mockDeliveries.splice(index, 1)
+        setTimeout(() => resolve(true), 300)
+      } else {
+        setTimeout(() => resolve(false), 300)
+      }
+    })
+  }
 }
 
-const taxCodesApi = {
-  list: async (): Promise<{
-    success: boolean
-    data: Array<{ code: string; name: string; rate: number; type: string }>
-    message?: string
-  }> => {
-    const response = await apiClient.get('/tax-codes')
-    return response.data
-  },
-
-  get: async (code: string): Promise<{ success: boolean; data: any; message?: string }> => {
-    const response = await apiClient.get(`/tax-codes/${code}`)
-    return response.data
-  },
-}
-
-const salesOrdersApi = {
-  list: async (
-    search?: string,
-  ): Promise<{
-    success: boolean
-    data: Array<{ id: string; docNum: string; customerName: string }>
-    message?: string
-  }> => {
-    const params = new URLSearchParams()
-    if (search) params.append('search', search)
-    const response = await apiClient.get(`/sales-orders?${params.toString()}`)
-    return response.data
-  },
-
-  get: async (id: string): Promise<{ success: boolean; data: any; message?: string }> => {
-    const response = await apiClient.get(`/sales-orders/${id}`)
-    return response.data
-  },
-}
-
-const quotationsApi = {
-  list: async (
-    search?: string,
-  ): Promise<{
-    success: boolean
-    data: Array<{ id: string; docNum: string; customerName: string }>
-    message?: string
-  }> => {
-    const params = new URLSearchParams()
-    if (search) params.append('search', search)
-    const response = await apiClient.get(`/quotations?${params.toString()}`)
-    return response.data
-  },
-
-  get: async (id: string): Promise<{ success: boolean; data: any; message?: string }> => {
-    const response = await apiClient.get(`/quotations/${id}`)
-    return response.data
-  },
-}
-
-// Export all API services
-export { deliveriesApi, customersApi, itemsApi, taxCodesApi, salesOrdersApi, quotationsApi }
+export const deliveriesApi = new DeliveriesApiService()
