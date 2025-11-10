@@ -104,47 +104,47 @@ const modules = ref([
   },
 
   // 2. Business Partners - Foundation for all transactions
-  {
-    id: 'business-partners',
-    name: 'Business Partners',
-    icon: UserGroupIcon,
-    submodules: [
-      { id: 'customers', name: 'Customers', route: '/business-partners/customers' },
-      { id: 'vendors', name: 'Vendors', route: '/business-partners/vendors' },
-      { id: 'leads', name: 'Leads', route: '/business-partners/leads' },
-      { id: 'contacts', name: 'Contacts', route: '/business-partners/contacts' },
-      { id: 'addresses', name: 'Addresses', route: '/business-partners/addresses' },
-      { id: 'payment-terms', name: 'Payment Terms', route: '/business-partners/payment-terms' }
-    ]
-  },
+  // {
+  //   id: 'business-partners',
+  //   name: 'Business Partners',
+  //   icon: UserGroupIcon,
+  //   submodules: [
+  //     { id: 'customers', name: 'Customers', route: '/business-partners/customers' },
+  //     { id: 'vendors', name: 'Vendors', route: '/business-partners/vendors' },
+  //     { id: 'leads', name: 'Leads', route: '/business-partners/leads' },
+  //     { id: 'contacts', name: 'Contacts', route: '/business-partners/contacts' },
+  //     { id: 'addresses', name: 'Addresses', route: '/business-partners/addresses' },
+  //     { id: 'payment-terms', name: 'Payment Terms', route: '/business-partners/payment-terms' }
+  //   ]
+  // },
 
   // 3. CRM - Customer relationship management
-  {
-    id: 'crm',
-    name: 'CRM',
-    icon: UserGroupIcon,
-    submodules: [
-      { id: 'campaigns', name: 'Campaign Management', route: '/crm/campaigns' },
-      { id: 'customers', name: 'Customer Management', route: '/crm/customers' },
-      { id: 'contacts', name: 'Contact Management', route: '/crm/contacts' },
-      { id: 'activities', name: 'Activity Tracking', route: '/crm/activities' },
-      { id: 'opportunities', name: 'Opportunity Tracking', route: '/crm/opportunities' },
-      { id: 'service-calls', name: 'Service Calls', route: '/crm/service-calls' }
-    ]
-  },
+  // {
+  //   id: 'crm',
+  //   name: 'CRM',
+  //   icon: UserGroupIcon,
+  //   submodules: [
+  //     { id: 'campaigns', name: 'Campaign Management', route: '/crm/campaigns' },
+  //     { id: 'customers', name: 'Customer Management', route: '/crm/customers' },
+  //     { id: 'contacts', name: 'Contact Management', route: '/crm/contacts' },
+  //     { id: 'activities', name: 'Activity Tracking', route: '/crm/activities' },
+  //     { id: 'opportunities', name: 'Opportunity Tracking', route: '/crm/opportunities' },
+  //     { id: 'service-calls', name: 'Service Calls', route: '/crm/service-calls' }
+  //   ]
+  // },
 
   // 4. Opportunities - Sales pipeline management
-  {
-    id: 'opportunities',
-    name: 'Opportunities',
-    icon: PresentationChartLineIcon,
-    submodules: [
-      { id: 'sales', name: 'Sales Opportunities', route: '/opportunities/sales' },
-      { id: 'pipeline', name: 'Pipeline Tracking', route: '/opportunities/pipeline' },
-      { id: 'stages', name: 'Sales Stages & Forecasting', route: '/opportunities/stages' },
-      { id: 'reports', name: 'Opportunity Reports', route: '/opportunities/reports' }
-    ]
-  },
+  // {
+  //   id: 'opportunities',
+  //   name: 'Opportunities',
+  //   icon: PresentationChartLineIcon,
+  //   submodules: [
+  //     { id: 'sales', name: 'Sales Opportunities', route: '/opportunities/sales' },
+  //     { id: 'pipeline', name: 'Pipeline Tracking', route: '/opportunities/pipeline' },
+  //     { id: 'stages', name: 'Sales Stages & Forecasting', route: '/opportunities/stages' },
+  //     { id: 'reports', name: 'Opportunity Reports', route: '/opportunities/reports' }
+  //   ]
+  // },
 
   // 5. Sales - A/R - Sales cycle
   {
@@ -193,131 +193,131 @@ const modules = ref([
           { id: 'goods-issue', name: 'Goods Issue', route: '/inventory/transactions/goods-issue' }
         ]
       },
-      { id: 'items', name: 'Items', route: '/inventory/items' },
-      { id: 'groups-warehouses', name: 'Groups & Warehouses', route: '/inventory/groups-warehouses' },
-      { id: 'price-lists', name: 'Price Lists', route: '/inventory/price-lists' },
-      { id: 'stock-counting', name: 'Stock Counting', route: '/inventory/stock-counting' },
-      { id: 'serial-batches', name: 'Serial/Batch Numbers', route: '/inventory/serial-batches' },
-      { id: 'valuation', name: 'Inventory Valuation', route: '/inventory/valuation' },
-      { id: 'reports', name: 'Inventory Reports', route: '/inventory/reports' }
+      // { id: 'items', name: 'Items', route: '/inventory/items' },
+      // { id: 'groups-warehouses', name: 'Groups & Warehouses', route: '/inventory/groups-warehouses' },
+      // { id: 'price-lists', name: 'Price Lists', route: '/inventory/price-lists' },
+      // { id: 'stock-counting', name: 'Stock Counting', route: '/inventory/stock-counting' },
+      // { id: 'serial-batches', name: 'Serial/Batch Numbers', route: '/inventory/serial-batches' },
+      // { id: 'valuation', name: 'Inventory Valuation', route: '/inventory/valuation' },
+      // { id: 'reports', name: 'Inventory Reports', route: '/inventory/reports' }
     ]
   },
 
   // 8. Production - Manufacturing
-  {
-    id: 'production',
-    name: 'Production',
-    icon: CpuChipIcon,
-    submodules: [
-      { id: 'bom', name: 'Bill of Materials', route: '/production/bom' },
-      { id: 'orders', name: 'Production Orders', route: '/production/orders' },
-      { id: 'issue', name: 'Issue for Production', route: '/production/issue' },
-      { id: 'receipt', name: 'Receipt from Production', route: '/production/receipt' },
-      { id: 'reports', name: 'Production Reports', route: '/production/reports' }
-    ]
-  },
+  // {
+  //   id: 'production',
+  //   name: 'Production',
+  //   icon: CpuChipIcon,
+  //   submodules: [
+  //     { id: 'bom', name: 'Bill of Materials', route: '/production/bom' },
+  //     { id: 'orders', name: 'Production Orders', route: '/production/orders' },
+  //     { id: 'issue', name: 'Issue for Production', route: '/production/issue' },
+  //     { id: 'receipt', name: 'Receipt from Production', route: '/production/receipt' },
+  //     { id: 'reports', name: 'Production Reports', route: '/production/reports' }
+  //   ]
+  // },
 
   // 9. MRP - Planning
-  {
-    id: 'mrp',
-    name: 'MRP',
-    icon: ClipboardDocumentCheckIcon,
-    submodules: [
-      { id: 'planning', name: 'MRP Planning', route: '/mrp/planning' },
-      { id: 'forecasts', name: 'Forecasts', route: '/mrp/forecasts' },
-      { id: 'scenarios', name: 'Scenarios', route: '/mrp/scenarios' },
-      { id: 'order-recommendations', name: 'Order Recommendations', route: '/mrp/order-recommendations' },
-      { id: 'planning-wizard', name: 'Planning Wizard', route: '/mrp/planning-wizard' }
-    ]
-  },
+  // {
+  //   id: 'mrp',
+  //   name: 'MRP',
+  //   icon: ClipboardDocumentCheckIcon,
+  //   submodules: [
+  //     { id: 'planning', name: 'MRP Planning', route: '/mrp/planning' },
+  //     { id: 'forecasts', name: 'Forecasts', route: '/mrp/forecasts' },
+  //     { id: 'scenarios', name: 'Scenarios', route: '/mrp/scenarios' },
+  //     { id: 'order-recommendations', name: 'Order Recommendations', route: '/mrp/order-recommendations' },
+  //     { id: 'planning-wizard', name: 'Planning Wizard', route: '/mrp/planning-wizard' }
+  //   ]
+  // },
 
   // 10. Resources - Resource management
-  {
-    id: 'resources',
-    name: 'Resources',
-    icon: BuildingOffice2Icon,
-    submodules: [
-      { id: 'master-data', name: 'Resource Master Data', route: '/resources/master-data' },
-      { id: 'groups', name: 'Resource Groups', route: '/resources/groups' },
-      { id: 'capacities', name: 'Capacities', route: '/resources/capacities' },
-      { id: 'costs', name: 'Resource Costs', route: '/resources/costs' },
-      { id: 'planning', name: 'Resource Planning', route: '/resources/planning' }
-    ]
-  },
+  // {
+  //   id: 'resources',
+  //   name: 'Resources',
+  //   icon: BuildingOffice2Icon,
+  //   submodules: [
+  //     { id: 'master-data', name: 'Resource Master Data', route: '/resources/master-data' },
+  //     { id: 'groups', name: 'Resource Groups', route: '/resources/groups' },
+  //     { id: 'capacities', name: 'Capacities', route: '/resources/capacities' },
+  //     { id: 'costs', name: 'Resource Costs', route: '/resources/costs' },
+  //     { id: 'planning', name: 'Resource Planning', route: '/resources/planning' }
+  //   ]
+  // },
 
   // 11. Banking - Financial transactions
-  {
-    id: 'banking',
-    name: 'Banking',
-    icon: BanknotesIcon,
-    submodules: [
-      { id: 'incoming', name: 'Incoming Payments', route: '/banking/incoming' },
-      { id: 'outgoing', name: 'Outgoing Payments', route: '/banking/outgoing' },
-      { id: 'deposits', name: 'Deposits', route: '/banking/deposits' },
-      { id: 'checks', name: 'Checks', route: '/banking/checks' },
-      { id: 'statements', name: 'Bank Statements', route: '/banking/statements' },
-      { id: 'reconciliation', name: 'Reconciliation', route: '/banking/reconciliation' },
-      { id: 'wizard', name: 'Payment Wizard', route: '/banking/wizard' }
-    ]
-  },
+  // {
+  //   id: 'banking',
+  //   name: 'Banking',
+  //   icon: BanknotesIcon,
+  //   submodules: [
+  //     { id: 'incoming', name: 'Incoming Payments', route: '/banking/incoming' },
+  //     { id: 'outgoing', name: 'Outgoing Payments', route: '/banking/outgoing' },
+  //     { id: 'deposits', name: 'Deposits', route: '/banking/deposits' },
+  //     { id: 'checks', name: 'Checks', route: '/banking/checks' },
+  //     { id: 'statements', name: 'Bank Statements', route: '/banking/statements' },
+  //     { id: 'reconciliation', name: 'Reconciliation', route: '/banking/reconciliation' },
+  //     { id: 'wizard', name: 'Payment Wizard', route: '/banking/wizard' }
+  //   ]
+  // },
 
   // 12. Financials - Accounting and financial management
-  {
-    id: 'financials',
-    name: 'Financials',
-    icon: CurrencyDollarIcon,
-    submodules: [
-      { id: 'chart-accounts', name: 'Chart of Accounts', route: '/financials/chart-accounts' },
-      { id: 'journal-entries', name: 'Journal Entries', route: '/financials/journal-entries' },
-      { id: 'cost-accounting', name: 'Cost Accounting', route: '/financials/cost-accounting' },
-      { id: 'budget-management', name: 'Budget Management', route: '/financials/budget-management' },
-      { id: 'exchange-rates', name: 'Exchange Rate Differences', route: '/financials/exchange-rates' },
-      { id: 'financial-reports', name: 'Financial Reports', route: '/financials/financial-reports' }
-    ]
-  },
+  // {
+  //   id: 'financials',
+  //   name: 'Financials',
+  //   icon: CurrencyDollarIcon,
+  //   submodules: [
+  //     { id: 'chart-accounts', name: 'Chart of Accounts', route: '/financials/chart-accounts' },
+  //     { id: 'journal-entries', name: 'Journal Entries', route: '/financials/journal-entries' },
+  //     { id: 'cost-accounting', name: 'Cost Accounting', route: '/financials/cost-accounting' },
+  //     { id: 'budget-management', name: 'Budget Management', route: '/financials/budget-management' },
+  //     { id: 'exchange-rates', name: 'Exchange Rate Differences', route: '/financials/exchange-rates' },
+  //     { id: 'financial-reports', name: 'Financial Reports', route: '/financials/financial-reports' }
+  //   ]
+  // },
 
   // 13. Service - Customer service
-  {
-    id: 'service',
-    name: 'Service',
-    icon: WrenchScrewdriverIcon,
-    submodules: [
-      { id: 'contracts', name: 'Service Contracts', route: '/service/contracts' },
-      { id: 'equipment', name: 'Customer Equipment', route: '/service/equipment' },
-      { id: 'calls', name: 'Service Calls', route: '/service/calls' },
-      { id: 'reports', name: 'Service Reports', route: '/service/reports' },
-      { id: 'response-time', name: 'Response Time', route: '/service/response-time' }
-    ]
-  },
+  // {
+  //   id: 'service',
+  //   name: 'Service',
+  //   icon: WrenchScrewdriverIcon,
+  //   submodules: [
+  //     { id: 'contracts', name: 'Service Contracts', route: '/service/contracts' },
+  //     { id: 'equipment', name: 'Customer Equipment', route: '/service/equipment' },
+  //     { id: 'calls', name: 'Service Calls', route: '/service/calls' },
+  //     { id: 'reports', name: 'Service Reports', route: '/service/reports' },
+  //     { id: 'response-time', name: 'Response Time', route: '/service/response-time' }
+  //   ]
+  // },
 
   // 14. Human Resources - Employee management
-  {
-    id: 'human-resources',
-    name: 'Human Resources',
-    icon: UserGroupIcon,
-    submodules: [
-      { id: 'employees', name: 'Employee Information', route: '/hr/employees' },
-      { id: 'positions', name: 'Employee Positions', route: '/hr/positions' },
-      { id: 'timesheets', name: 'Timesheets', route: '/hr/timesheets' },
-      { id: 'expenses', name: 'Employee Expenses', route: '/hr/expenses' }
-    ]
-  },
+  // {
+  //   id: 'human-resources',
+  //   name: 'Human Resources',
+  //   icon: UserGroupIcon,
+  //   submodules: [
+  //     { id: 'employees', name: 'Employee Information', route: '/hr/employees' },
+  //     { id: 'positions', name: 'Employee Positions', route: '/hr/positions' },
+  //     { id: 'timesheets', name: 'Timesheets', route: '/hr/timesheets' },
+  //     { id: 'expenses', name: 'Employee Expenses', route: '/hr/expenses' }
+  //   ]
+  // },
 
   // 15. Reports - Analytics and reporting
-  {
-    id: 'reports',
-    name: 'Reports',
-    icon: ChartBarIcon,
-    submodules: [
-      { id: 'dashboard', name: 'Reports Dashboard', route: '/reports/dashboard' },
-      { id: 'financial', name: 'Financial Reports', route: '/reports/financial' },
-      { id: 'sales-purchasing', name: 'Sales & Purchasing', route: '/reports/sales-purchasing' },
-      { id: 'inventory', name: 'Inventory Reports', route: '/reports/inventory' },
-      { id: 'production-mrp', name: 'Production & MRP', route: '/reports/production-mrp' },
-      { id: 'service', name: 'Service Reports', route: '/reports/service' },
-      { id: 'custom-queries', name: 'Custom Queries', route: '/reports/custom-queries' }
-    ]
-  },
+  // {
+  //   id: 'reports',
+  //   name: 'Reports',
+  //   icon: ChartBarIcon,
+  //   submodules: [
+  //     { id: 'dashboard', name: 'Reports Dashboard', route: '/reports/dashboard' },
+  //     { id: 'financial', name: 'Financial Reports', route: '/reports/financial' },
+  //     { id: 'sales-purchasing', name: 'Sales & Purchasing', route: '/reports/sales-purchasing' },
+  //     { id: 'inventory', name: 'Inventory Reports', route: '/reports/inventory' },
+  //     { id: 'production-mrp', name: 'Production & MRP', route: '/reports/production-mrp' },
+  //     { id: 'service', name: 'Service Reports', route: '/reports/service' },
+  //     { id: 'custom-queries', name: 'Custom Queries', route: '/reports/custom-queries' }
+  //   ]
+  // },
 
   // 16. Approvals - Workflow approval management
   {
@@ -335,19 +335,19 @@ const modules = ref([
   },
 
   // 17. Administration - System settings (moved to bottom)
-  {
-    id: 'administration',
-    name: 'Administration',
-    icon: Cog6ToothIcon,
-    submodules: [
-      { id: 'system-initialization', name: 'System Initialization', route: '/administration/system-initialization' },
-      { id: 'authorizations-security', name: 'Authorizations & Security', route: '/administration/authorizations-security' },
-      { id: 'setup', name: 'Setup', route: '/administration/setup' },
-      { id: 'utilities', name: 'Utilities', route: '/administration/utilities' },
-      { id: 'addons-management', name: 'Add-ons Management', route: '/administration/addons-management' },
-      { id: 'license-administration', name: 'License Administration', route: '/administration/license-administration' }
-    ]
-  }
+  // {
+  //   id: 'administration',
+  //   name: 'Administration',
+  //   icon: Cog6ToothIcon,
+  //   submodules: [
+  //     { id: 'system-initialization', name: 'System Initialization', route: '/administration/system-initialization' },
+  //     { id: 'authorizations-security', name: 'Authorizations & Security', route: '/administration/authorizations-security' },
+  //     { id: 'setup', name: 'Setup', route: '/administration/setup' },
+  //     { id: 'utilities', name: 'Utilities', route: '/administration/utilities' },
+  //     { id: 'addons-management', name: 'Add-ons Management', route: '/administration/addons-management' },
+  //     { id: 'license-administration', name: 'License Administration', route: '/administration/license-administration' }
+  //   ]
+  // }
 ])
 
 const handleSearch = (query: string) => {
