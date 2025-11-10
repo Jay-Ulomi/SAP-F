@@ -7,7 +7,31 @@
         <p class="text-sm text-gray-600">Manage customer deliveries and shipping</p>
       </div>
       <div class="flex space-x-3">
-        <button @click="showCreateModal = true" class="btn-primary">New Delivery</button>
+        <button
+          @click="showCreateModal = true"
+          class="btn-primary flex items-center justify-center"
+        >
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 4v16m8-8H4"
+            ></path>
+          </svg>
+          New Delivery
+        </button>
+        <button @click="loadDeliveryStats" class="btn-secondary flex items-center justify-center">
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+            ></path>
+          </svg>
+          Refresh Stats
+        </button>
       </div>
     </div>
 
@@ -517,7 +541,11 @@
               <td class="px-6 py-4 whitespace-nowrap">
                 <span
                   class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
-                  :class="delivery.type === 'Item' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'"
+                  :class="
+                    delivery.type === 'Item'
+                      ? 'bg-blue-100 text-blue-800'
+                      : 'bg-green-100 text-green-800'
+                  "
                 >
                   {{ delivery.type || 'Item' }}
                 </span>
@@ -906,7 +934,9 @@ const getItemCount = (record) => {
 
 const getPrimaryWarehouse = (record) => {
   if (!record.lineItems || record.lineItems.length === 0) return '-'
-  const warehouses = [...new Set(record.lineItems.map(item => item.warehouseCode).filter(Boolean))]
+  const warehouses = [
+    ...new Set(record.lineItems.map((item) => item.warehouseCode).filter(Boolean)),
+  ]
   if (warehouses.length === 0) return '-'
   if (warehouses.length === 1) return warehouses[0]
   return `${warehouses[0]} +${warehouses.length - 1} more`
@@ -928,12 +958,17 @@ const getServiceCount = (record) => {
 const getServiceDescription = (record) => {
   if (!record.serviceItems || record.serviceItems.length === 0) return '-'
   const descriptions = record.serviceItems
-    .map(service => service.description)
+    .map((service) => service.description)
     .filter(Boolean)
     .slice(0, 2)
   if (descriptions.length === 0) return '-'
   if (descriptions.length === 1) return descriptions[0]
   return descriptions.join(', ') + (record.serviceItems.length > 2 ? '...' : '')
+}
+
+// Methods
+const loadDeliveryStats = async () => {
+  await store.fetchStats()
 }
 
 // Lifecycle

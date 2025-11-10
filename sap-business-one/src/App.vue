@@ -40,6 +40,9 @@
         </template>
       </AppHeader>
 
+      <!-- Spacer for fixed header -->
+      <div class="h-14 sm:h-16"></div>
+
       <!-- Breadcrumbs -->
       <AppBreadcrumbs :modules="modules" />
 

@@ -6,7 +6,30 @@
         <h1 class="text-lg font-medium text-gray-900">Sales Orders</h1>
         <p class="text-sm text-gray-600">Manage customer sales orders</p>
       </div>
-      <button @click="showFormModal = true" class="btn-primary">New Order</button>
+      <div class="flex space-x-3">
+        <button @click="showFormModal = true" class="btn-primary flex items-center justify-center">
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 4v16m8-8H4"
+            ></path>
+          </svg>
+          New Order
+        </button>
+        <button @click="loadOrderStats" class="btn-secondary flex items-center justify-center">
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+            ></path>
+          </svg>
+          Refresh Stats
+        </button>
+      </div>
     </div>
 
     <!-- Statistics Cards -->
@@ -540,7 +563,11 @@
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="flex items-center">
                   <span
-                    :class="order.type === 'Item' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'"
+                    :class="
+                      order.type === 'Item'
+                        ? 'bg-blue-100 text-blue-800'
+                        : 'bg-green-100 text-green-800'
+                    "
                     class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
                   >
                     {{ order.type.replace('_', ' ') }}
@@ -550,15 +577,19 @@
 
               <!-- Item Type Columns -->
               <template v-if="order.type === 'Item'">
-                <td v-if="!selectedType || selectedType === 'Item'" class="px-6 py-4 whitespace-nowrap">
+                <td
+                  v-if="!selectedType || selectedType === 'Item'"
+                  class="px-6 py-4 whitespace-nowrap"
+                >
                   <div class="text-sm text-gray-900">
                     {{ getItemsSummary(order) }}
                   </div>
-                  <div class="text-sm text-gray-500">
-                    {{ getItemCount(order) }} item(s)
-                  </div>
+                  <div class="text-sm text-gray-500">{{ getItemCount(order) }} item(s)</div>
                 </td>
-                <td v-if="!selectedType || selectedType === 'Item'" class="px-6 py-4 whitespace-nowrap">
+                <td
+                  v-if="!selectedType || selectedType === 'Item'"
+                  class="px-6 py-4 whitespace-nowrap"
+                >
                   <div class="text-sm text-gray-900">
                     {{ getPrimaryWarehouse(order) }}
                   </div>
@@ -567,15 +598,19 @@
 
               <!-- Service Type Columns -->
               <template v-if="order.type === 'Service'">
-                <td v-if="!selectedType || selectedType === 'Service'" class="px-6 py-4 whitespace-nowrap">
+                <td
+                  v-if="!selectedType || selectedType === 'Service'"
+                  class="px-6 py-4 whitespace-nowrap"
+                >
                   <div class="text-sm text-gray-900">
                     {{ getServicesSummary(order) }}
                   </div>
-                  <div class="text-sm text-gray-500">
-                    {{ getServiceCount(order) }} service(s)
-                  </div>
+                  <div class="text-sm text-gray-500">{{ getServiceCount(order) }} service(s)</div>
                 </td>
-                <td v-if="!selectedType || selectedType === 'Service'" class="px-6 py-4 whitespace-nowrap">
+                <td
+                  v-if="!selectedType || selectedType === 'Service'"
+                  class="px-6 py-4 whitespace-nowrap"
+                >
                   <div class="text-sm text-gray-900">
                     {{ getServiceDescription(order) }}
                   </div>
@@ -583,7 +618,9 @@
               </template>
 
               <!-- Empty columns for opposite type when no filter is applied -->
-              <template v-if="order.type === 'Item' && (!selectedType || selectedType === 'Service')">
+              <template
+                v-if="order.type === 'Item' && (!selectedType || selectedType === 'Service')"
+              >
                 <td class="px-6 py-4 whitespace-nowrap">
                   <span class="text-gray-400">-</span>
                 </td>
@@ -591,7 +628,9 @@
                   <span class="text-gray-400">-</span>
                 </td>
               </template>
-              <template v-if="order.type === 'Service' && (!selectedType || selectedType === 'Item')">
+              <template
+                v-if="order.type === 'Service' && (!selectedType || selectedType === 'Item')"
+              >
                 <td class="px-6 py-4 whitespace-nowrap">
                   <span class="text-gray-400">-</span>
                 </td>
@@ -810,6 +849,10 @@ const loadData = async () => {
   await store.fetchSalesOrders()
 }
 
+const loadOrderStats = async () => {
+  await store.fetchStats()
+}
+
 const applyFilters = () => {
   const filters: Record<string, any> = {}
 
@@ -935,7 +978,7 @@ const getItemCount = (order: SalesOrder) => {
 const getPrimaryWarehouse = (order: SalesOrder) => {
   if (!order.lineItems || order.lineItems.length === 0) return '-'
 
-  const warehouses = [...new Set(order.lineItems.map(item => item.warehouseCode).filter(Boolean))]
+  const warehouses = [...new Set(order.lineItems.map((item) => item.warehouseCode).filter(Boolean))]
   if (warehouses.length === 0) return '-'
   if (warehouses.length === 1) return warehouses[0]
 
@@ -961,7 +1004,7 @@ const getServiceDescription = (order: SalesOrder) => {
   if (!order.serviceItems || order.serviceItems.length === 0) return '-'
 
   const descriptions = order.serviceItems
-    .map(service => service.description)
+    .map((service) => service.description)
     .filter(Boolean)
     .slice(0, 2)
 

@@ -7,7 +7,7 @@
         <p class="text-sm text-gray-600">Manage customer invoices and track payments</p>
       </div>
       <div class="flex space-x-3">
-        <button @click="createInvoice" class="btn-primary">
+        <button @click="createInvoice" class="btn-primary flex items-center justify-center">
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               stroke-linecap="round"
@@ -18,7 +18,7 @@
           </svg>
           New Invoice
         </button>
-        <button @click="loadInvoiceStats" class="btn-secondary">
+        <button @click="loadInvoiceStats" class="btn-secondary flex items-center justify-center">
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               stroke-linecap="round"
@@ -603,7 +603,11 @@
                 <td class="px-4 py-3 text-sm text-gray-900">
                   <span
                     class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
-                    :class="invoice.type === 'Item' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'"
+                    :class="
+                      invoice.type === 'Item'
+                        ? 'bg-blue-100 text-blue-800'
+                        : 'bg-green-100 text-green-800'
+                    "
                   >
                     {{ invoice.type || 'Item' }}
                   </span>
@@ -1094,7 +1098,9 @@ const getItemCount = (record) => {
 
 const getPrimaryWarehouse = (record) => {
   if (!record.lineItems || record.lineItems.length === 0) return '-'
-  const warehouses = [...new Set(record.lineItems.map(item => item.warehouseCode).filter(Boolean))]
+  const warehouses = [
+    ...new Set(record.lineItems.map((item) => item.warehouseCode).filter(Boolean)),
+  ]
   if (warehouses.length === 0) return '-'
   if (warehouses.length === 1) return warehouses[0]
   return `${warehouses[0]} +${warehouses.length - 1} more`
@@ -1116,7 +1122,7 @@ const getServiceCount = (record) => {
 const getServiceDescription = (record) => {
   if (!record.serviceItems || record.serviceItems.length === 0) return '-'
   const descriptions = record.serviceItems
-    .map(service => service.description)
+    .map((service) => service.description)
     .filter(Boolean)
     .slice(0, 2)
   if (descriptions.length === 0) return '-'

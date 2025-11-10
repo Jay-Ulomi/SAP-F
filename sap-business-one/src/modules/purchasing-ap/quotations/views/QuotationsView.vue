@@ -7,7 +7,7 @@
         <p class="text-sm text-gray-600">Manage vendor quotations and evaluation workflows</p>
       </div>
       <div class="flex space-x-3">
-        <button @click="createQuotation" class="btn-primary">
+        <button @click="createQuotation" class="btn-primary flex items-center justify-center">
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               stroke-linecap="round"
@@ -18,7 +18,7 @@
           </svg>
           New Quotation
         </button>
-        <button @click="loadQuotationStats" class="btn-secondary">
+        <button @click="loadQuotationStats" class="btn-secondary flex items-center justify-center">
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               stroke-linecap="round"

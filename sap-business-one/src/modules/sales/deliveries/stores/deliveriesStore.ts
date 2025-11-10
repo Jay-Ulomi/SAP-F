@@ -1,13 +1,13 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
+import { deliveriesApi } from '../api/deliveriesApi'
 import {
-  deliveriesApi,
+  salesOrdersApi,
   customersApi,
   itemsApi,
   taxCodesApi,
-  salesOrdersApi,
-  quotationsApi,
-} from '../api/deliveriesApi'
+} from '../../orders/api/salesOrdersApi'
+import { quotationsApi } from '../../quotations/api/quotationsApi'
 import type {
   Delivery,
   DeliveryFormData,

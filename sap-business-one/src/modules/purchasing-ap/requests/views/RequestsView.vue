@@ -7,7 +7,7 @@
         <p class="text-sm text-gray-600">Manage purchase requests and approval workflows</p>
       </div>
       <div class="flex space-x-3">
-        <button @click="createRequest" class="btn-primary">
+        <button @click="createRequest" class="btn-primary flex items-center justify-center">
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               stroke-linecap="round"
@@ -18,7 +18,7 @@
           </svg>
           New Request
         </button>
-        <button @click="loadRequestStats" class="btn-secondary">
+        <button @click="loadRequestStats" class="btn-secondary flex items-center justify-center">
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               stroke-linecap="round"

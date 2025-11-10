@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { arInvoicesApi, customersApi, itemsApi, taxCodesApi } from '../api/arInvoicesApi'
+import { arInvoicesApi } from '../api/arInvoicesApi'
+import { customersApi, itemsApi, taxCodesApi } from '../../orders/api/salesOrdersApi'
 import type {
   ArInvoice,
   ArInvoiceFormData,

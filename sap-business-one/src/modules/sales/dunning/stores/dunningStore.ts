@@ -1,6 +1,10 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { dunningApi, customersApi, invoicesApi, paymentsApi, returnsApi } from '../api/dunningApi'
+import { dunningApi } from '../api/dunningApi'
+import { customersApi } from '../../orders/api/salesOrdersApi'
+import { invoicesApi } from '../../ar-invoices/api/invoicesApi'
+import { incomingPaymentsApi as paymentsApi } from '../../incoming-payments/api/incomingPaymentsApi'
+import { returnsApi } from '../../returns/api/returnsApi'
 import type {
   Dunning,
   DunningFormData,

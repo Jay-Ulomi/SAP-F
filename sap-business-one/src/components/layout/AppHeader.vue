@@ -1,5 +1,5 @@
 <template>
-  <header class="sticky top-0 z-30 bg-white shadow-sm border-b border-gray-200">
+  <header class="fixed top-0 left-0 lg:left-64 right-0 z-30 bg-white shadow-sm border-b border-gray-200">
     <div class="px-2 sm:px-4 lg:px-8">
       <div class="flex justify-between items-center h-14 sm:h-16">
         <!-- Left side: Menu and Search -->

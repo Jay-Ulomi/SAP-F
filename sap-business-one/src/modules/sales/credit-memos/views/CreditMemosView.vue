@@ -7,7 +7,7 @@
         <p class="text-sm text-gray-600">Manage customer credit memos and returns</p>
       </div>
       <div class="flex space-x-3">
-        <button @click="createCreditMemo" class="btn-primary">
+        <button @click="createCreditMemo" class="btn-primary flex items-center justify-center">
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               stroke-linecap="round"
@@ -18,7 +18,7 @@
           </svg>
           New Credit Memo
         </button>
-        <button @click="loadCreditMemoStats" class="btn-secondary">
+        <button @click="loadCreditMemoStats" class="btn-secondary flex items-center justify-center">
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               stroke-linecap="round"
