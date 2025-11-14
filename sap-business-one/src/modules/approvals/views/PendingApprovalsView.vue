@@ -106,16 +106,33 @@
       </div>
     </div>
 
-    <!-- Filters -->
-    <div class="mt-8 bg-white shadow rounded-lg">
-      <div class="px-4 py-5 sm:p-6">
-        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    <!-- Approval Instances Table -->
+    <div class="mt-8 bg-white shadow overflow-hidden sm:rounded-md">
+      <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+        <div class="flex items-center justify-between mb-4">
           <div>
-            <label for="department" class="block text-sm font-medium text-gray-700">Department</label>
+            <h3 class="text-lg leading-6 font-medium text-gray-900">Approval Instances</h3>
+            <p class="mt-1 max-w-2xl text-sm text-gray-500">
+              Documents currently in the approval workflow.
+            </p>
+          </div>
+        </div>
+        <!-- Search and Filters Row -->
+        <div class="flex flex-wrap items-end gap-4">
+          <div class="flex-1 min-w-[250px]">
+            <label class="block text-xs font-medium text-gray-700 mb-1">Search</label>
+            <input
+              v-model="filters.search"
+              type="text"
+              placeholder="Document ID, initiator..."
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm text-gray-900 bg-white"
+            />
+          </div>
+          <div class="flex-1 min-w-[150px]">
+            <label class="block text-xs font-medium text-gray-700 mb-1">Department</label>
             <select
-              id="department"
               v-model="filters.department"
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm text-gray-900 bg-white"
             >
               <option value="">All Departments</option>
               <option value="SALES">Sales</option>
@@ -126,13 +143,11 @@
               <option value="MARKETING">Marketing</option>
             </select>
           </div>
-
-          <div>
-            <label for="documentType" class="block text-sm font-medium text-gray-700">Document Type</label>
+          <div class="flex-1 min-w-[150px]">
+            <label class="block text-xs font-medium text-gray-700 mb-1">Document Type</label>
             <select
-              id="documentType"
               v-model="filters.documentType"
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm text-gray-900 bg-white"
             >
               <option value="">All Document Types</option>
               <option value="PURCHASE_REQUEST">Purchase Request</option>
@@ -143,13 +158,11 @@
               <option value="RETURN">Return</option>
             </select>
           </div>
-
-          <div>
-            <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+          <div class="flex-1 min-w-[150px]">
+            <label class="block text-xs font-medium text-gray-700 mb-1">Status</label>
             <select
-              id="status"
               v-model="filters.status"
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm text-gray-900 bg-white"
             >
               <option value="">All Statuses</option>
               <option value="PENDING_APPROVAL">Pending Approval</option>
@@ -157,28 +170,16 @@
               <option value="REJECTED">Rejected</option>
             </select>
           </div>
-
-          <div>
-            <label for="search" class="block text-sm font-medium text-gray-700">Search</label>
-            <input
-              id="search"
-              type="text"
-              v-model="filters.search"
-              placeholder="Document ID, initiator..."
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-            />
+          <div class="flex-shrink-0">
+            <button
+              v-if="hasActiveFilters"
+              @click="clearFilters"
+              class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 h-[38px]"
+            >
+              Clear Filters
+            </button>
           </div>
         </div>
-      </div>
-    </div>
-
-    <!-- Approval Instances Table -->
-    <div class="mt-8 bg-white shadow overflow-hidden sm:rounded-md">
-      <div class="px-4 py-5 sm:px-6">
-        <h3 class="text-lg leading-6 font-medium text-gray-900">Approval Instances</h3>
-        <p class="mt-1 max-w-2xl text-sm text-gray-500">
-          Documents currently in the approval workflow.
-        </p>
       </div>
 
       <div v-if="loading" class="px-4 py-8 text-center">
@@ -192,8 +193,14 @@
         <p class="mt-1 text-sm text-gray-500">No documents are currently awaiting approval.</p>
       </div>
 
-      <ul v-else class="divide-y divide-gray-200">
-        <li v-for="instance in filteredInstances" :key="instance.id" class="px-4 py-6 sm:px-6">
+      <div v-else class="overflow-auto max-h-[calc(100vh-400px)]">
+        <ul class="divide-y divide-gray-200">
+          <li
+            v-for="instance in filteredInstances"
+            :key="instance.id"
+            class="px-4 py-6 sm:px-6 hover:bg-gray-50 cursor-pointer transition-colors"
+            @click="viewInstance(instance)"
+          >
           <div class="flex items-center justify-between">
             <div class="flex-1 min-w-0">
               <div class="flex items-center">
@@ -262,36 +269,37 @@
               </div>
             </div>
 
-            <div class="flex-shrink-0 ml-4">
+            <div class="flex-shrink-0 ml-4" @click.stop>
               <div class="flex space-x-2">
                 <button
-                  @click="viewInstance(instance)"
-                  class="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md text-xs font-medium text-gray-700 bg-white hover:bg-gray-50"
+                  @click.stop="viewInstance(instance)"
+                  class="p-2 text-blue-600 hover:text-blue-900 hover:bg-blue-50 rounded-md transition-colors"
+                  title="View"
                 >
-                  <EyeIcon class="h-4 w-4 mr-1" />
-                  View
+                  <EyeIcon class="h-4 w-4" />
                 </button>
                 <button
                   v-if="canApprove(instance)"
-                  @click="processApproval(instance, 'APPROVE')"
-                  class="inline-flex items-center px-3 py-1 border border-transparent rounded-md text-xs font-medium text-white bg-green-600 hover:bg-green-700"
+                  @click.stop="processApproval(instance, 'APPROVE')"
+                  class="p-2 text-green-600 hover:text-green-900 hover:bg-green-50 rounded-md transition-colors"
+                  title="Approve"
                 >
-                  <CheckIcon class="h-4 w-4 mr-1" />
-                  Approve
+                  <CheckIcon class="h-4 w-4" />
                 </button>
                 <button
                   v-if="canApprove(instance)"
-                  @click="processApproval(instance, 'REJECT')"
-                  class="inline-flex items-center px-3 py-1 border border-transparent rounded-md text-xs font-medium text-white bg-red-600 hover:bg-red-700"
+                  @click.stop="processApproval(instance, 'REJECT')"
+                  class="p-2 text-red-600 hover:text-red-900 hover:bg-red-50 rounded-md transition-colors"
+                  title="Reject"
                 >
-                  <XMarkIcon class="h-4 w-4 mr-1" />
-                  Reject
+                  <XMarkIcon class="h-4 w-4" />
                 </button>
               </div>
             </div>
           </div>
         </li>
       </ul>
+      </div>
     </div>
 
     <!-- Pagination -->
@@ -399,7 +407,24 @@ const dueTodayCount = computed(() => {
   }).length
 })
 
+const hasActiveFilters = computed(() => {
+  return !!(
+    filters.value.department ||
+    filters.value.documentType ||
+    filters.value.status ||
+    filters.value.search
+  )
+})
+
 // Methods
+const clearFilters = () => {
+  filters.value = {
+    department: '',
+    documentType: '',
+    status: '',
+    search: ''
+  }
+}
 const refreshInstances = async () => {
   try {
     await approvalsStore.fetchApprovalInstances()

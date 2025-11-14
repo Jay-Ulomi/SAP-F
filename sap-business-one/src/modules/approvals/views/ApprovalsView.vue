@@ -86,92 +86,95 @@
       </div>
     </div>
 
-    <!-- Filters -->
-    <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-4 mb-6">
-      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
-        <div>
-          <select
-            v-model="filters.type"
-            @change="applyFilters"
-            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-          >
-            <option value="">Type</option>
-            <option value="OPEX">OPEX</option>
-            <option value="FUEL_STAFF">Fuel-Staff</option>
-            <option value="FUEL_BULK">Fuel-Bulk</option>
-            <option value="OPEX_UNCONTRACTED">OPEX Uncontracted</option>
-            <option value="CAPEX">CAPEX</option>
-          </select>
-        </div>
-
-        <div>
-          <select
-            v-model="filters.department"
-            @change="applyFilters"
-            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-          >
-            <option value="">Department</option>
-            <option value="SALES">Sales</option>
-            <option value="OPERATIONS">Operations</option>
-            <option value="HUMAN_RESOURCE">Human Resource</option>
-            <option value="FINANCE">Finance</option>
-            <option value="IT">IT</option>
-            <option value="MARKETING">Marketing</option>
-          </select>
-        </div>
-
-        <div>
-          <select
-            v-model="filters.documentType"
-            @change="applyFilters"
-            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-          >
-            <option value="">Document Type</option>
-            <option value="PURCHASE_REQUEST">Purchase Request</option>
-            <option value="PURCHASE_ORDER">Purchase Order</option>
-            <option value="GOODS_RECEIPT">Goods Receipt</option>
-            <option value="AP_INVOICE">AP Invoice</option>
-            <option value="AR_INVOICE">AR Invoice</option>
-          </select>
-        </div>
-
-        <div>
-          <select
-            v-model="filters.status"
-            @change="applyFilters"
-            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-          >
-            <option value="">Status</option>
-            <option value="ACTIVE">Active</option>
-            <option value="INACTIVE">Inactive</option>
-          </select>
-        </div>
-
-        <div>
-          <input
-            v-model="filters.initiator"
-            @input="applyFilters"
-            type="text"
-            placeholder="Search initiator..."
-            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-          />
-        </div>
-      </div>
-      <div class="mt-3 flex justify-end">
-        <button
-          @click="clearFilters"
-          class="inline-flex items-center px-3 py-1.5 text-sm text-blue-600 hover:text-blue-800"
-        >
-          Clear Filters
-        </button>
-      </div>
-    </div>
-
     <!-- Approval Rules Table -->
     <div class="bg-white shadow-sm rounded-lg border border-gray-200">
       <div class="px-4 py-4 border-b border-gray-200">
-        <h3 class="text-base font-medium text-gray-900">Approval Rules</h3>
-        <p class="mt-1 text-sm text-gray-500">Configure approval workflows for different document types and amounts.</p>
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h3 class="text-base font-medium text-gray-900">Approval Rules</h3>
+            <p class="mt-1 text-sm text-gray-500">Configure approval workflows for different document types and amounts.</p>
+          </div>
+        </div>
+        <!-- Search and Filters Row -->
+        <div class="flex flex-wrap items-end gap-4">
+          <div class="flex-1 min-w-[200px]">
+            <label class="block text-xs font-medium text-gray-700 mb-1">Search</label>
+            <input
+              v-model="filters.initiator"
+              @input="applyFilters"
+              type="text"
+              placeholder="Search initiator..."
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm text-gray-900 bg-white"
+            />
+          </div>
+          <div class="flex-1 min-w-[150px]">
+            <label class="block text-xs font-medium text-gray-700 mb-1">Type</label>
+            <select
+              v-model="filters.type"
+              @change="applyFilters"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm text-gray-900 bg-white"
+            >
+              <option value="">All Types</option>
+              <option value="OPEX">OPEX</option>
+              <option value="FUEL_STAFF">Fuel-Staff</option>
+              <option value="FUEL_BULK">Fuel-Bulk</option>
+              <option value="OPEX_UNCONTRACTED">OPEX Uncontracted</option>
+              <option value="CAPEX">CAPEX</option>
+            </select>
+          </div>
+          <div class="flex-1 min-w-[150px]">
+            <label class="block text-xs font-medium text-gray-700 mb-1">Department</label>
+            <select
+              v-model="filters.department"
+              @change="applyFilters"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm text-gray-900 bg-white"
+            >
+              <option value="">All Departments</option>
+              <option value="SALES">Sales</option>
+              <option value="OPERATIONS">Operations</option>
+              <option value="HUMAN_RESOURCE">Human Resource</option>
+              <option value="FINANCE">Finance</option>
+              <option value="IT">IT</option>
+              <option value="MARKETING">Marketing</option>
+            </select>
+          </div>
+          <div class="flex-1 min-w-[150px]">
+            <label class="block text-xs font-medium text-gray-700 mb-1">Document Type</label>
+            <select
+              v-model="filters.documentType"
+              @change="applyFilters"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm text-gray-900 bg-white"
+            >
+              <option value="">All Document Types</option>
+              <option value="PURCHASE_REQUEST">Purchase Request</option>
+              <option value="PURCHASE_ORDER">Purchase Order</option>
+              <option value="GOODS_RECEIPT">Goods Receipt</option>
+              <option value="AP_INVOICE">AP Invoice</option>
+              <option value="AR_INVOICE">AR Invoice</option>
+            </select>
+          </div>
+          <div class="flex-1 min-w-[150px]">
+            <label class="block text-xs font-medium text-gray-700 mb-1">Status</label>
+            <select
+              v-model="filters.status"
+              @change="applyFilters"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm text-gray-900 bg-white"
+            >
+              <option value="">All Statuses</option>
+              <option value="ACTIVE">Active</option>
+              <option value="INACTIVE">Inactive</option>
+            </select>
+          </div>
+          <div class="flex-shrink-0">
+            <button
+              v-if="hasActiveFilters"
+              @click="clearFilters"
+              class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 h-[38px]"
+            >
+              Clear Filters
+            </button>
+          </div>
+        </div>
       </div>
 
       <!-- Loading State -->
@@ -191,9 +194,9 @@
       </div>
 
       <!-- Table -->
-      <div v-else class="overflow-x-auto">
+      <div v-else class="overflow-auto max-h-[calc(100vh-400px)]">
         <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
+          <thead class="bg-gray-50 sticky top-0 z-10">
             <tr>
               <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Type
@@ -231,7 +234,12 @@
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
-            <tr v-for="rule in approvalRules" :key="rule.id" class="hover:bg-gray-50">
+            <tr
+              v-for="rule in approvalRules"
+              :key="rule.id"
+              class="hover:bg-gray-50 cursor-pointer transition-colors"
+              @click="viewRule(rule)"
+            >
               <td class="px-3 py-3 whitespace-nowrap text-sm">
                 <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium"
                       :class="getTypeColor(rule.type)">
@@ -268,11 +276,11 @@
                   {{ rule.status }}
                 </span>
               </td>
-              <td class="px-3 py-3 whitespace-nowrap text-right text-sm font-medium">
+              <td class="px-3 py-3 whitespace-nowrap text-right text-sm font-medium" @click.stop>
                 <div class="flex items-center space-x-2">
                   <button
-                    @click="viewRule(rule)"
-                    class="text-sap-blue hover:text-sap-blue-dark"
+                    @click.stop="viewRule(rule)"
+                    class="p-2 text-blue-600 hover:text-blue-900 hover:bg-blue-50 rounded-md transition-colors"
                     title="View"
                   >
                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -291,8 +299,8 @@
                     </svg>
                   </button>
                   <button
-                    @click="editRule(rule)"
-                    class="text-indigo-600 hover:text-indigo-900"
+                    @click.stop="editRule(rule)"
+                    class="p-2 text-indigo-600 hover:text-indigo-900 hover:bg-indigo-50 rounded-md transition-colors"
                     title="Edit"
                   >
                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -300,13 +308,13 @@
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         stroke-width="2"
-                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
                       ></path>
                     </svg>
                   </button>
                   <button
-                    @click="deleteRule(rule)"
-                    class="text-red-600 hover:text-red-900"
+                    @click.stop="deleteRule(rule)"
+                    class="p-2 text-red-600 hover:text-red-900 hover:bg-red-50 rounded-md transition-colors"
                     title="Delete"
                   >
                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -573,6 +581,17 @@ const loading = computed(() => approvalsStore.loading)
 const error = computed(() => approvalsStore.error)
 const stats = computed(() => approvalsStore.stats)
 const pagination = computed(() => approvalsStore.pagination)
+
+const hasActiveFilters = computed(() => {
+  return !!(
+    filters.value.type ||
+    filters.value.department ||
+    filters.value.documentType ||
+    filters.value.status ||
+    filters.value.initiator ||
+    filters.value.search
+  )
+})
 
 // Methods
 const loadData = async () => {

@@ -138,60 +138,30 @@
       </div>
     </div>
 
-    <!-- Filters -->
-    <div class="bg-white rounded-lg shadow">
+    <!-- Data Table -->
+    <div class="bg-white rounded-lg shadow overflow-hidden">
       <div class="px-6 py-4 border-b border-gray-200">
-        <div class="flex items-center justify-between">
-          <h3 class="text-lg font-medium text-gray-900">Filters</h3>
-          <div class="flex items-center space-x-3">
-            <button
-              @click="showAdvancedFilters = !showAdvancedFilters"
-              class="inline-flex items-center px-3 py-2 text-sm font-medium text-sap-blue bg-blue-50 border border-blue-200 rounded-md hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue"
-            >
-              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 100 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2"
-                />
-              </svg>
-              {{ showAdvancedFilters ? 'Hide' : 'Show' }} Advanced
-            </button>
-            <button
-              @click="clearFilters"
-              class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue"
-            >
-              Clear All
-            </button>
-          </div>
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-medium text-gray-900">Returns</h3>
         </div>
-      </div>
-      <div class="p-6">
-        <!-- Primary Filters - Always Visible -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <!-- Status Filter -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
-            <select
-              v-model="selectedStatuses"
-              @change="applyFilters"
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-            >
-              <option value="">All Statuses</option>
-              <option v-for="status in returnStatuses" :key="status" :value="status">
-                {{ formatReturnStatus(status) }}
-              </option>
-            </select>
+        <!-- Search and Filters Row -->
+        <div class="flex flex-wrap items-end gap-4">
+          <div class="flex-1 min-w-[250px]">
+            <label class="block text-xs font-medium text-gray-700 mb-1">Search</label>
+            <input
+              v-model="filters.search"
+              @input="applyFilters"
+              type="text"
+              placeholder="Search by document, customer, or code..."
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm text-gray-900 bg-white"
+            />
           </div>
-
-          <!-- Type Filter -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Type</label>
+          <div class="flex-1 min-w-[150px]">
+            <label class="block text-xs font-medium text-gray-700 mb-1">Type</label>
             <select
-              v-model="selectedTypes"
+              v-model="selectedType"
               @change="applyFilters"
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm text-gray-900 bg-white"
             >
               <option value="">All Types</option>
               <option v-for="type in formTypes" :key="type" :value="type">
@@ -199,207 +169,29 @@
               </option>
             </select>
           </div>
-
-          <!-- Search Filter -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Search</label>
-            <input
-              v-model="filters.search"
-              @input="applyFilters"
-              type="text"
-              placeholder="Search returns..."
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-            />
-          </div>
-
-          <!-- Customer Filter -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Customer</label>
-            <input
-              v-model="customerFilter"
-              @input="applyFilters"
-              type="text"
-              placeholder="Customer code..."
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-            />
-          </div>
-        </div>
-
-        <!-- Advanced Filters - Collapsible -->
-        <div v-show="showAdvancedFilters" class="border-t border-gray-200 pt-6">
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-            <!-- Return Reason Filter -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Return Reason</label>
-              <select
-                v-model="returnReasonFilter"
-                @change="applyFilters"
-                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-              >
-                <option value="">All Reasons</option>
-                <option value="DEFECTIVE">Defective</option>
-                <option value="DAMAGED">Damaged</option>
-                <option value="WRONG_ITEM">Wrong Item</option>
-                <option value="CUSTOMER_CHANGE">Customer Change</option>
-                <option value="WARRANTY">Warranty</option>
-              </select>
-            </div>
-
-            <!-- Priority Filter -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Priority</label>
-              <select
-                v-model="priorityFilter"
-                @change="applyFilters"
-                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-              >
-                <option value="">All Priorities</option>
-                <option value="HIGH">High</option>
-                <option value="MEDIUM">Medium</option>
-                <option value="LOW">Low</option>
-              </select>
-            </div>
-
-            <!-- Original Order Filter -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Original Order</label>
-              <input
-                v-model="originalOrderFilter"
-                @input="applyFilters"
-                type="text"
-                placeholder="Order number..."
-                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-              />
-            </div>
-
-            <!-- Invoice Filter -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Original Invoice</label>
-              <input
-                v-model="originalInvoiceFilter"
-                @input="applyFilters"
-                type="text"
-                placeholder="Invoice number..."
-                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-              />
-            </div>
-          </div>
-
-          <!-- Date Filters Row -->
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <!-- Return Date Range -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Return Date Range</label>
-              <div class="flex space-x-2">
-                <input
-                  v-model="returnDateFromFilter"
-                  @change="applyFilters"
-                  type="date"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-                />
-                <input
-                  v-model="returnDateToFilter"
-                  @change="applyFilters"
-                  type="date"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-                />
-              </div>
-            </div>
-
-            <!-- Approval Date Range -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2"
-                >Approval Date Range</label
-              >
-              <div class="flex space-x-2">
-                <input
-                  v-model="approvalDateFromFilter"
-                  @change="applyFilters"
-                  type="date"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-                />
-                <input
-                  v-model="approvalDateToFilter"
-                  @change="applyFilters"
-                  type="date"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Active Filters Summary -->
-        <div v-if="hasActiveFilters" class="mt-4 pt-4 border-t border-gray-200">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center space-x-2">
-              <span class="text-sm font-medium text-gray-700">Active Filters:</span>
-              <div class="flex flex-wrap gap-2">
-                <span
-                  v-if="selectedStatuses.length > 0"
-                  class="inline-flex items-center px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full"
-                >
-                  Status: {{ selectedStatuses.map((s) => formatReturnStatus(s)).join(', ') }}
-                  <button
-                    @click="((selectedStatuses = []), applyFilters())"
-                    class="ml-1 text-blue-600 hover:text-blue-800"
-                  >
-                    ×
-                  </button>
-                </span>
-                <span
-                  v-if="selectedTypes.length > 0"
-                  class="inline-flex items-center px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full"
-                >
-                  Type: {{ selectedTypes.map((t) => formatReturnType(t)).join(', ') }}
-                  <button
-                    @click="((selectedTypes = []), applyFilters())"
-                    class="ml-1 text-green-600 hover:text-green-800"
-                  >
-                    ×
-                  </button>
-                </span>
-                <span
-                  v-if="customerFilter"
-                  class="inline-flex items-center px-2 py-1 text-xs font-medium bg-purple-100 text-purple-800 rounded-full"
-                >
-                  Customer: {{ customerFilter }}
-                  <button
-                    @click="((customerFilter = ''), applyFilters())"
-                    class="ml-1 text-purple-600 hover:text-purple-800"
-                  >
-                    ×
-                  </button>
-                </span>
-                <span
-                  v-if="filters.search"
-                  class="inline-flex items-center px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full"
-                >
-                  Search: {{ filters.search }}
-                  <button
-                    @click="((filters.search = ''), applyFilters())"
-                    class="ml-1 text-yellow-600 hover:text-yellow-800"
-                  >
-                    ×
-                  </button>
-                </span>
-              </div>
-            </div>
-            <button
-              @click="clearFilters"
-              class="text-sm text-sap-blue hover:text-sap-dark-blue font-medium"
+          <div class="flex-1 min-w-[150px]">
+            <label class="block text-xs font-medium text-gray-700 mb-1">Status</label>
+            <select
+              v-model="selectedStatus"
+              @change="applyFilters"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm text-gray-900 bg-white"
             >
-              Clear All Filters
+              <option value="">All Statuses</option>
+              <option v-for="status in returnStatuses" :key="status" :value="status">
+                {{ formatReturnStatus(status) }}
+              </option>
+            </select>
+          </div>
+          <div class="flex-shrink-0">
+            <button
+              v-if="hasActiveFilters"
+              @click="clearFilters"
+              class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue h-[38px]"
+            >
+              Clear Filters
             </button>
           </div>
         </div>
-      </div>
-    </div>
-
-    <!-- Data Table -->
-    <div class="bg-white rounded-lg shadow overflow-hidden">
-      <div class="px-4 py-3 border-b border-gray-200">
-        <h3 class="text-lg font-medium text-gray-900">Returns</h3>
       </div>
 
       <div v-if="loading" class="p-8 text-center">
@@ -451,9 +243,9 @@
         <p class="text-sm text-gray-600">No returns found</p>
       </div>
 
-      <div v-else class="overflow-x-auto">
+      <div v-else class="overflow-auto max-h-[calc(100vh-400px)]">
         <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
+          <thead class="bg-gray-50 sticky top-0 z-10">
             <tr>
               <th
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -517,7 +309,12 @@
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
-            <tr v-for="returnItem in returns" :key="returnItem.id" class="hover:bg-gray-50">
+            <tr
+              v-for="returnItem in returns"
+              :key="returnItem.id"
+              class="hover:bg-gray-50 cursor-pointer transition-colors"
+              @click="viewReturn(returnItem)"
+            >
               <td class="px-6 py-4 whitespace-nowrap">
                 <div>
                   <div class="text-sm font-medium text-gray-900">{{ returnItem.docNum }}</div>
@@ -584,48 +381,102 @@
               <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                 {{ formatCurrency(returnItem.totalAmount) }}
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium" @click.stop>
                 <div class="flex space-x-2">
                   <button
-                    @click="viewReturn(returnItem)"
-                    class="text-sap-blue hover:text-sap-blue-dark"
+                    @click.stop="viewReturn(returnItem)"
+                    class="p-2 text-blue-600 hover:text-blue-900 hover:bg-blue-50 rounded-md transition-colors"
+                    title="View"
                   >
-                    View
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                      />
+                    </svg>
                   </button>
                   <button
                     v-if="returnItem.status === 'DRAFT'"
-                    @click="editReturn(returnItem)"
-                    class="text-green-600 hover:text-green-800"
+                    @click.stop="editReturn(returnItem)"
+                    class="p-2 text-indigo-600 hover:text-indigo-900 hover:bg-indigo-50 rounded-md transition-colors"
+                    title="Edit"
                   >
-                    Edit
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                      />
+                    </svg>
                   </button>
                   <button
                     v-if="returnItem.status === 'OPEN'"
-                    @click="approveReturn(returnItem)"
-                    class="text-green-600 hover:text-green-800"
+                    @click.stop="approveReturn(returnItem)"
+                    class="p-2 text-green-600 hover:text-green-900 hover:bg-green-50 rounded-md transition-colors"
+                    title="Approve"
                   >
-                    Approve
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
                   </button>
                   <button
                     v-if="returnItem.status === 'OPEN'"
-                    @click="rejectReturn(returnItem)"
-                    class="text-red-600 hover:text-red-800"
+                    @click.stop="rejectReturn(returnItem)"
+                    class="p-2 text-red-600 hover:text-red-900 hover:bg-red-50 rounded-md transition-colors"
+                    title="Reject"
                   >
-                    Reject
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
                   </button>
                   <button
                     v-if="returnItem.status === 'APPROVED'"
-                    @click="processReturn(returnItem)"
-                    class="text-blue-600 hover:text-blue-800"
+                    @click.stop="processReturn(returnItem)"
+                    class="p-2 text-blue-600 hover:text-blue-900 hover:bg-blue-50 rounded-md transition-colors"
+                    title="Process"
                   >
-                    Process
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
                   </button>
                   <button
                     v-if="['DRAFT', 'OPEN'].includes(returnItem.status)"
-                    @click="deleteReturn(returnItem)"
-                    class="text-red-600 hover:text-red-800"
+                    @click.stop="deleteReturn(returnItem)"
+                    class="p-2 text-red-600 hover:text-red-900 hover:bg-red-50 rounded-md transition-colors"
+                    title="Delete"
                   >
-                    Delete
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      />
+                    </svg>
                   </button>
                 </div>
               </td>
@@ -854,14 +705,14 @@ const showEditModal = ref(false)
 const showViewModal = ref(false)
 const editingReturn = ref<Return | null>(null)
 const viewingReturn = ref<Return | null>(null)
-const showAdvancedFilters = ref(false)
 
 // Filters
 const selectedStatuses = ref<ReturnStatus[]>([])
 const selectedTypes = ref<ReturnType[]>([])
+const selectedStatus = ref<ReturnStatus | ''>('')
+const selectedType = ref<ReturnType | ''>('')
 
 // Additional filter variables
-const customerFilter = ref('')
 const returnReasonFilter = ref('')
 const priorityFilter = ref('')
 const originalOrderFilter = ref('')
@@ -881,10 +732,9 @@ const error = computed(() => store.error)
 
 const hasActiveFilters = computed(() => {
   return (
-    selectedStatuses.value.length > 0 ||
-    selectedTypes.value.length > 0 ||
+    selectedStatus.value ||
+    selectedType.value ||
     filters.value.search ||
-    customerFilter.value ||
     returnReasonFilter.value ||
     priorityFilter.value ||
     originalOrderFilter.value ||
@@ -899,7 +749,6 @@ const hasActiveFilters = computed(() => {
 const returnStatuses = Object.values(ReturnStatus)
 const returnTypes = Object.values(ReturnType)
 const formTypes = computed(() => ['Item', 'Service'])
-const selectedType = ref('')
 
 // Methods
 const fetchData = async () => {
@@ -912,6 +761,9 @@ const loadReturnStats = async () => {
 }
 
 const applyFilters = () => {
+  // Convert selectedStatus and selectedType to arrays
+  selectedStatuses.value = selectedStatus.value ? [selectedStatus.value as ReturnStatus] : []
+  selectedTypes.value = selectedType.value ? [selectedType.value as ReturnType] : []
   store.updateFilters({
     status: selectedStatuses.value,
     type: selectedTypes.value,
@@ -922,9 +774,10 @@ const applyFilters = () => {
 }
 
 const clearFilters = () => {
+  selectedStatus.value = ''
+  selectedType.value = ''
   selectedStatuses.value = []
   selectedTypes.value = []
-  customerFilter.value = ''
   returnReasonFilter.value = ''
   priorityFilter.value = ''
   originalOrderFilter.value = ''

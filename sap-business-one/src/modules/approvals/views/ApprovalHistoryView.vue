@@ -133,55 +133,33 @@
       </div>
     </div>
 
-    <!-- Advanced Filters -->
-    <div class="mt-8 bg-white shadow rounded-lg">
-      <div class="px-4 py-5 sm:p-6">
-        <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Advanced Filters</h3>
-        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    <!-- History Timeline -->
+    <div class="mt-8 bg-white shadow overflow-hidden sm:rounded-md">
+      <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+        <div class="flex items-center justify-between mb-4">
           <div>
-            <label for="dateRange" class="block text-sm font-medium text-gray-700">Date Range</label>
-            <select
-              id="dateRange"
-              v-model="filters.dateRange"
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-            >
-              <option value="all">All Time</option>
-              <option value="today">Today</option>
-              <option value="yesterday">Yesterday</option>
-              <option value="week">This Week</option>
-              <option value="month">This Month</option>
-              <option value="quarter">This Quarter</option>
-              <option value="year">This Year</option>
-              <option value="custom">Custom Range</option>
-            </select>
+            <h3 class="text-lg leading-6 font-medium text-gray-900">Approval Timeline</h3>
+            <p class="mt-1 max-w-2xl text-sm text-gray-500">
+              Chronological history of all approval activities.
+            </p>
           </div>
-
-          <div v-if="filters.dateRange === 'custom'">
-            <label for="startDate" class="block text-sm font-medium text-gray-700">Start Date</label>
+          </div>
+        <!-- Search and Filters Row -->
+        <div class="flex flex-wrap items-end gap-4">
+          <div class="flex-1 min-w-[250px]">
+            <label class="block text-xs font-medium text-gray-700 mb-1">Search</label>
             <input
-              id="startDate"
-              type="date"
-              v-model="filters.startDate"
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              v-model="filters.search"
+              type="text"
+              placeholder="Document ID, comments..."
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm text-gray-900 bg-white"
             />
           </div>
-
-          <div v-if="filters.dateRange === 'custom'">
-            <label for="endDate" class="block text-sm font-medium text-gray-700">End Date</label>
-            <input
-              id="endDate"
-              type="date"
-              v-model="filters.endDate"
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-            />
-          </div>
-
-          <div>
-            <label for="action" class="block text-sm font-medium text-gray-700">Action</label>
+          <div class="flex-1 min-w-[150px]">
+            <label class="block text-xs font-medium text-gray-700 mb-1">Action</label>
             <select
-              id="action"
               v-model="filters.action"
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm text-gray-900 bg-white"
             >
               <option value="">All Actions</option>
               <option value="SUBMITTED">Submitted</option>
@@ -190,13 +168,11 @@
               <option value="CANCELLED">Cancelled</option>
             </select>
           </div>
-
-          <div>
-            <label for="documentType" class="block text-sm font-medium text-gray-700">Document Type</label>
+          <div class="flex-1 min-w-[150px]">
+            <label class="block text-xs font-medium text-gray-700 mb-1">Document Type</label>
             <select
-              id="documentType"
               v-model="filters.documentType"
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm text-gray-900 bg-white"
             >
               <option value="">All Document Types</option>
               <option value="PURCHASE_REQUEST">Purchase Request</option>
@@ -207,74 +183,31 @@
               <option value="RETURN">Return</option>
             </select>
           </div>
-
-          <div>
-            <label for="approver" class="block text-sm font-medium text-gray-700">Approver</label>
+          <div class="flex-1 min-w-[150px]">
+            <label class="block text-xs font-medium text-gray-700 mb-1">Date Range</label>
             <select
-              id="approver"
-              v-model="filters.approver"
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              v-model="filters.dateRange"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm text-gray-900 bg-white"
             >
-              <option value="">All Approvers</option>
-              <option v-for="user in users" :key="user.id" :value="user.name">
-                {{ user.name }}
-              </option>
+              <option value="all">All Time</option>
+              <option value="today">Today</option>
+              <option value="yesterday">Yesterday</option>
+              <option value="week">This Week</option>
+              <option value="month">This Month</option>
+              <option value="quarter">This Quarter</option>
+              <option value="year">This Year</option>
             </select>
           </div>
-
-          <div>
-            <label for="department" class="block text-sm font-medium text-gray-700">Department</label>
-            <select
-              id="department"
-              v-model="filters.department"
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+          <div class="flex-shrink-0">
+            <button
+              v-if="hasActiveFilters"
+              @click="clearFilters"
+              class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 h-[38px]"
             >
-              <option value="">All Departments</option>
-              <option value="SALES">Sales</option>
-              <option value="OPERATIONS">Operations</option>
-              <option value="HUMAN_RESOURCE">Human Resource</option>
-              <option value="FINANCE">Finance</option>
-              <option value="IT">IT</option>
-              <option value="MARKETING">Marketing</option>
-            </select>
-          </div>
-
-          <div>
-            <label for="search" class="block text-sm font-medium text-gray-700">Search</label>
-            <input
-              id="search"
-              type="text"
-              v-model="filters.search"
-              placeholder="Document ID, comments..."
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-            />
+              Clear Filters
+            </button>
           </div>
         </div>
-
-        <div class="mt-4 flex justify-end space-x-3">
-          <button
-            @click="clearFilters"
-            class="inline-flex items-center px-3 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
-          >
-            Clear Filters
-          </button>
-          <button
-            @click="applyFilters"
-            class="inline-flex items-center px-3 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-blue-600 hover:bg-blue-700"
-          >
-            Apply Filters
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- History Timeline -->
-    <div class="mt-8 bg-white shadow overflow-hidden sm:rounded-md">
-      <div class="px-4 py-5 sm:px-6">
-        <h3 class="text-lg leading-6 font-medium text-gray-900">Approval Timeline</h3>
-        <p class="mt-1 max-w-2xl text-sm text-gray-500">
-          Chronological history of all approval activities.
-        </p>
       </div>
 
       <div v-if="loading" class="px-4 py-8 text-center">
@@ -288,10 +221,15 @@
         <p class="mt-1 text-sm text-gray-500">No approval history matches your current filters.</p>
       </div>
 
-      <div v-else class="px-4 py-6 sm:px-6">
+      <div v-else class="px-4 py-6 sm:px-6 overflow-auto max-h-[calc(100vh-400px)]">
         <div class="flow-root">
           <ul class="-mb-8">
-            <li v-for="(history, index) in paginatedHistory" :key="history.id">
+            <li
+              v-for="(history, index) in paginatedHistory"
+              :key="history.id"
+              class="hover:bg-gray-50 cursor-pointer transition-colors rounded-lg p-2 -ml-2"
+              @click="viewHistoryDetails(history)"
+            >
               <div class="relative pb-8">
                 <span
                   v-if="index !== paginatedHistory.length - 1"
@@ -524,6 +462,17 @@ const refreshHistory = async () => {
   }
 }
 
+const hasActiveFilters = computed(() => {
+  return !!(
+    filters.value.dateRange !== 'all' ||
+    filters.value.action ||
+    filters.value.documentType ||
+    filters.value.approver ||
+    filters.value.department ||
+    filters.value.search
+  )
+})
+
 const clearFilters = () => {
   filters.value = {
     dateRange: 'month',
@@ -540,6 +489,11 @@ const clearFilters = () => {
 
 const applyFilters = () => {
   currentPage.value = 1
+}
+
+const viewHistoryDetails = (history: any) => {
+  // Implement view history details logic
+  console.log('View history details:', history)
 }
 
 const exportHistory = () => {

@@ -177,9 +177,15 @@
           <p class="mt-1 text-sm text-gray-500">You have no pending approvals at this time.</p>
         </div>
 
-        <ul v-else class="divide-y divide-gray-200">
-          <li v-for="instance in myPendingApprovals" :key="instance.id" class="px-4 py-6 sm:px-6">
-            <div class="flex items-center justify-between">
+        <div v-else class="overflow-auto max-h-[calc(100vh-400px)]">
+          <ul class="divide-y divide-gray-200">
+            <li
+              v-for="instance in myPendingApprovals"
+              :key="instance.id"
+              class="px-4 py-6 sm:px-6 hover:bg-gray-50 cursor-pointer transition-colors"
+              @click="viewInstanceDetails(instance)"
+            >
+              <div class="flex items-center justify-between">
               <div class="flex-1 min-w-0">
                 <div class="flex items-center">
                   <div class="flex-shrink-0">
@@ -224,70 +230,79 @@
                       Your Approval Required (Level {{ getCurrentApprovalLevel(instance) }})
                     </span>
                   </div>
-                  <div class="mt-2">
-                    <div class="flex space-x-3">
+                  <div class="mt-2" @click.stop>
+                    <div class="flex space-x-2">
                       <button
-                        @click="showApprovalModal(instance, 'APPROVE')"
-                        class="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                        @click.stop="showApprovalModal(instance, 'APPROVE')"
+                        class="p-2 text-green-600 hover:text-green-900 hover:bg-green-50 rounded-md transition-colors"
+                        title="Approve"
                       >
-                        <CheckIcon class="h-4 w-4 mr-1" />
-                        Approve
+                        <CheckIcon class="h-4 w-4" />
                       </button>
                       <button
-                        @click="showApprovalModal(instance, 'REJECT')"
-                        class="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                        @click.stop="showApprovalModal(instance, 'REJECT')"
+                        class="p-2 text-red-600 hover:text-red-900 hover:bg-red-50 rounded-md transition-colors"
+                        title="Reject"
                       >
-                        <XMarkIcon class="h-4 w-4 mr-1" />
-                        Reject
+                        <XMarkIcon class="h-4 w-4" />
                       </button>
                       <button
-                        @click="viewInstanceDetails(instance)"
-                        class="inline-flex items-center px-3 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                        @click.stop="viewInstanceDetails(instance)"
+                        class="p-2 text-blue-600 hover:text-blue-900 hover:bg-blue-50 rounded-md transition-colors"
+                        title="View Details"
                       >
-                        <EyeIcon class="h-4 w-4 mr-1" />
-                        View Details
+                        <EyeIcon class="h-4 w-4" />
                       </button>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </li>
-        </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
 
     <!-- Approval History Tab -->
     <div v-if="activeTab === 'history'" class="mt-8">
       <div class="bg-white shadow overflow-hidden sm:rounded-md">
-        <div class="px-4 py-5 sm:px-6">
-          <h3 class="text-lg leading-6 font-medium text-gray-900">My Approval History</h3>
-          <p class="mt-1 max-w-2xl text-sm text-gray-500">
-            Documents you have previously approved or rejected.
-          </p>
-        </div>
-
-        <!-- History filters -->
-        <div class="px-4 py-4 border-b border-gray-200">
-          <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+          <div class="flex items-center justify-between mb-4">
             <div>
-              <label for="historyAction" class="block text-sm font-medium text-gray-700">Action</label>
+              <h3 class="text-lg leading-6 font-medium text-gray-900">My Approval History</h3>
+              <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                Documents you have previously approved or rejected.
+              </p>
+            </div>
+          </div>
+          <!-- History filters -->
+          <div class="flex flex-wrap items-end gap-4">
+            <div class="flex-1 min-w-[250px]">
+              <label class="block text-xs font-medium text-gray-700 mb-1">Search</label>
+              <input
+                v-model="historyFilters.search"
+                type="text"
+                placeholder="Document ID, initiator..."
+                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm text-gray-900 bg-white"
+              />
+            </div>
+            <div class="flex-1 min-w-[150px]">
+              <label class="block text-xs font-medium text-gray-700 mb-1">Action</label>
               <select
-                id="historyAction"
                 v-model="historyFilters.action"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm text-gray-900 bg-white"
               >
                 <option value="">All Actions</option>
                 <option value="APPROVED">Approved</option>
                 <option value="REJECTED">Rejected</option>
               </select>
             </div>
-            <div>
-              <label for="historyDateRange" class="block text-sm font-medium text-gray-700">Date Range</label>
+            <div class="flex-1 min-w-[150px]">
+              <label class="block text-xs font-medium text-gray-700 mb-1">Date Range</label>
               <select
-                id="historyDateRange"
                 v-model="historyFilters.dateRange"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm text-gray-900 bg-white"
               >
                 <option value="all">All Time</option>
                 <option value="today">Today</option>
@@ -296,15 +311,14 @@
                 <option value="quarter">This Quarter</option>
               </select>
             </div>
-            <div>
-              <label for="historySearch" class="block text-sm font-medium text-gray-700">Search</label>
-              <input
-                id="historySearch"
-                type="text"
-                v-model="historyFilters.search"
-                placeholder="Document ID, initiator..."
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-              />
+            <div class="flex-shrink-0">
+              <button
+                v-if="hasActiveHistoryFilters"
+                @click="clearHistoryFilters"
+                class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 h-[38px]"
+              >
+                Clear Filters
+              </button>
             </div>
           </div>
         </div>
@@ -315,9 +329,15 @@
           <p class="mt-1 text-sm text-gray-500">You haven't approved or rejected any documents yet.</p>
         </div>
 
-        <ul v-else class="divide-y divide-gray-200">
-          <li v-for="history in filteredHistory" :key="history.id" class="px-4 py-4 sm:px-6">
-            <div class="flex items-center justify-between">
+        <div v-else class="overflow-auto max-h-[calc(100vh-400px)]">
+          <ul class="divide-y divide-gray-200">
+            <li
+              v-for="history in filteredHistory"
+              :key="history.id"
+              class="px-4 py-4 sm:px-6 hover:bg-gray-50 cursor-pointer transition-colors"
+              @click="viewHistoryDetails(history)"
+            >
+              <div class="flex items-center justify-between">
               <div class="flex-1 min-w-0">
                 <div class="flex items-center">
                   <span
@@ -347,9 +367,10 @@
                   </div>
                 </div>
               </div>
-            </div>
-          </li>
-        </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
 
@@ -479,7 +500,27 @@ const filteredHistory = computed(() => {
   return history
 })
 
+const hasActiveHistoryFilters = computed(() => {
+  return !!(
+    historyFilters.value.action ||
+    historyFilters.value.dateRange !== 'month' ||
+    historyFilters.value.search
+  )
+})
+
 // Methods
+const clearHistoryFilters = () => {
+  historyFilters.value = {
+    action: '',
+    dateRange: 'month',
+    search: ''
+  }
+}
+
+const viewHistoryDetails = (history: any) => {
+  // Implement view history details logic
+  console.log('View history details:', history)
+}
 const refreshData = async () => {
   try {
     await Promise.all([

@@ -26,239 +26,6 @@
       </div>
     </div>
 
-    <!-- Enhanced Filter System -->
-    <div class="bg-white border border-gray-200 rounded-lg">
-      <!-- Primary Filters -->
-      <div class="p-6 border-b border-gray-200">
-        <div
-          class="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0"
-        >
-          <!-- Search -->
-          <div class="flex-1 max-w-lg">
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <svg
-                  class="h-5 w-5 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  ></path>
-                </svg>
-              </div>
-              <input
-                v-model="searchQuery"
-                @input="handleSearch"
-                type="text"
-                placeholder="Search payments..."
-                class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              />
-            </div>
-          </div>
-
-          <!-- Filter Toggle -->
-          <div class="flex items-center space-x-3">
-            <button
-              @click="toggleAdvancedFilters"
-              class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L6.293 13H1a1 1 0 01-1-1V4z"
-                ></path>
-              </svg>
-              Filters
-              <svg
-                class="w-4 h-4 ml-2 transition-transform"
-                :class="{ 'rotate-180': showAdvancedFilters }"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 9l-7 7-7-7"
-                ></path>
-              </svg>
-            </button>
-
-            <button
-              @click="clearAllFilters"
-              class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              Clear All
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Advanced Filters -->
-      <div v-if="showAdvancedFilters" class="p-6 bg-gray-50 border-b border-gray-200">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <!-- Status Filter -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
-            <select
-              v-model="filters.status"
-              multiple
-              class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            >
-              <option v-for="status in paymentStatuses" :key="status" :value="status">
-                {{ formatStatus(status) }}
-              </option>
-            </select>
-          </div>
-
-          <!-- Payment Method Filter -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Payment Method</label>
-            <select
-              v-model="filters.paymentMethod"
-              multiple
-              class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            >
-              <option v-for="method in paymentMethods" :key="method" :value="method">
-                {{ formatPaymentMethod(method) }}
-              </option>
-            </select>
-          </div>
-
-          <!-- Payment Type Filter -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Payment Type</label>
-            <select
-              v-model="filters.paymentType"
-              multiple
-              class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            >
-              <option v-for="type in paymentTypes" :key="type" :value="type">
-                {{ formatPaymentType(type) }}
-              </option>
-            </select>
-          </div>
-
-          <!-- Currency Filter -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Currency</label>
-            <select
-              v-model="filters.currency"
-              multiple
-              class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            >
-              <option v-for="currency in currencies" :key="currency" :value="currency">
-                {{ currency }}
-              </option>
-            </select>
-          </div>
-
-          <!-- Vendor Code Filter -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Vendor Code</label>
-            <input
-              v-model="filters.vendorCode"
-              type="text"
-              placeholder="Enter vendor code"
-              class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            />
-          </div>
-
-          <!-- Vendor Name Filter -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Vendor Name</label>
-            <input
-              v-model="filters.vendorName"
-              type="text"
-              placeholder="Enter vendor name"
-              class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            />
-          </div>
-
-          <!-- Date Range Filter -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Payment Date Range</label>
-            <div class="grid grid-cols-2 gap-2">
-              <input
-                v-model="filters.dateRange.start"
-                type="date"
-                class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              />
-              <input
-                v-model="filters.dateRange.end"
-                type="date"
-                class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              />
-            </div>
-          </div>
-
-          <!-- Amount Range Filter -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Amount Range</label>
-            <div class="grid grid-cols-2 gap-2">
-              <input
-                v-model.number="filters.amountRange.min"
-                type="number"
-                placeholder="Min"
-                class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              />
-              <input
-                v-model.number="filters.amountRange.max"
-                type="number"
-                placeholder="Max"
-                class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Active Filter Summary -->
-      <div v-if="hasActiveFilters" class="p-4 bg-blue-50 border-b border-blue-200">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center space-x-2">
-            <span class="text-sm font-medium text-blue-800">Active Filters:</span>
-            <div class="flex flex-wrap gap-2">
-              <span
-                v-for="(value, key) in activeFilters"
-                :key="key"
-                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
-              >
-                {{ formatFilterLabel(key, value) }}
-                <button
-                  @click="removeFilter(key)"
-                  class="ml-1.5 inline-flex items-center justify-center w-4 h-4 rounded-full text-blue-400 hover:bg-blue-200 hover:text-blue-500 focus:outline-none focus:bg-blue-500 focus:text-white"
-                >
-                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    ></path>
-                  </svg>
-                </button>
-              </span>
-            </div>
-          </div>
-          <button
-            @click="clearAllFilters"
-            class="text-sm text-blue-600 hover:text-blue-800 font-medium"
-          >
-            Clear All
-          </button>
-        </div>
-      </div>
-    </div>
-
     <!-- Statistics Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       <div class="bg-white border border-gray-200 rounded-lg p-6">
@@ -371,7 +138,7 @@
     <!-- Payments Table -->
     <div class="bg-white border border-gray-200 rounded-lg">
       <div class="px-6 py-4 border-b border-gray-200">
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between mb-4">
           <h3 class="text-lg font-medium text-gray-900">Payments</h3>
           <div class="flex items-center space-x-3">
             <select
@@ -383,6 +150,54 @@
               <option :value="25">25 per page</option>
               <option :value="50">50 per page</option>
             </select>
+          </div>
+        </div>
+        <!-- Search and Filters Row -->
+        <div class="flex flex-wrap items-end gap-4">
+          <div class="flex-1 min-w-[250px]">
+            <label class="block text-xs font-medium text-gray-700 mb-1">Search</label>
+            <input
+              v-model="searchQuery"
+              @input="handleSearch"
+              type="text"
+              placeholder="Search by document, vendor, or code..."
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm text-gray-900 bg-white"
+            />
+          </div>
+          <div class="flex-1 min-w-[150px]">
+            <label class="block text-xs font-medium text-gray-700 mb-1">Status</label>
+            <select
+              v-model="filters.status"
+              @change="handleFilterChange"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm text-gray-900 bg-white"
+            >
+              <option value="">All Statuses</option>
+              <option v-for="status in paymentStatuses" :key="status" :value="status">
+                {{ formatStatus(status) }}
+              </option>
+            </select>
+          </div>
+          <div class="flex-1 min-w-[150px]">
+            <label class="block text-xs font-medium text-gray-700 mb-1">Payment Method</label>
+            <select
+              v-model="filters.paymentMethod"
+              @change="handleFilterChange"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm text-gray-900 bg-white"
+            >
+              <option value="">All Methods</option>
+              <option v-for="method in paymentMethods" :key="method" :value="method">
+                {{ formatPaymentMethod(method) }}
+              </option>
+            </select>
+          </div>
+          <div class="flex-shrink-0">
+            <button
+              v-if="hasActiveFilters"
+              @click="clearAllFilters"
+              class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue h-[38px]"
+            >
+              Clear Filters
+            </button>
           </div>
         </div>
       </div>
@@ -426,9 +241,9 @@
         No payments found.
       </div>
 
-      <div v-else class="overflow-x-auto">
+      <div v-else class="overflow-auto max-h-[calc(100vh-400px)]">
         <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
+          <thead class="bg-gray-50 sticky top-0 z-10">
             <tr>
               <th
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -468,7 +283,12 @@
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
-            <tr v-for="payment in payments" :key="payment.id" class="hover:bg-gray-50">
+            <tr
+              v-for="payment in payments"
+              :key="payment.id"
+              class="hover:bg-gray-50 cursor-pointer transition-colors"
+              @click="viewPayment(payment)"
+            >
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="flex items-center">
                   <div class="flex-shrink-0 h-10 w-10">
@@ -528,22 +348,55 @@
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 {{ formatDate(payment.paymentDate) }}
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                <div class="flex items-center space-x-2">
-                  <button @click="viewPayment(payment)" class="text-blue-600 hover:text-blue-900">
-                    View
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium" @click.stop>
+                <div class="flex space-x-2">
+                  <button
+                    @click.stop="viewPayment(payment)"
+                    class="p-2 text-blue-600 hover:text-blue-900 hover:bg-blue-50 rounded-md transition-colors"
+                    title="View"
+                  >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                      />
+                    </svg>
                   </button>
                   <button
-                    @click="editPayment(payment)"
-                    class="text-indigo-600 hover:text-indigo-900"
+                    @click.stop="editPayment(payment)"
+                    class="p-2 text-indigo-600 hover:text-indigo-900 hover:bg-indigo-50 rounded-md transition-colors"
+                    title="Edit"
                   >
-                    Edit
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                      />
+                    </svg>
                   </button>
                   <button
-                    @click="deletePayment(payment.id)"
-                    class="text-red-600 hover:text-red-900"
+                    @click.stop="deletePayment(payment.id)"
+                    class="p-2 text-red-600 hover:text-red-900 hover:bg-red-50 rounded-md transition-colors"
+                    title="Delete"
                   >
-                    Delete
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      />
+                    </svg>
                   </button>
                 </div>
               </td>

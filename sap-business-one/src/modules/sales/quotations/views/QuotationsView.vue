@@ -135,45 +135,43 @@
       </div>
     </div>
 
-    <!-- Filters -->
+    <!-- Data Table -->
     <div class="bg-white rounded-lg shadow">
       <div class="px-6 py-4 border-b border-gray-200">
-        <div class="flex items-center justify-between">
-          <h3 class="text-lg font-medium text-gray-900">Filters</h3>
-          <div class="flex items-center space-x-3">
-            <button
-              @click="showAdvancedFilters = !showAdvancedFilters"
-              class="inline-flex items-center px-3 py-2 text-sm font-medium text-sap-blue bg-blue-50 border border-blue-200 rounded-md hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue"
-            >
-              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 100 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2"
-                />
-              </svg>
-              {{ showAdvancedFilters ? 'Hide' : 'Show' }} Advanced
-            </button>
-            <button
-              @click="clearFilters"
-              class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue"
-            >
-              Clear All
-            </button>
-          </div>
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-medium text-gray-900">Quotations</h3>
         </div>
-      </div>
-      <div class="p-6">
-        <!-- Primary Filters - Always Visible -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <!-- Status Filter -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+        <!-- Search and Filters Row -->
+        <div class="flex flex-wrap items-end gap-4">
+          <div class="flex-1 min-w-[250px]">
+            <label class="block text-xs font-medium text-gray-700 mb-1">Search</label>
+            <input
+              v-model="searchTerm"
+              @input="updateFilters"
+              type="text"
+              placeholder="Search by document, customer, or code..."
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm text-gray-900 bg-white"
+            />
+          </div>
+          <div class="flex-1 min-w-[150px]">
+            <label class="block text-xs font-medium text-gray-700 mb-1">Type</label>
+            <select
+              v-model="selectedType"
+              @change="updateFilters"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm text-gray-900 bg-white"
+            >
+              <option value="">All Types</option>
+              <option v-for="type in formTypes" :key="type" :value="type">
+                {{ type }}
+              </option>
+            </select>
+          </div>
+          <div class="flex-1 min-w-[150px]">
+            <label class="block text-xs font-medium text-gray-700 mb-1">Status</label>
             <select
               v-model="selectedStatus"
               @change="updateFilters"
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm text-gray-900 bg-white"
             >
               <option value="">All Statuses</option>
               <option value="DRAFT">Draft</option>
@@ -185,232 +183,16 @@
               <option value="CANCELLED">Cancelled</option>
             </select>
           </div>
-
-          <!-- Type Filter -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Type</label>
-            <select
-              v-model="selectedType"
-              @change="updateFilters"
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-            >
-              <option value="">All Types</option>
-              <option v-for="type in formTypes" :key="type" :value="type">
-                {{ type }}
-              </option>
-            </select>
-          </div>
-
-          <!-- Search Filter -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Search</label>
-            <input
-              v-model="searchTerm"
-              @input="updateFilters"
-              type="text"
-              placeholder="Search quotations..."
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-            />
-          </div>
-
-          <!-- Customer Filter -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Customer</label>
-            <input
-              v-model="customerFilter"
-              @input="updateFilters"
-              type="text"
-              placeholder="Customer code..."
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-            />
-          </div>
-        </div>
-
-        <!-- Advanced Filters - Collapsible -->
-        <div v-show="showAdvancedFilters" class="border-t border-gray-200 pt-6">
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-            <!-- Sales Person Filter -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Sales Person</label>
-              <input
-                v-model="salesPersonFilter"
-                @input="updateFilters"
-                type="text"
-                placeholder="Sales person..."
-                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-              />
-            </div>
-
-            <!-- Priority Filter -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Priority</label>
-              <select
-                v-model="priorityFilter"
-                @change="updateFilters"
-                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-              >
-                <option value="">All Priorities</option>
-                <option value="HIGH">High</option>
-                <option value="MEDIUM">Medium</option>
-                <option value="LOW">Low</option>
-              </select>
-            </div>
-
-            <!-- Currency Filter -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Currency</label>
-              <select
-                v-model="currencyFilter"
-                @change="updateFilters"
-                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-              >
-                <option value="">All Currencies</option>
-                <option value="USD">USD</option>
-                <option value="EUR">EUR</option>
-                <option value="GBP">GBP</option>
-                <option value="JPY">JPY</option>
-              </select>
-            </div>
-
-            <!-- Amount Range -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Amount Range</label>
-              <div class="flex space-x-2">
-                <input
-                  v-model="minAmountFilter"
-                  @input="updateFilters"
-                  type="number"
-                  placeholder="Min"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-                />
-                <input
-                  v-model="maxAmountFilter"
-                  @input="updateFilters"
-                  type="number"
-                  placeholder="Max"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-                />
-              </div>
-            </div>
-          </div>
-
-          <!-- Date Filters Row -->
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <!-- Quotation Date Range -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2"
-                >Quotation Date Range</label
-              >
-              <div class="flex space-x-2">
-                <input
-                  v-model="dateFromFilter"
-                  @change="updateFilters"
-                  type="date"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-                />
-                <input
-                  v-model="dateToFilter"
-                  @change="updateFilters"
-                  type="date"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-                />
-              </div>
-            </div>
-
-            <!-- Valid Until Date Range -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2"
-                >Valid Until Date Range</label
-              >
-              <div class="flex space-x-2">
-                <input
-                  v-model="validUntilFromFilter"
-                  @change="updateFilters"
-                  type="date"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-                />
-                <input
-                  v-model="validUntilToFilter"
-                  @change="updateFilters"
-                  type="date"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Active Filters Summary -->
-        <div v-if="hasActiveFilters" class="mt-4 pt-4 border-t border-gray-200">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center space-x-2">
-              <span class="text-sm font-medium text-gray-700">Active Filters:</span>
-              <div class="flex flex-wrap gap-2">
-                <span
-                  v-if="selectedStatus"
-                  class="inline-flex items-center px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full"
-                >
-                  Status: {{ selectedStatus.replace('_', ' ') }}
-                  <button
-                    @click="selectedStatus = ''"
-                    class="ml-1 text-blue-600 hover:text-blue-800"
-                  >
-                    ×
-                  </button>
-                </span>
-                <span
-                  v-if="selectedType"
-                  class="inline-flex items-center px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full"
-                >
-                  Type: {{ selectedType.replace('_', ' ') }}
-                  <button
-                    @click="selectedType = ''"
-                    class="ml-1 text-green-600 hover:text-green-800"
-                  >
-                    ×
-                  </button>
-                </span>
-                <span
-                  v-if="customerFilter"
-                  class="inline-flex items-center px-2 py-1 text-xs font-medium bg-purple-100 text-purple-800 rounded-full"
-                >
-                  Customer: {{ customerFilter }}
-                  <button
-                    @click="customerFilter = ''"
-                    class="ml-1 text-purple-600 hover:text-purple-800"
-                  >
-                    ×
-                  </button>
-                </span>
-                <span
-                  v-if="searchTerm"
-                  class="inline-flex items-center px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full"
-                >
-                  Search: {{ searchTerm }}
-                  <button
-                    @click="searchTerm = ''"
-                    class="ml-1 text-yellow-600 hover:text-yellow-800"
-                  >
-                    ×
-                  </button>
-                </span>
-              </div>
-            </div>
+          <div class="flex-shrink-0">
             <button
+              v-if="hasActiveFilters"
               @click="clearFilters"
-              class="text-sm text-sap-blue hover:text-sap-dark-blue font-medium"
+              class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue h-[38px]"
             >
-              Clear All Filters
+              Clear Filters
             </button>
           </div>
         </div>
-      </div>
-    </div>
-
-    <!-- Data Table -->
-    <div class="bg-white rounded-lg shadow">
-      <div class="px-6 py-4 border-b border-gray-200">
-        <h3 class="text-lg font-medium text-gray-900">Quotations</h3>
       </div>
 
       <!-- Loading State -->
@@ -435,9 +217,9 @@
       </div>
 
       <!-- Data Table -->
-      <div v-else class="overflow-x-auto">
+      <div v-else class="overflow-auto max-h-[calc(100vh-400px)]">
         <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
+          <thead class="bg-gray-50 sticky top-0 z-10">
             <tr>
               <th
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -491,7 +273,8 @@
             <tr
               v-for="quotation in paginatedQuotations"
               :key="quotation.id"
-              class="hover:bg-gray-50"
+              class="hover:bg-gray-50 cursor-pointer transition-colors"
+              @click="viewQuotation(quotation)"
             >
               <td class="px-6 py-4 whitespace-nowrap">
                 <div>
@@ -544,25 +327,55 @@
                 </div>
                 <div class="text-sm text-gray-500">{{ quotation.currency }}</div>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium" @click.stop>
                 <div class="flex space-x-2">
                   <button
-                    @click="viewQuotation(quotation)"
-                    class="text-blue-600 hover:text-blue-900"
+                    @click.stop="viewQuotation(quotation)"
+                    class="p-2 text-blue-600 hover:text-blue-900 hover:bg-blue-50 rounded-md transition-colors"
+                    title="View"
                   >
-                    View
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                      />
+                    </svg>
                   </button>
                   <button
-                    @click="editQuotation(quotation)"
-                    class="text-indigo-600 hover:text-indigo-900"
+                    @click.stop="editQuotation(quotation)"
+                    class="p-2 text-indigo-600 hover:text-indigo-900 hover:bg-indigo-50 rounded-md transition-colors"
+                    title="Edit"
                   >
-                    Edit
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                      />
+                    </svg>
                   </button>
                   <button
-                    @click="deleteQuotation(quotation)"
-                    class="text-red-600 hover:text-red-900"
+                    @click.stop="deleteQuotation(quotation)"
+                    class="p-2 text-red-600 hover:text-red-900 hover:bg-red-50 rounded-md transition-colors"
+                    title="Delete"
                   >
-                    Delete
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      />
+                    </svg>
                   </button>
                 </div>
               </td>
@@ -698,7 +511,6 @@ const selectedQuotation = ref<Quotation | null>(null)
 const selectedStatus = ref('')
 const selectedType = ref('')
 const searchTerm = ref('')
-const customerFilter = ref('')
 const salesPersonFilter = ref('')
 const dateFromFilter = ref('')
 const dateToFilter = ref('')
@@ -708,7 +520,6 @@ const maxAmountFilter = ref('')
 const priorityFilter = ref('')
 const validUntilFromFilter = ref('')
 const validUntilToFilter = ref('')
-const showAdvancedFilters = ref(false)
 
 // Computed Properties
 const quotations = computed(() => quotationsStore.quotations)
@@ -726,7 +537,6 @@ const hasActiveFilters = computed(() => {
     selectedStatus.value ||
     selectedType.value ||
     searchTerm.value ||
-    customerFilter.value ||
     salesPersonFilter.value ||
     priorityFilter.value ||
     dateFromFilter.value ||
@@ -763,7 +573,6 @@ const clearFilters = () => {
   selectedStatus.value = ''
   selectedType.value = ''
   searchTerm.value = ''
-  customerFilter.value = ''
   salesPersonFilter.value = ''
   dateFromFilter.value = ''
   dateToFilter.value = ''

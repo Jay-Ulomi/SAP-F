@@ -138,60 +138,30 @@
       </div>
     </div>
 
-    <!-- Filters -->
+    <!-- Deliveries List -->
     <div class="bg-white rounded-lg shadow">
       <div class="px-6 py-4 border-b border-gray-200">
-        <div class="flex items-center justify-between">
-          <h3 class="text-lg font-medium text-gray-900">Filters</h3>
-          <div class="flex items-center space-x-3">
-            <button
-              @click="showAdvancedFilters = !showAdvancedFilters"
-              class="inline-flex items-center px-3 py-2 text-sm font-medium text-sap-blue bg-blue-50 border border-blue-200 rounded-md hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue"
-            >
-              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 100 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2"
-                />
-              </svg>
-              {{ showAdvancedFilters ? 'Hide' : 'Show' }} Advanced
-            </button>
-            <button
-              @click="clearFilters"
-              class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue"
-            >
-              Clear All
-            </button>
-          </div>
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-medium text-gray-900">Deliveries</h3>
         </div>
-      </div>
-      <div class="p-6">
-        <!-- Primary Filters - Always Visible -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <!-- Status Filter -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
-            <select
-              v-model="filters.status"
-              @change="applyFilters"
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-            >
-              <option value="">All Statuses</option>
-              <option v-for="status in Object.values(DeliveryStatus)" :key="status" :value="status">
-                {{ formatDeliveryStatus(status) }}
-              </option>
-            </select>
+        <!-- Search and Filters Row -->
+        <div class="flex flex-wrap items-end gap-4">
+          <div class="flex-1 min-w-[250px]">
+            <label class="block text-xs font-medium text-gray-700 mb-1">Search</label>
+            <input
+              v-model="filters.search"
+              @input="applyFilters"
+              type="text"
+              placeholder="Search by document, customer, or code..."
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm text-gray-900 bg-white"
+            />
           </div>
-
-          <!-- Type Filter -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Type</label>
+          <div class="flex-1 min-w-[150px]">
+            <label class="block text-xs font-medium text-gray-700 mb-1">Type</label>
             <select
-              v-model="filters.type"
+              v-model="selectedType"
               @change="applyFilters"
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm text-gray-900 bg-white"
             >
               <option value="">All Types</option>
               <option v-for="type in formTypes" :key="type" :value="type">
@@ -199,204 +169,29 @@
               </option>
             </select>
           </div>
-
-          <!-- Search Filter -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Search</label>
-            <input
-              v-model="filters.search"
-              @input="applyFilters"
-              type="text"
-              placeholder="Search deliveries..."
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-            />
-          </div>
-
-          <!-- Customer Filter -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Customer</label>
-            <input
-              v-model="filters.customerCode"
-              @input="applyFilters"
-              type="text"
-              placeholder="Customer code..."
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-            />
-          </div>
-        </div>
-
-        <!-- Advanced Filters - Collapsible -->
-        <div v-show="showAdvancedFilters" class="border-t border-gray-200 pt-6">
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-            <!-- Sales Person Filter -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Sales Person</label>
-              <input
-                v-model="filters.salesPerson"
-                @input="applyFilters"
-                type="text"
-                placeholder="Sales person..."
-                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-              />
-            </div>
-
-            <!-- Priority Filter -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Priority</label>
+          <div class="flex-1 min-w-[150px]">
+            <label class="block text-xs font-medium text-gray-700 mb-1">Status</label>
               <select
-                v-model="priorityFilter"
+              v-model="selectedStatus"
                 @change="applyFilters"
-                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-              >
-                <option value="">All Priorities</option>
-                <option value="HIGH">High</option>
-                <option value="MEDIUM">Medium</option>
-                <option value="LOW">Low</option>
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm text-gray-900 bg-white"
+            >
+              <option value="">All Statuses</option>
+              <option v-for="status in Object.values(DeliveryStatus)" :key="status" :value="status">
+                {{ formatDeliveryStatus(status) }}
+              </option>
               </select>
             </div>
-
-            <!-- Carrier Filter -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Carrier</label>
-              <input
-                v-model="carrierFilter"
-                @input="applyFilters"
-                type="text"
-                placeholder="Carrier name..."
-                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-              />
-            </div>
-
-            <!-- Tracking Number -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Tracking Number</label>
-              <input
-                v-model="trackingFilter"
-                @input="applyFilters"
-                type="text"
-                placeholder="Tracking number..."
-                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-              />
-            </div>
-          </div>
-
-          <!-- Date Filters Row -->
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <!-- Delivery Date Range -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2"
-                >Delivery Date Range</label
-              >
-              <div class="flex space-x-2">
-                <input
-                  v-model="filters.dateFrom"
-                  @change="applyFilters"
-                  type="date"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-                />
-                <input
-                  v-model="filters.dateTo"
-                  @change="applyFilters"
-                  type="date"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-                />
-              </div>
-            </div>
-
-            <!-- Estimated Delivery Date Range -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2"
-                >Estimated Delivery Date Range</label
-              >
-              <div class="flex space-x-2">
-                <input
-                  v-model="estimatedDateFromFilter"
-                  @change="applyFilters"
-                  type="date"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-                />
-                <input
-                  v-model="estimatedDateToFilter"
-                  @change="applyFilters"
-                  type="date"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Active Filters Summary -->
-        <div v-if="hasActiveFilters" class="mt-4 pt-4 border-t border-gray-200">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center space-x-2">
-              <span class="text-sm font-medium text-gray-700">Active Filters:</span>
-              <div class="flex flex-wrap gap-2">
-                <span
-                  v-if="filters.status"
-                  class="inline-flex items-center px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full"
-                >
-                  Status: {{ formatDeliveryStatus(filters.status) }}
+          <div class="flex-shrink-0">
                   <button
-                    @click="((filters.status = ''), applyFilters())"
-                    class="ml-1 text-blue-600 hover:text-blue-800"
-                  >
-                    ×
-                  </button>
-                </span>
-                <span
-                  v-if="filters.type"
-                  class="inline-flex items-center px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full"
-                >
-                  Type: {{ formatDeliveryType(filters.type) }}
-                  <button
-                    @click="((filters.type = ''), applyFilters())"
-                    class="ml-1 text-green-600 hover:text-green-800"
-                  >
-                    ×
-                  </button>
-                </span>
-                <span
-                  v-if="filters.customerCode"
-                  class="inline-flex items-center px-2 py-1 text-xs font-medium bg-purple-100 text-purple-800 rounded-full"
-                >
-                  Customer: {{ filters.customerCode }}
-                  <button
-                    @click="((filters.customerCode = ''), applyFilters())"
-                    class="ml-1 text-purple-600 hover:text-purple-800"
-                  >
-                    ×
-                  </button>
-                </span>
-                <span
-                  v-if="filters.search"
-                  class="inline-flex items-center px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full"
-                >
-                  Search: {{ filters.search }}
-                  <button
-                    @click="((filters.search = ''), applyFilters())"
-                    class="ml-1 text-yellow-600 hover:text-yellow-800"
-                  >
-                    ×
-                  </button>
-                </span>
-              </div>
-            </div>
-            <button
+              v-if="hasActiveFilters"
               @click="clearFilters"
-              class="text-sm text-sap-blue hover:text-sap-dark-blue font-medium"
+              class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue h-[38px]"
             >
-              Clear All Filters
+              Clear Filters
             </button>
-          </div>
         </div>
       </div>
-    </div>
-
-    <!-- Deliveries List -->
-    <div class="bg-white rounded-lg shadow">
-      <div class="px-6 py-4 border-b border-gray-200">
-        <h3 class="text-lg font-medium text-gray-900">Deliveries</h3>
       </div>
 
       <!-- Loading State -->
@@ -421,9 +216,9 @@
       </div>
 
       <!-- Data Table -->
-      <div v-else class="overflow-x-auto">
+      <div v-else class="overflow-auto max-h-[calc(100vh-400px)]">
         <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
+          <thead class="bg-gray-50 sticky top-0 z-10">
             <tr>
               <th
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -487,7 +282,12 @@
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
-            <tr v-for="delivery in filteredDeliveries" :key="delivery.id" class="hover:bg-gray-50">
+            <tr
+              v-for="delivery in filteredDeliveries"
+              :key="delivery.id"
+              class="hover:bg-gray-50 cursor-pointer transition-colors"
+              @click="viewDelivery(delivery)"
+            >
               <td class="px-6 py-4 whitespace-nowrap">
                 <div>
                   <div class="text-sm font-medium text-gray-900">{{ delivery.docNum }}</div>
@@ -556,22 +356,55 @@
                 </div>
                 <div class="text-sm text-gray-500">{{ delivery.currency }}</div>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium" @click.stop>
                 <div class="flex space-x-2">
-                  <button @click="viewDelivery(delivery)" class="text-blue-600 hover:text-blue-900">
-                    View
+                  <button
+                    @click.stop="viewDelivery(delivery)"
+                    class="p-2 text-blue-600 hover:text-blue-900 hover:bg-blue-50 rounded-md transition-colors"
+                    title="View"
+                  >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                      />
+                    </svg>
                   </button>
                   <button
-                    @click="editDelivery(delivery)"
-                    class="text-indigo-600 hover:text-indigo-900"
+                    @click.stop="editDelivery(delivery)"
+                    class="p-2 text-indigo-600 hover:text-indigo-900 hover:bg-indigo-50 rounded-md transition-colors"
+                    title="Edit"
                   >
-                    Edit
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                      />
+                    </svg>
                   </button>
                   <button
-                    @click="deleteDelivery(delivery.id)"
-                    class="text-red-600 hover:text-red-900"
+                    @click.stop="deleteDelivery(delivery.id)"
+                    class="p-2 text-red-600 hover:text-red-900 hover:bg-red-50 rounded-md transition-colors"
+                    title="Delete"
                   >
-                    Delete
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      />
+                    </svg>
                   </button>
                 </div>
               </td>
@@ -668,7 +501,6 @@ const store = useDeliveriesStore()
 const showCreateModal = ref(false)
 const showEditModal = ref(false)
 const editingDelivery = ref<DeliveryFormData | null>(null)
-const showAdvancedFilters = ref(false)
 
 // Additional filter variables
 const priorityFilter = ref('')
@@ -689,6 +521,7 @@ const filters = ref({
 })
 
 const selectedType = ref('')
+const selectedStatus = ref<DeliveryStatus | ''>('')
 
 // Computed properties
 const stats = computed(() => store.stats)
@@ -697,8 +530,8 @@ const formTypes = computed(() => ['Item', 'Service'])
 
 const hasActiveFilters = computed(() => {
   return (
-    filters.value.status.length > 0 ||
-    filters.value.type.length > 0 ||
+    selectedStatus.value ||
+    selectedType.value ||
     filters.value.customerCode ||
     filters.value.salesPerson ||
     filters.value.dateFrom ||
@@ -716,13 +549,13 @@ const filteredDeliveries = computed(() => {
   let filtered = store.deliveries
 
   // Apply status filter
-  if (filters.value.status.length > 0) {
-    filtered = filtered.filter((d) => filters.value.status.includes(d.status))
+  if (selectedStatus.value) {
+    filtered = filtered.filter((d) => d.status === selectedStatus.value)
   }
 
   // Apply type filter
-  if (filters.value.type.length > 0) {
-    filtered = filtered.filter((d) => filters.value.type.includes(d.type))
+  if (selectedType.value) {
+    filtered = filtered.filter((d) => d.type === selectedType.value)
   }
 
   // Apply customer filter
@@ -766,11 +599,19 @@ const filteredDeliveries = computed(() => {
 
 // Methods
 const applyFilters = () => {
-  store.updateFilters(filters.value)
+  // Convert selectedStatus and selectedType to filters format
+  const updatedFilters = {
+    ...filters.value,
+    status: selectedStatus.value ? [selectedStatus.value as DeliveryStatus] : [],
+    type: selectedType.value ? [selectedType.value as DeliveryType] : [],
+  }
+  store.updateFilters(updatedFilters)
   store.fetchDeliveries(1)
 }
 
 const clearFilters = () => {
+  selectedStatus.value = ''
+  selectedType.value = ''
   filters.value = {
     status: [],
     type: [],

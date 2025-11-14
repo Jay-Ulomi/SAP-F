@@ -131,60 +131,30 @@
       </div>
     </div>
 
-    <!-- Filters -->
-    <div class="bg-white rounded-lg shadow">
+    <!-- Purchase Quotations Table -->
+    <div class="bg-white rounded-lg shadow overflow-hidden">
       <div class="px-6 py-4 border-b border-gray-200">
-        <div class="flex items-center justify-between">
-          <h3 class="text-lg font-medium text-gray-900">Filters</h3>
-          <div class="flex items-center space-x-3">
-            <button
-              @click="showAdvancedFilters = !showAdvancedFilters"
-              class="inline-flex items-center px-3 py-2 text-sm font-medium text-sap-blue bg-blue-50 border border-blue-200 rounded-md hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue"
-            >
-              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 100 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2"
-                />
-              </svg>
-              {{ showAdvancedFilters ? 'Hide' : 'Show' }} Advanced
-            </button>
-            <button
-              @click="resetFilters"
-              class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue"
-            >
-              Clear All
-            </button>
-          </div>
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-medium text-gray-900">Purchase Quotations</h3>
         </div>
-      </div>
-      <div class="p-6">
-        <!-- Primary Filters - Always Visible -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <!-- Status Filter -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
-            <select
-              v-model="selectedStatus"
-              @change="handleFilterChange"
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-            >
-              <option value="">All Statuses</option>
-              <option v-for="status in quotationStatuses" :key="status" :value="status">
-                {{ formatStatus(status) }}
-              </option>
-            </select>
+        <!-- Search and Filters Row -->
+        <div class="flex flex-wrap items-end gap-4">
+          <div class="flex-1 min-w-[250px]">
+            <label class="block text-xs font-medium text-gray-700 mb-1">Search</label>
+            <input
+              v-model="searchQuery"
+              @input="handleFilterChange"
+              type="text"
+              placeholder="Search by document, vendor, or code..."
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm text-gray-900 bg-white"
+            />
           </div>
-
-          <!-- Type Filter -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Type</label>
+          <div class="flex-1 min-w-[150px]">
+            <label class="block text-xs font-medium text-gray-700 mb-1">Type</label>
             <select
               v-model="selectedType"
               @change="handleFilterChange"
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm text-gray-900 bg-white"
             >
               <option value="">All Types</option>
               <option v-for="type in quotationTypes" :key="type" :value="type">
@@ -192,14 +162,25 @@
               </option>
             </select>
           </div>
-
-          <!-- Priority Filter -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Priority</label>
+          <div class="flex-1 min-w-[150px]">
+            <label class="block text-xs font-medium text-gray-700 mb-1">Status</label>
+            <select
+              v-model="selectedStatus"
+              @change="handleFilterChange"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm text-gray-900 bg-white"
+            >
+              <option value="">All Statuses</option>
+              <option v-for="status in quotationStatuses" :key="status" :value="status">
+                {{ formatStatus(status) }}
+              </option>
+            </select>
+          </div>
+          <div class="flex-1 min-w-[150px]">
+            <label class="block text-xs font-medium text-gray-700 mb-1">Priority</label>
             <select
               v-model="selectedPriority"
               @change="handleFilterChange"
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm text-gray-900 bg-white"
             >
               <option value="">All Priorities</option>
               <option v-for="priority in quotationPriorities" :key="priority" :value="priority">
@@ -207,206 +188,18 @@
               </option>
             </select>
           </div>
-
-          <!-- Search Filter -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Search</label>
-            <input
-              v-model="searchQuery"
-              @input="handleFilterChange"
-              type="text"
-              placeholder="Search quotations..."
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-            />
-          </div>
-        </div>
-
-        <!-- Advanced Filters - Collapsible -->
-        <div v-show="showAdvancedFilters" class="border-t border-gray-200 pt-6">
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-            <!-- Vendor Filter -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Vendor</label>
-              <input
-                v-model="vendorFilter"
-                @input="handleFilterChange"
-                type="text"
-                placeholder="Vendor code..."
-                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-              />
-            </div>
-
-            <!-- Department Filter -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Department</label>
-              <input
-                v-model="departmentFilter"
-                @input="handleFilterChange"
-                type="text"
-                placeholder="Department..."
-                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-              />
-            </div>
-
-            <!-- Cost Center Filter -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Cost Center</label>
-              <input
-                v-model="costCenterFilter"
-                @input="handleFilterChange"
-                type="text"
-                placeholder="Cost center..."
-                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-              />
-            </div>
-
-            <!-- Project Filter -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Project</label>
-              <input
-                v-model="projectFilter"
-                @input="handleFilterChange"
-                type="text"
-                placeholder="Project code..."
-                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-              />
-            </div>
-          </div>
-
-          <!-- Date and Amount Filters Row -->
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <!-- Quotation Date Range -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2"
-                >Quotation Date Range</label
-              >
-              <div class="flex space-x-2">
-                <input
-                  v-model="quotationDateFromFilter"
-                  @change="handleFilterChange"
-                  type="date"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-                />
-                <input
-                  v-model="quotationDateToFilter"
-                  @change="handleFilterChange"
-                  type="date"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-                />
-              </div>
-            </div>
-
-            <!-- Valid Until Range -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Valid Until Range</label>
-              <div class="flex space-x-2">
-                <input
-                  v-model="validUntilFromFilter"
-                  @change="handleFilterChange"
-                  type="date"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-                />
-                <input
-                  v-model="validUntilToFilter"
-                  @change="handleFilterChange"
-                  type="date"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-                />
-              </div>
-            </div>
-
-            <!-- Amount Range -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Amount Range</label>
-              <div class="flex space-x-2">
-                <input
-                  v-model="minAmountFilter"
-                  @input="handleFilterChange"
-                  type="number"
-                  placeholder="Min amount"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-                />
-                <input
-                  v-model="maxAmountFilter"
-                  @input="handleFilterChange"
-                  type="number"
-                  placeholder="Max amount"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-sap-blue focus:ring-sap-blue text-sm"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Active Filters Summary -->
-        <div v-if="hasActiveFilters" class="mt-4 pt-4 border-t border-gray-200">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center space-x-2">
-              <span class="text-sm font-medium text-gray-700">Active Filters:</span>
-              <div class="flex flex-wrap gap-2">
-                <span
-                  v-if="selectedStatus"
-                  class="inline-flex items-center px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full"
-                >
-                  Status: {{ formatStatus(selectedStatus) }}
-                  <button
-                    @click="((selectedStatus = ''), handleFilterChange())"
-                    class="ml-1 text-blue-600 hover:text-blue-800"
-                  >
-                    ×
-                  </button>
-                </span>
-                <span
-                  v-if="selectedType"
-                  class="inline-flex items-center px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full"
-                >
-                  Type: {{ formatQuotationType(selectedType) }}
-                  <button
-                    @click="((selectedType = ''), handleFilterChange())"
-                    class="ml-1 text-green-600 hover:text-green-800"
-                  >
-                    ×
-                  </button>
-                </span>
-                <span
-                  v-if="selectedPriority"
-                  class="inline-flex items-center px-2 py-1 text-xs font-medium bg-orange-100 text-orange-800 rounded-full"
-                >
-                  Priority: {{ formatPriority(selectedPriority) }}
-                  <button
-                    @click="((selectedPriority = ''), handleFilterChange())"
-                    class="ml-1 text-orange-600 hover:text-orange-800"
-                  >
-                    ×
-                  </button>
-                </span>
-                <span
-                  v-if="searchQuery"
-                  class="inline-flex items-center px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full"
-                >
-                  Search: {{ searchQuery }}
-                  <button
-                    @click="((searchQuery = ''), handleFilterChange())"
-                    class="ml-1 text-yellow-600 hover:text-yellow-800"
-                  >
-                    ×
-                  </button>
-                </span>
-              </div>
-            </div>
+          <div class="flex-shrink-0">
             <button
+              v-if="hasActiveFilters"
               @click="resetFilters"
-              class="text-sm text-sap-blue hover:text-sap-dark-blue font-medium"
+              class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sap-blue h-[38px]"
             >
-              Clear All Filters
+              Clear Filters
             </button>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Purchase Quotations Table -->
-    <div class="bg-white rounded-lg shadow overflow-hidden">
       <div v-if="loading" class="p-8 text-center">
         <div class="inline-flex items-center">
           <svg
@@ -466,9 +259,9 @@
         <button @click="createQuotation" class="btn-primary mt-4">Create Quotation</button>
       </div>
 
-      <div v-else class="overflow-x-auto">
+      <div v-else class="overflow-auto max-h-[calc(100vh-400px)]">
         <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
+          <thead class="bg-gray-50 sticky top-0 z-10">
             <tr>
               <th
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -518,7 +311,12 @@
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
-            <tr v-for="quotation in quotations" :key="quotation.id" class="hover:bg-gray-50">
+            <tr
+              v-for="quotation in quotations"
+              :key="quotation.id"
+              class="hover:bg-gray-50 cursor-pointer transition-colors"
+              @click="viewQuotation(quotation)"
+            >
               <td class="px-6 py-4 whitespace-nowrap">
                 <div>
                   <div class="text-sm font-medium text-gray-900">{{ quotation.docNum }}</div>
@@ -559,25 +357,57 @@
                   {{ formatStatus(quotation.status) }}
                 </span>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                <button
-                  @click="viewQuotation(quotation)"
-                  class="text-blue-600 hover:text-blue-900 mr-3"
-                >
-                  View
-                </button>
-                <button
-                  @click="editQuotation(quotation)"
-                  class="text-indigo-600 hover:text-indigo-900 mr-3"
-                >
-                  Edit
-                </button>
-                <button
-                  @click="deleteQuotation(quotation.id)"
-                  class="text-red-600 hover:text-red-900"
-                >
-                  Delete
-                </button>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium" @click.stop>
+                <div class="flex space-x-2">
+                  <button
+                    @click.stop="viewQuotation(quotation)"
+                    class="p-2 text-blue-600 hover:text-blue-900 hover:bg-blue-50 rounded-md transition-colors"
+                    title="View"
+                  >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                      />
+                    </svg>
+                  </button>
+                  <button
+                    @click.stop="editQuotation(quotation)"
+                    class="p-2 text-indigo-600 hover:text-indigo-900 hover:bg-indigo-50 rounded-md transition-colors"
+                    title="Edit"
+                  >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                      />
+                    </svg>
+                  </button>
+                  <button
+                    @click.stop="deleteQuotation(quotation.id)"
+                    class="p-2 text-red-600 hover:text-red-900 hover:bg-red-50 rounded-md transition-colors"
+                    title="Delete"
+                  >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      />
+                    </svg>
+                  </button>
+                </div>
               </td>
             </tr>
           </tbody>
@@ -762,7 +592,6 @@ const searchQuery = ref('')
 const selectedStatus = ref<PurchaseQuotationStatus | ''>('')
 const selectedType = ref<PurchaseQuotationType | ''>('')
 const selectedPriority = ref<QuotationPriority | ''>('')
-const showAdvancedFilters = ref(false)
 
 // Additional filter variables
 const vendorFilter = ref('')
